@@ -1,0 +1,15 @@
+.main_button {
+  background-color: var(--dark-green);
+  color: var(--white);
+  font-family: notosans;
+  font-variant-caps: all-small-caps;
+  font-size: 18px;
+  padding: 15px 25px 15px 25px;
+  border-radius: 8px;
+  border: none;
+  outline: none;
+  cursor: pointer;
+}
+.main_button:active {
+  border: none;
+}

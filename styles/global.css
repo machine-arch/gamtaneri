@@ -1,0 +1,9 @@
+@font-face {
+  font-family: "notosans";
+  src: url("../public/fonst/NotoSansGeorgian-Regular.ttf");
+}
+
+:root {
+  --dark-green: #206f52;
+  --white: #ffffff;
+}
