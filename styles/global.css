@@ -1,0 +1,21 @@
+@font-face {
+  font-family: "notosans";
+  src: url("../public/fonst/NotoSansGeorgian-Regular.ttf");
+}
+@font-face {
+  font-family: "notosans-bold";
+  src: url("../public/fonst/NotoSansGeorgian-Bold.ttf");
+}
+@font-face {
+  font-family: "notosans-Medium";
+  src: url("../public/fonst/NotoSansGeorgian-Medium.ttf");
+}
+
+:root {
+  --dark-green: #206f52;
+  --white: #ffffff;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}

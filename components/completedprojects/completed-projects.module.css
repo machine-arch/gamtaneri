@@ -1,0 +1,22 @@
+.completed_projects_conteiner {
+  padding: 40px 70px 15px 70px;
+  box-sizing: border-box;
+}
+
+.copleted_projects_items {
+  height: 290px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.copleted_project {
+  width: 32%;
+}
+
+.completed_project_image {
+  border-radius: 8px !important;
+}
+
+.copleted_project h2 {
+  position: absolute;
+}

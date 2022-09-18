@@ -1,0 +1,26 @@
+.mainsection_conteiner {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 40px 70px 15px 70px;
+  box-sizing: border-box;
+}
+.mainsection_contact_conteiner,
+.mainsection_image_conteiner {
+  width: 50%;
+}
+
+.mainsection_contact_title {
+  font-family: notosans-bold;
+  font-variant-caps: all-small-caps;
+  font-size: 55px;
+  padding-bottom: 20px;
+}
+.mainsection_contact_text {
+  width: 350px;
+  font-family: notosans;
+  font-size: 16px;
+  line-height: 22px;
+  padding-bottom: 15px;
+}

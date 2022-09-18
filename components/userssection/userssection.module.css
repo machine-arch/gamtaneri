@@ -1,0 +1,35 @@
+.userssection_conteiner {
+  box-sizing: border-box;
+  padding: 50px 70px 15px 70px;
+}
+
+.userssection_title > p {
+  font-family: notosans-Medium;
+  font-variant-caps: all-small-caps;
+  font-size: 24px;
+}
+
+.userssection_item {
+  height: 250px;
+  display: flex;
+  justify-content: space-between;
+  padding-top: 20px;
+}
+
+.current_user {
+  width: 30%;
+  height: 56%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.current_user > h1 {
+  font-family: notosans-Medium;
+  font-variant-caps: all-small-caps;
+  font-size: 22px;
+}
+.current_user p {
+  font-size: 16px;
+  line-height: 1.3;
+}
