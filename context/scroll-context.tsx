@@ -1,24 +1,19 @@
-import { createContext, LegacyRef, useRef, useState } from "react";
+import { createContext, LegacyRef, RefObject } from "react";
 
-export const ScrollContext: any = createContext({
-  mainSectionId: "",
-  projectsSectionId: "",
-  userSectionId: "",
-});
+export interface scrollContextInterface {
+  aboutUs: RefObject<HTMLElement>;
+  projectsSection: RefObject<HTMLElement>;
+  userSection: RefObject<HTMLElement>;
+  mainSection: RefObject<HTMLElement>;
+}
+
+export const ScrollContext: any = createContext<scrollContextInterface | null>(
+  null
+);
 
 export const ScrollProvider = ({ children }: any) => {
-  const mainSection: LegacyRef<HTMLDivElement> = useRef(null);
-  const projectsSection: LegacyRef<HTMLDivElement> = useRef(null);
-  const userSection: LegacyRef<HTMLDivElement> = useRef(null);
-
   return (
-    <ScrollContext.Provider
-      value={{
-        mainSectionId: mainSection.current?.getAttribute("id"),
-        projectsSectionId: projectsSection.current?.getAttribute("id"),
-        userSectionId: userSection.current?.getAttribute("id"),
-      }}
-    >
+    <ScrollContext.Provider value={ScrollContext}>
       {children}
     </ScrollContext.Provider>
   );

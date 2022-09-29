@@ -1,10 +1,18 @@
 import styles from "./about-us.module.css";
 import Image from "next/image";
+import {
+  ScrollContext,
+  scrollContextInterface,
+} from "../../context/scroll-context";
+import { createRef, RefObject, useContext } from "react";
 
 const AboutUs = () => {
   const imagesStyle = { borderRadius: "8px", overflow: "hidden" };
+  const aboutUs: RefObject<HTMLDivElement> = createRef();
+  const scrollContext: scrollContextInterface = useContext(ScrollContext);
+  scrollContext.aboutUs = aboutUs;
   return (
-    <div className={styles.about_us_conteiner}>
+    <div className={styles.about_us_conteiner} ref={aboutUs}>
       <div className={styles.about_us_image} style={imagesStyle}>
         <Image
           src="/images/about-us.jpg"

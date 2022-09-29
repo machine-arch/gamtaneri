@@ -14,8 +14,57 @@
 :root {
   --dark-green: #206f52;
   --white: #ffffff;
+  --grey: #666666;
+  --light-grey: #f8f8f8;
 }
 
 body {
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: notosans;
+  max-width: 1500px;
+  margin: 0 auto;
 }
+html {
+  scroll-behavior: smooth;
+}
+
+/* ===============================================start_footer_form======================================== */
+.footer_form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.form-input {
+  width: 100%;
+  height: 50px;
+  border: 1px solid rgba(145, 158, 171, 0.32);
+  border-radius: 8px;
+  box-sizing: border-box;
+  padding: 18px 0px 18px 15px;
+  outline: none;
+}
+.footer_inputs_common_parent {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+
+.footer_form_button {
+  background-color: var(--dark-green);
+  height: 40px;
+  width: 100%;
+  border-radius: 8px;
+  text-align: center;
+  line-height: 22px;
+  color: var(--white);
+  box-sizing: border-box;
+}
+.footer_form_textarea {
+  height: 108px;
+  border: 1px solid rgba(145, 158, 171, 0.32);
+  border-radius: 8px;
+  resize: none;
+  padding: 20px 0px 20px 15px;
+  outline: none;
+}
+/* ===============================================end_footer_form========================================= */

@@ -1,4 +1,5 @@
 import type { NextPage } from "next";
+import { useContext } from "react";
 import Head from "next/head";
 import styles from "../styles/Index.module.css";
 import Header from "../components/header/header.component";
@@ -6,6 +7,7 @@ import Mainsection from "../components/mainsection/mainsection.component";
 import UsersSection from "../components/userssection/userssection.component";
 import CompletedProjects from "../components/completedprojects/completed-projects.component";
 import AboutUs from "../components/aboutus/about-us.component";
+import Footer from "../components/footer/footer.component";
 
 const Home: NextPage = () => {
   return (
@@ -31,6 +33,9 @@ const Home: NextPage = () => {
       </section>
       <section className={styles.about_us_section}>
         <AboutUs />
+      </section>
+      <section className={styles.footer_section}>
+        <Footer />
       </section>
     </div>
   );

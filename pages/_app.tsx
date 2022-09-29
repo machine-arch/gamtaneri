@@ -6,7 +6,7 @@ import { ScrollProvider } from "./../context/scroll-context";
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <ScrollProvider>
-      <Component {...pageProps} />;
+      <Component {...pageProps} />
     </ScrollProvider>
   );
 }

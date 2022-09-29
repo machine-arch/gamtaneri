@@ -1,4 +1,14 @@
+.users_section {
+  padding-top: 30px;
+}
 
-.users_section{
-    padding-top: 30px;
+.header {
+  position: sticky;
+  position: -webkit-sticky;
+  top: 0;
+  z-index: 1;
+}
+.footer_section {
+  padding-bottom: 150px;
+  background-color: var(--light-grey);
 }
