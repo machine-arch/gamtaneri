@@ -13,7 +13,6 @@ const Header: NextComponentType = () => {
   useEffect(() => {
     setContext(scrollContext);
   }, [scrollContext, context]);
-  console.log(context);
 
   const scrollTo = (ref: any | undefined) => {
     return ref

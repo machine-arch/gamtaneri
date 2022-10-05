@@ -34,9 +34,11 @@ const CompletedProjects = () => {
                 width={300}
                 height={150}
                 sizes="100vw"
+                layout="responsive"
+                priority={true}
               />
+              <h2>აგროწარმოების ხელშეწყობის პროგრამა</h2>
             </div>
-            <h2>აგროწარმოების ხელშეწყობის პროგრამა</h2>
           </div>
           <div className={styles.copleted_project}>
             <div className={styles.completed_project_image} style={imagesStyle}>
@@ -48,8 +50,8 @@ const CompletedProjects = () => {
                 objectFit="cover"
                 sizes="100vw"
               />
+              <h2>აგროწარმოების ხელშეწყობის პროგრამა</h2>
             </div>
-            <h2>აგროწარმოების ხელშეწყობის პროგრამა</h2>
           </div>
           <div className={styles.copleted_project}>
             <div className={styles.completed_project_image} style={imagesStyle}>
@@ -61,8 +63,8 @@ const CompletedProjects = () => {
                 objectFit="cover"
                 sizes="100vw"
               />
+              <h2>აგროწარმოების ხელშეწყობის პროგრამა</h2>
             </div>
-            <h2>აგროწარმოების ხელშეწყობის პროგრამა</h2>
           </div>
         </div>
       </Carousel>

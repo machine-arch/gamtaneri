@@ -15,9 +15,13 @@
 
 .completed_project_image {
   border-radius: 8px !important;
+  display: flex;
+  flex-direction: column;
+  position: relative;
 }
 
 .copleted_project h2 {
   position: absolute;
-  /* color: var(--white); */
+  z-index: 1;
+  bottom: 0;
 }
