@@ -41,7 +41,7 @@ const Header: NextComponentType = () => {
               scrollTo(context.userSection);
             }}
           >
-            ჩვენი კვაჭები
+            ჩვენი მომხმარებლები
           </li>
           <li
             className={styles.header_menu_item}
