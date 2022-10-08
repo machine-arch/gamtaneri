@@ -1,7 +1,7 @@
 import "reflect-metadata";
 import { DataSource } from "typeorm";
-import { join } from "path";
-import { User } from "../../src/entity/user";
+import { join, relative } from "path";
+import { User } from "../entity/user.entity";
 
 export const AppDataSource: DataSource = new DataSource({
   type: "mysql",
@@ -12,7 +12,7 @@ export const AppDataSource: DataSource = new DataSource({
   database: "gamtaneri",
   synchronize: true,
   logging: false,
-  entities: [join(__dirname, "../../src/entity/*.{ts,js}")],
+  entities: [join(__dirname, "/../**/*.entity.{js,ts}")],
   migrations: ["src/migrations/*{.ts,.js}"],
   subscribers: [],
 });

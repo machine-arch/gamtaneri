@@ -1,11 +1,10 @@
 import "reflect-metadata";
 import { AppDataSource } from "./data-source";
-import { User } from "../../src/entity/user";
+import { User } from "../entity/user.entity";
 import { join } from "path";
 
 AppDataSource.initialize()
   .then(async () => {
-    console.log(join(__dirname, "../../src/entity/*.{ts,js}"));
     console.log("Inserting a new user into the database...");
     const user = new User();
     user.firstName = "Timber";
