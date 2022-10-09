@@ -1,9 +1,9 @@
 import "reflect-metadata";
 import { DataSource } from "typeorm";
-import { join, relative } from "path";
+import { join } from "path";
 import { User } from "../entity/user.entity";
 
-export const AppDataSource: DataSource = new DataSource({
+const AppDataSource = new DataSource({
   type: "mysql",
   host: "localhost",
   port: 3306,
@@ -12,7 +12,9 @@ export const AppDataSource: DataSource = new DataSource({
   database: "gamtaneri",
   synchronize: true,
   logging: false,
-  entities: [join(__dirname, "/../**/*.entity.{js,ts}")],
-  migrations: ["src/migrations/*{.ts,.js}"],
+  entities: [User],
+  migrations: [join(__dirname, "/../migrations/*.js")],
   subscribers: [],
 });
+
+export default AppDataSource;

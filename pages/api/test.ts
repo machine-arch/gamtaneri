@@ -1,15 +1,14 @@
-import { join } from "path";
-import { AppDataSource } from "../../src/db/data-source";
 import { User } from "../../src/entity/user.entity";
+import AppDataSource from "../../src/config/ormConfig";
 
 const Test = async (req: any, res: any) => {
   AppDataSource.initialize()
     .then(async () => {
-      console.log(AppDataSource);
       const user = new User();
       user.firstName = "Timber";
       user.lastName = "Saw";
       user.isActive = true;
+      user.email = "merabkhatiashvili@gmail.com";
       await AppDataSource.manager.save(user);
       console.log("Saved a new user with id: " + user.id);
 

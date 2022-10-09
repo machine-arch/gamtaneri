@@ -5,22 +5,16 @@
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
+    "baseUrl": ".", // Base directory to resolve non-absolute module names.
     "forceConsistentCasingInFileNames": true,
     "esModuleInterop": true,
     "module": "CommonJS",
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "jsx": "preserve",
     "incremental": true,
     "experimentalDecorators": true,
-    "emitDecoratorMetadata": true,
     "strictPropertyInitialization": false, 
-    "outDir": "../.next/server/pages/api"
+    "outDir": "dist",
   },
-  "exclude": ["node_modules"],
-  "include": [
-    "**/*.ts",
-    "@types"
-  ]
 }

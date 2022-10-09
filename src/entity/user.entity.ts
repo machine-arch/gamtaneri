@@ -13,4 +13,7 @@ export class User {
 
   @Column("boolean", { nullable: true })
   isActive: boolean;
+
+  @Column("text", { nullable: true })
+  email: string;
 }

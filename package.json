@@ -4,9 +4,14 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build && tsc --project ./src/tsconfig.json",
+    "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "orm:build": "tsc --build  src",
+    "migrations:generate": "typeorm migration:generate  -d src/dist/config/ormConfig.js",
+    "migration:create": "typeorm migration:create src/migrations/user",
+    "migration:run": "npm run orm:build && typeorm migration:run -d src/dist/config/ormConfig.js",
+    "copy-files": "copyfiles -u 1 src/migrations/*.js dist/migrations"
   },
   "dependencies": {
     "mysql2": "^2.3.3",
