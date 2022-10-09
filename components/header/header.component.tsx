@@ -6,13 +6,19 @@ import {
   ScrollContext,
   scrollContextInterface,
 } from "../../context/scroll-context";
-import { RefObject, useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import {
+  localeContextInterface,
+  localeContext,
+} from "../../context/locale-context";
 const Header: NextComponentType = () => {
-  const [context, setContext]: any = useState({});
+  const [scrollRefs, setScrollRefs] = useState(null);
   const scrollContext: scrollContextInterface = useContext(ScrollContext);
+  const localeContextObject: localeContextInterface = useContext(localeContext);
   useEffect(() => {
-    setContext(scrollContext);
-  }, [scrollContext, context]);
+    setScrollRefs(scrollContext);
+    console.log(localeContextObject);
+  }, [scrollContext, localeContextObject]);
 
   const scrollTo = (ref: any | undefined) => {
     return ref
@@ -28,7 +34,7 @@ const Header: NextComponentType = () => {
       <div
         className={styles.header_logo_conteiner}
         onClick={() => {
-          scrollTo(context.mainSection);
+          scrollTo(scrollRefs.mainSection);
         }}
       >
         <Image src="/images/logo.svg" alt="main logo" width={180} height={30} />
@@ -38,7 +44,7 @@ const Header: NextComponentType = () => {
           <li
             className={styles.header_menu_item}
             onClick={() => {
-              scrollTo(context.userSection);
+              scrollTo(scrollRefs.userSection);
             }}
           >
             ჩვენი მომხმარებლები
@@ -46,7 +52,7 @@ const Header: NextComponentType = () => {
           <li
             className={styles.header_menu_item}
             onClick={() => {
-              scrollTo(context.projectsSection);
+              scrollTo(scrollRefs.projectsSection);
             }}
           >
             გალერეა
@@ -54,7 +60,7 @@ const Header: NextComponentType = () => {
           <li
             className={styles.header_menu_item}
             onClick={() => {
-              scrollTo(context.aboutUs);
+              scrollTo(scrollRefs.aboutUs);
             }}
           >
             ჩვენს შესახებ

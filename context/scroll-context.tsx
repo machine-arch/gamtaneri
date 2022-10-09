@@ -1,4 +1,4 @@
-import { createContext, LegacyRef, RefObject } from "react";
+import { createContext, RefObject, Context } from "react";
 
 export interface scrollContextInterface {
   aboutUs: RefObject<HTMLElement>;
@@ -7,11 +7,10 @@ export interface scrollContextInterface {
   mainSection: RefObject<HTMLElement>;
 }
 
-export const ScrollContext: any = createContext<scrollContextInterface | null>(
-  null
-);
+export const ScrollContext: Context<any> =
+  createContext<scrollContextInterface | null>(null);
 
-export const ScrollProvider = ({ children }: any) => {
+export const ScrollProvider = ({ children }) => {
   return (
     <ScrollContext.Provider value={ScrollContext}>
       {children}

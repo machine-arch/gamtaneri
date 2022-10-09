@@ -1,0 +1,28 @@
+{
+    "ka":{
+        "aourUsers":"ჩვენი მომხმარებლები",
+        "galery":"გალერეა",
+        "aboutUs":"ჩვენს შესახებ",
+        "contact":"საკონტაქტო",
+        "fullName":"სახელი და გვარი",
+        "email":"ელ.ფოსტა",
+        "message":"შეტყობინება",
+        "send":"გაგზავნა",
+        "termsAndConditions":"წესები და პირობები",
+        "allRightsRecevd":"ყველა უფლება დაცულია",
+        "contactUs":"დაგვიკავშირდით"
+    } ,
+    "en":{
+        "aourUsers":"Our users",
+        "galery":"Galery",
+        "aboutUs":"About us",
+        "contact":"Contact",
+        "fullName":"Full name",
+        "email":"Email",
+        "message":"Message",
+        "send":"Send",
+        "termsAndConditions":"Terms and conditions",
+        "allRightsRecevd":"All rights reserved",
+        "contactUs":"Contact us"
+    }
+}
