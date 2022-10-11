@@ -1,5 +1,5 @@
 import type { NextPage } from "next";
-import { useContext } from "react";
+import { useEffect, useState } from "react";
 import Head from "next/head";
 import styles from "../styles/Index.module.css";
 import Header from "../components/header/header.component";
@@ -8,6 +8,7 @@ import UsersSection from "../components/userssection/userssection.component";
 import CompletedProjects from "../components/completedprojects/completed-projects.component";
 import AboutUs from "../components/aboutus/about-us.component";
 import Footer from "../components/footer/footer.component";
+import nookies from "nookies";
 
 const Home: NextPage = () => {
   return (
@@ -18,7 +19,7 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div className={styles.header}>
-        <Header />
+        <Header  />
       </div>
       <section className={styles.main_section}>
         <Mainsection />

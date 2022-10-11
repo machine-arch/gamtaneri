@@ -1,4 +1,3 @@
-import { NextComponentType } from "next";
 import Image from "next/image";
 import styles from "./header.module.css";
 import Button from "../button/button.component";
@@ -7,17 +6,18 @@ import {
   scrollContextInterface,
 } from "../../context/scroll-context";
 import { useContext, useEffect, useState } from "react";
-import {
-  localeContextInterface,
-  localeContext,
-} from "../../context/locale-context";
-const Header: NextComponentType = () => {
+import { localeContext } from "../../context/locale-context";
+import { FC } from "react";
+import { switchLanguage } from "../../utils/app.util";
+
+const Header: FC = () => {
   const [scrollRefs, setScrollRefs] = useState(null);
+  const [localeKey, setLocaleKey] = useState("");
   const scrollContext: scrollContextInterface = useContext(ScrollContext);
-  const localeContextObject: localeContextInterface = useContext(localeContext);
+  const localeContextObject: any = useContext(localeContext);
   useEffect(() => {
     setScrollRefs(scrollContext);
-    console.log(localeContextObject);
+    setLocaleKey(localeContextObject.localeKey);
   }, [scrollContext, localeContextObject]);
 
   const scrollTo = (ref: any | undefined) => {
@@ -47,7 +47,9 @@ const Header: NextComponentType = () => {
               scrollTo(scrollRefs.userSection);
             }}
           >
-            ჩვენი მომხმარებლები
+            {localeContextObject.dictionary
+              ? localeContextObject.dictionary[localeKey]["aourUsers"]
+              : "ჩვენი მომხმარებლები"}
           </li>
           <li
             className={styles.header_menu_item}
@@ -55,7 +57,9 @@ const Header: NextComponentType = () => {
               scrollTo(scrollRefs.projectsSection);
             }}
           >
-            გალერეა
+            {localeContextObject.dictionary
+              ? localeContextObject.dictionary[localeKey]["galery"]
+              : "გალერეა"}
           </li>
           <li
             className={styles.header_menu_item}
@@ -63,9 +67,21 @@ const Header: NextComponentType = () => {
               scrollTo(scrollRefs.aboutUs);
             }}
           >
-            ჩვენს შესახებ
+            {localeContextObject.dictionary
+              ? localeContextObject.dictionary[localeKey]["aboutUs"]
+              : "ჩვენს შესახებ"}
           </li>
         </ul>
+        <div className={styles.header_menu_switch_language}>
+          <span
+            className={styles.switch_language_button}
+            onClick={() => {
+              switchLanguage(localeContextObject.setLocaleKey);
+            }}
+          >
+            {localeKey}
+          </span>
+        </div>
         <Button />
       </div>
     </div>

@@ -10,7 +10,7 @@ export interface scrollContextInterface {
 export const ScrollContext: Context<any> =
   createContext<scrollContextInterface | null>(null);
 
-export const ScrollProvider = ({ children }) => {
+export const ScrollProvider = ({ children }: any) => {
   return (
     <ScrollContext.Provider value={ScrollContext}>
       {children}
