@@ -1,5 +1,5 @@
 .completed_projects_conteiner {
-  padding: 40px 70px 15px 70px;
+  padding: 40px 70px 80px 70px;
   box-sizing: border-box;
 }
 
@@ -10,7 +10,7 @@
 }
 
 .copleted_project {
-  width: 32%;
+  width: 95%;
 }
 
 .completed_project_image {
@@ -24,4 +24,10 @@
   position: absolute;
   z-index: 1;
   bottom: 0;
+}
+
+.carousel-paging-dots {
+  position: relative !important;
+  top: 50% !important;
+  background-color: red;
 }

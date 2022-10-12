@@ -1,5 +1,5 @@
 import type { NextPage } from "next";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Head from "next/head";
 import styles from "../styles/Index.module.css";
 import Header from "../components/header/header.component";
@@ -8,9 +8,19 @@ import UsersSection from "../components/userssection/userssection.component";
 import CompletedProjects from "../components/completedprojects/completed-projects.component";
 import AboutUs from "../components/aboutus/about-us.component";
 import Footer from "../components/footer/footer.component";
-import nookies from "nookies";
+import { localeContext } from "../context/locale-context";
 
 const Home: NextPage = () => {
+  const [localeKey, setLocaleKey] = useState("");
+  const localeContextObject: any = useContext(localeContext);
+  useEffect(() => {
+    setLocaleKey(localeContextObject.localeKey);
+  }, [localeContextObject]);
+
+  const footerProps = {
+    dyctionary: localeContextObject.dictionary,
+    key: localeKey,
+  };
   return (
     <div className="conteiner">
       <Head>
@@ -19,7 +29,7 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div className={styles.header}>
-        <Header  />
+        <Header />
       </div>
       <section className={styles.main_section}>
         <Mainsection />
@@ -36,7 +46,10 @@ const Home: NextPage = () => {
         <AboutUs />
       </section>
       <section className={styles.footer_section}>
-        <Footer />
+        <Footer
+          dictionary={footerProps.dyctionary}
+          localeKey={footerProps.key}
+        />
       </section>
     </div>
   );

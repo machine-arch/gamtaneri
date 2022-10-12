@@ -6,7 +6,7 @@
   position: sticky;
   position: -webkit-sticky;
   top: 0;
-  z-index: 1;
+  z-index: 2;
 }
 .footer_section {
   padding-bottom: 150px;

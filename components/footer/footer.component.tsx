@@ -1,15 +1,19 @@
 import styles from "./footer.module.css";
 import Form from "../form/form.component";
 import Image from "next/image";
+import { FC } from "react";
+import { FooterProps } from "../../config/interfaces/app.interfaces";
 
-const Footer = () => {
+const Footer: FC<FooterProps> = (props) => {
   const formInputs = [
     {
       id: "001",
       type: "text",
       name: "fullname",
       className: "form-input",
-      placeholder: "სახელი და გვარი",
+      placeholder: props.dictionary
+        ? props.dictionary[props.localeKey]["fullName"]
+        : "სახელი და გვარი",
       needCommonParent: true,
     },
     {
@@ -17,7 +21,9 @@ const Footer = () => {
       type: "text",
       name: "phone",
       className: "form-input",
-      placeholder: "ტელეფონის ნომერი",
+      placeholder: props.dictionary
+        ? props.dictionary[props.localeKey]["phone"]
+        : "ტელეფონი",
       needCommonParent: true,
     },
     {
@@ -25,14 +31,18 @@ const Footer = () => {
       type: "email",
       name: "email",
       className: "form-input",
-      placeholder: "ელ.ფოსტა",
+      placeholder: props.dictionary
+        ? props.dictionary[props.localeKey]["email"]
+        : "ელ.ფოსტა",
       needCommonParent: false,
     },
   ];
   const formTextarea = {
     textareaClass: "footer_form_textarea",
     textareaName: "message",
-    textareaPlaceholder: "შეტყობინება",
+    textareaPlaceholder: props.dictionary
+      ? props.dictionary[props.localeKey]["message"]
+      : "შეტყობინება",
   };
   const formProps = {
     formClassName: "footer_form",
@@ -42,12 +52,18 @@ const Footer = () => {
     ...formTextarea,
     needButton: true,
     buttonClass: "footer_form_button",
-    buttonText: "გაგზავნა",
+    buttonText: props.dictionary
+      ? props.dictionary[props.localeKey]["send"]
+      : "გაგზავნა",
   };
   return (
     <footer className={styles.footer_conteiner}>
       <div className={styles.contact_info_conteiner}>
-        <h3>საკონტაქტო</h3>
+        <h3>
+          {props.dictionary
+            ? props.dictionary[props.localeKey]["contact"]
+            : "საკონტაქტო"}
+        </h3>
         <div className={styles.contact_tools}>
           <div className={styles.contact_info_address}>
             <Image
@@ -93,12 +109,20 @@ const Footer = () => {
           </p>
         </div>
         <div className={styles.contact_info_termsAndCvonditions}>
-          <p>წესები და პირობები</p>
-          <p>ყველა უფლება დაცულია</p>
+          <p>
+            {props.dictionary
+              ? props.dictionary[props.localeKey]["termsAndConditions"]
+              : "წესები და პირობები"}
+          </p>
+          <p>
+            {props.dictionary
+              ? props.dictionary[props.localeKey]["allRightsRecevd"]
+              : "ყველა უფლება დაცულია"}
+          </p>
         </div>
       </div>
       <div className={styles.contact_us}>
-        <Form formProps={formProps} />
+        <Form FormProps={formProps} />
       </div>
     </footer>
   );

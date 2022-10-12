@@ -1,14 +1,17 @@
-const Form = (props: any) => {
-  const withCommonParent: Array<any> = props.formProps.inputs.filter(
+import { FC } from "react";
+import { FormProps } from "../../config/interfaces/app.interfaces";
+
+const Form: FC<FormProps> = (props: any) => {
+  const withCommonParent: Array<any> = props.FormProps.inputs.filter(
     (i: any) => i.needCommonParent
   );
-  const withoutCommonParent: Array<any> = props.formProps.inputs.filter(
+  const withoutCommonParent: Array<any> = props.FormProps.inputs.filter(
     (i: any) => !i.needCommonParent
   );
   return (
-    <form action="#" className={props.formProps.formClassName}>
+    <form action="#" className={props.FormProps.formClassName}>
       {withCommonParent.length ? (
-        <div className={props.formProps.inputsCommonParentClass}>
+        <div className={props.FormProps.inputsCommonParentClass}>
           {withCommonParent.map((input: any) => {
             return (
               <input
@@ -37,16 +40,16 @@ const Form = (props: any) => {
             );
           })
         : null}
-      {props.formProps.needTextArea ? (
+      {props.FormProps.needTextArea ? (
         <textarea
-          className={props.formProps.textareaClass}
-          name={props.formProps.textareaName}
-          placeholder={props.formProps.textareaPlaceholder}
+          className={props.FormProps.textareaClass}
+          name={props.FormProps.textareaName}
+          placeholder={props.FormProps.textareaPlaceholder}
         ></textarea>
       ) : null}
-      {props.formProps.needButton ? (
-        <button className={props.formProps.buttonClass}>
-          {props.formProps.buttonText}
+      {props.FormProps.needButton ? (
+        <button className={props.FormProps.buttonClass}>
+          {props.FormProps.buttonText}
         </button>
       ) : null}
     </form>

@@ -34,13 +34,13 @@ export const LocaleProvider: FC = ({ children }: any) => {
       !nookies.get(null, "locale") ||
       nookies.get(null, "locale").locale !== ""
     ) {
-      setLocaleKey(nookies.get(null, "locale").locale);
-    } else {
       nookies.set(null, "locale", "ka", {
         path: "/",
         maxAge: 30 * 24 * 60 * 60,
       });
       setLocaleKey("ka");
+    } else {
+      setLocaleKey(nookies.get(null, "locale").locale);
     }
   }, []);
   return (

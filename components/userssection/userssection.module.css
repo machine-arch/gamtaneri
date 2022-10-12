@@ -1,6 +1,6 @@
 .userssection_conteiner {
   box-sizing: border-box;
-  padding: 50px 70px 15px 70px;
+  padding: 50px 70px 80px 70px;
 }
 
 .userssection_title > p {
@@ -17,11 +17,12 @@
 }
 
 .current_user {
-  width: 30%;
-  height: 56%;
+  width: 95%;
+  height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  /* justify-content: space-between; */
+  gap: 20px;
 }
 
 .current_user > h1 {

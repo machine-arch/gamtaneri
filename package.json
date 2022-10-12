@@ -10,8 +10,7 @@
     "orm:build": "tsc --build  src",
     "migrations:generate": "typeorm migration:generate  -d src/dist/config/ormConfig.js",
     "migration:create": "typeorm migration:create src/migrations/user",
-    "migration:run": "npm run orm:build && typeorm migration:run -d src/dist/config/ormConfig.js",
-    "copy-files": "copyfiles -u 1 src/migrations/*.js dist/migrations"
+    "migration:run": "npm run orm:build && typeorm migration:run -d src/dist/config/ormConfig.js"
   },
   "dependencies": {
     "mysql2": "^2.3.3",

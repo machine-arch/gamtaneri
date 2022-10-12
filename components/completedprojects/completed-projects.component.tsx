@@ -19,52 +19,83 @@ const CompletedProjects = () => {
       ref={projectsSection}
       id="completed_projects"
     >
+      {/* {
+        <div
+          className={styles.copleted_projects_items}
+          ref={projectsSection}
+        ></div>
+      } */}
       <Carousel
         adaptiveHeight={true}
         defaultControlsConfig={CaruselConfig}
+        slidesToShow={3}
         renderCenterLeftControls={() => null}
         renderCenterRightControls={() => null}
       >
-        <div className={styles.copleted_projects_items} ref={projectsSection}>
-          <div className={styles.copleted_project}>
-            <div className={styles.completed_project_image} style={imagesStyle}>
-              <Image
-                src="/images/project_one.jpg"
-                alt="project_one"
-                width={300}
-                height={150}
-                sizes="100vw"
-                layout="responsive"
-                priority={true}
-              />
-              <h2>აგროწარმოების ხელშეწყობის პროგრამა</h2>
-            </div>
+        <div className={styles.copleted_project}>
+          <div className={styles.completed_project_image} style={imagesStyle}>
+            <Image
+              src="/images/project_one.jpg"
+              alt="project_one"
+              width={300}
+              height={150}
+              sizes="100vw"
+              layout="responsive"
+              priority={true}
+            />
+            <h2>აგროწარმოების ხელშეწყობის პროგრამა</h2>
           </div>
-          <div className={styles.copleted_project}>
-            <div className={styles.completed_project_image} style={imagesStyle}>
-              <Image
-                src="/images/project_one.jpg"
-                alt="project_one"
-                width={300}
-                height={150}
-                objectFit="cover"
-                sizes="100vw"
-              />
-              <h2>აგროწარმოების ხელშეწყობის პროგრამა</h2>
-            </div>
+        </div>
+        <div className={styles.copleted_project}>
+          <div className={styles.completed_project_image} style={imagesStyle}>
+            <Image
+              src="/images/project_one.jpg"
+              alt="project_one"
+              width={300}
+              height={150}
+              objectFit="cover"
+              sizes="100vw"
+            />
+            <h2>აგროწარმოების ხელშეწყობის პროგრამა</h2>
           </div>
-          <div className={styles.copleted_project}>
-            <div className={styles.completed_project_image} style={imagesStyle}>
-              <Image
-                src="/images/project_one.jpg"
-                alt="project_one"
-                width={300}
-                height={150}
-                objectFit="cover"
-                sizes="100vw"
-              />
-              <h2>აგროწარმოების ხელშეწყობის პროგრამა</h2>
-            </div>
+        </div>
+        <div className={styles.copleted_project}>
+          <div className={styles.completed_project_image} style={imagesStyle}>
+            <Image
+              src="/images/project_one.jpg"
+              alt="project_one"
+              width={300}
+              height={150}
+              objectFit="cover"
+              sizes="100vw"
+            />
+            <h2>აგროწარმოების ხელშეწყობის პროგრამა</h2>
+          </div>
+        </div>
+        <div className={styles.copleted_project}>
+          <div className={styles.completed_project_image} style={imagesStyle}>
+            <Image
+              src="/images/project_one.jpg"
+              alt="project_one"
+              width={300}
+              height={150}
+              objectFit="cover"
+              sizes="100vw"
+            />
+            <h2>აგროწარმოების ხელშეწყობის პროგრამა</h2>
+          </div>
+        </div>
+        <div className={styles.copleted_project}>
+          <div className={styles.completed_project_image} style={imagesStyle}>
+            <Image
+              src="/images/project_one.jpg"
+              alt="project_one"
+              width={300}
+              height={150}
+              objectFit="cover"
+              sizes="100vw"
+            />
+            <h2>აგროწარმოების ხელშეწყობის პროგრამა</h2>
           </div>
         </div>
       </Carousel>
