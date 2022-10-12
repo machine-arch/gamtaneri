@@ -3,7 +3,6 @@ import AppDataSource from "../../src/config/ormConfig";
 import { NextApiRequest, NextApiResponse } from "next";
 
 const Test = async (req: NextApiRequest, res: NextApiResponse) => {
-  console.log(req.socket.localAddress);
   // AppDataSource.initialize()
   //   .then(async () => {
   //     const user = await AppDataSource.manager.findOneBy(User, {
@@ -13,6 +12,7 @@ const Test = async (req: NextApiRequest, res: NextApiResponse) => {
   //   })
   //   .catch((error) => console.log(error))
   //   .finally(() => AppDataSource.destroy());
+  return res.status(200).json({ message: req.socket.remoteAddress });
 };
 
 export default Test;
