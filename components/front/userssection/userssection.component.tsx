@@ -2,11 +2,11 @@ import { NextComponentType } from "next";
 import styles from "./userssection.module.css";
 import React, { createRef, RefObject, useContext } from "react";
 import Carousel from "nuka-carousel/lib/carousel";
-import { CaruselConfig } from "../../config/global.config";
+import { CaruselConfig } from "../../../config/global.config";
 import {
   ScrollContext,
   scrollContextInterface,
-} from "../../context/scroll-context";
+} from "../../../context/scroll-context";
 
 const UsersSection: NextComponentType = () => {
   const userSection: RefObject<HTMLDivElement> = createRef();

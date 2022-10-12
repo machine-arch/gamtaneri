@@ -2,13 +2,14 @@ import type { NextPage } from "next";
 import { useContext, useEffect, useState } from "react";
 import Head from "next/head";
 import styles from "../styles/Index.module.css";
-import Header from "../components/header/header.component";
-import Mainsection from "../components/mainsection/mainsection.component";
-import UsersSection from "../components/userssection/userssection.component";
-import CompletedProjects from "../components/completedprojects/completed-projects.component";
-import AboutUs from "../components/aboutus/about-us.component";
-import Footer from "../components/footer/footer.component";
+import Header from "../components/front/header/header.component";
+import Mainsection from "../components/front/mainsection/mainsection.component";
+import UsersSection from "../components/front/userssection/userssection.component";
+import CompletedProjects from "../components/front/completedprojects/completed-projects.component";
+import AboutUs from "../components/front/aboutus/about-us.component";
+import Footer from "../components/front/footer/footer.component";
 import { localeContext } from "../context/locale-context";
+import Login from "../components/administrator/login/login.component";
 
 const Home: NextPage = () => {
   const [localeKey, setLocaleKey] = useState("");
@@ -50,6 +51,9 @@ const Home: NextPage = () => {
           dictionary={footerProps.dyctionary}
           localeKey={footerProps.key}
         />
+      </section>
+      <section>
+        <Login />
       </section>
     </div>
   );

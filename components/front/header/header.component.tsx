@@ -1,14 +1,14 @@
 import Image from "next/image";
 import styles from "./header.module.css";
-import Button from "../button/button.component";
+import Button from "../../button/button.component";
 import {
   ScrollContext,
   scrollContextInterface,
-} from "../../context/scroll-context";
+} from "../../../context/scroll-context";
 import { useContext, useEffect, useState } from "react";
-import { localeContext } from "../../context/locale-context";
+import { localeContext } from "../../../context/locale-context";
 import { FC } from "react";
-import { switchLanguage } from "../../utils/app.util";
+import { switchLanguage } from "../../../utils/app.util";
 
 const Header: FC = () => {
   const [scrollRefs, setScrollRefs] = useState(null);

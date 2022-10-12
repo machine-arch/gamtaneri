@@ -3,7 +3,7 @@ import Image from "next/image";
 import {
   ScrollContext,
   scrollContextInterface,
-} from "../../context/scroll-context";
+} from "../../../context/scroll-context";
 import { createRef, RefObject, useContext } from "react";
 
 const AboutUs = () => {

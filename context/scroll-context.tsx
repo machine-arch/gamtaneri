@@ -1,3 +1,4 @@
+import { FC, PropsWithChildren } from "react";
 import { createContext, RefObject, Context } from "react";
 
 export interface scrollContextInterface {
@@ -10,7 +11,7 @@ export interface scrollContextInterface {
 export const ScrollContext: Context<any> =
   createContext<scrollContextInterface | null>(null);
 
-export const ScrollProvider = ({ children }: any) => {
+export const ScrollProvider: FC<PropsWithChildren> = ({ children }) => {
   return (
     <ScrollContext.Provider value={ScrollContext}>
       {children}

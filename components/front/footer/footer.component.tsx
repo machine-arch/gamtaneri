@@ -1,8 +1,8 @@
 import styles from "./footer.module.css";
-import Form from "../form/form.component";
+import Form from "../../form/form.component";
 import Image from "next/image";
 import { FC } from "react";
-import { FooterProps } from "../../config/interfaces/app.interfaces";
+import { FooterProps } from "../../../config/interfaces/app.interfaces";
 
 const Footer: FC<FooterProps> = (props) => {
   const formInputs = [

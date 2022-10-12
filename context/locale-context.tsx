@@ -1,9 +1,16 @@
-import { Context, createContext, FC, useEffect, useState } from "react";
+import {
+  Context,
+  createContext,
+  FC,
+  PropsWithChildren,
+  useEffect,
+  useState,
+} from "react";
 import nookies from "nookies";
 
 export const localeContext: any = createContext<Context<{}>>(null);
 
-export const LocaleProvider: FC = ({ children }: any) => {
+export const LocaleProvider: FC<PropsWithChildren> = ({ children }) => {
   const [dictionary, setDictionary] = useState(null);
   const [localeKey, setLocaleKey] = useState("");
   useEffect(() => {

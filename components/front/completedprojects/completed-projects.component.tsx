@@ -1,12 +1,12 @@
 import styles from "./completed-projects.module.css";
 import Carousel from "nuka-carousel/lib/carousel";
-import { CaruselConfig } from "../../config/global.config";
+import { CaruselConfig } from "../../../config/global.config";
 import Image from "next/image";
 import { RefObject, useContext, createRef } from "react";
 import {
   ScrollContext,
   scrollContextInterface,
-} from "../../context/scroll-context";
+} from "../../../context/scroll-context";
 
 const CompletedProjects = () => {
   const imagesStyle = { borderRadius: "8px", overflow: "hidden" };

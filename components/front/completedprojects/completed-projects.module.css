@@ -24,6 +24,8 @@
   position: absolute;
   z-index: 1;
   bottom: 0;
+  padding: 0px 0px 25px 15px;
+  color: white;
 }
 
 .carousel-paging-dots {

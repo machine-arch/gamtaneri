@@ -13,6 +13,8 @@
     "migration:run": "npm run orm:build && typeorm migration:run -d src/dist/config/ormConfig.js"
   },
   "dependencies": {
+    "@types/crypto-js": "^4.1.1",
+    "crypto-js": "^4.1.1",
     "mysql2": "^2.3.3",
     "next": "12.3.0",
     "nookies": "^2.5.2",
