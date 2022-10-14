@@ -13,31 +13,29 @@ const Form: FC<FormProps> = (props: any) => {
       {withCommonParent.length ? (
         <div className={props.FormProps.inputsCommonParentClass}>
           {withCommonParent.map((input: any) => {
-            return (
-              <input
-                key={input.id}
-                type={input.type}
-                name={input.name}
-                id={input.name}
-                placeholder={input.placeholder}
-                className={input.className}
-              />
-            );
+            const attrs = {
+              type: input.type,
+              name: input.name,
+              id: input.name,
+              placeholder: input.placeholder,
+              className: input.className,
+              [input.eventType]: input.callBack,
+            };
+            return <input key={input.id} {...attrs} />;
           })}
         </div>
       ) : null}
       {withoutCommonParent.length
         ? withoutCommonParent.map((input: any) => {
-            return (
-              <input
-                key={input.id}
-                type={input.type}
-                name={input.name}
-                id={input.name}
-                placeholder={input.placeholder}
-                className={input.className}
-              />
-            );
+            const attrs = {
+              type: input.type,
+              name: input.name,
+              id: input.name,
+              placeholder: input.placeholder,
+              className: input.className,
+              [input.eventType]: input.callBack,
+            };
+            return <input key={input.id} {...attrs} />;
           })
         : null}
       {props.FormProps.needTextArea ? (
@@ -48,7 +46,10 @@ const Form: FC<FormProps> = (props: any) => {
         ></textarea>
       ) : null}
       {props.FormProps.needButton ? (
-        <button className={props.FormProps.buttonClass}>
+        <button
+          className={props.FormProps.buttonClass}
+          onClick={props.FormProps.ButtoncallBack}
+        >
           {props.FormProps.buttonText}
         </button>
       ) : null}

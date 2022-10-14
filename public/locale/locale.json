@@ -11,7 +11,9 @@
     "send": "გაგზავნა",
     "termsAndConditions": "წესები და პირობები",
     "allRightsRecevd": "ყველა უფლება დაცულია",
-    "contactUs": "დაგვიკავშირდით"
+    "contactUs": "დაგვიკავშირდით",
+    "password": "პაროლი",
+    "login": "შესვლა"
   },
   "en": {
     "aourUsers": "Our users",
@@ -25,6 +27,8 @@
     "phone": "Phone",
     "termsAndConditions": "Terms and conditions",
     "allRightsRecevd": "All rights reserved",
-    "contactUs": "Contact us"
+    "contactUs": "Contact us",
+    "password": "Password",
+    "login": "Login"
   }
 }

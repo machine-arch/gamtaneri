@@ -3,6 +3,7 @@ import Form from "../../form/form.component";
 import Image from "next/image";
 import { FC } from "react";
 import { FooterProps } from "../../../config/interfaces/app.interfaces";
+import { FormPropsInterface } from "../../../config/interfaces/app.interfaces";
 
 const Footer: FC<FooterProps> = (props) => {
   const formInputs = [
@@ -44,7 +45,7 @@ const Footer: FC<FooterProps> = (props) => {
       ? props.dictionary[props.localeKey]["message"]
       : "შეტყობინება",
   };
-  const formProps = {
+  const formProps: FormPropsInterface = {
     formClassName: "footer_form",
     inputs: formInputs,
     inputsCommonParentClass: "footer_inputs_common_parent",
@@ -55,6 +56,10 @@ const Footer: FC<FooterProps> = (props) => {
     buttonText: props.dictionary
       ? props.dictionary[props.localeKey]["send"]
       : "გაგზავნა",
+    ButtoncallBack: (e: Event) => {
+      e.preventDefault();
+      console.log("clicked");
+    },
   };
   return (
     <footer className={styles.footer_conteiner}>

@@ -13,11 +13,13 @@ import { switchLanguage } from "../../../utils/app.util";
 const Header: FC = () => {
   const [scrollRefs, setScrollRefs] = useState(null);
   const [localeKey, setLocaleKey] = useState("");
+  const [dictionary, setDictionary] = useState(null);
   const scrollContext: scrollContextInterface = useContext(ScrollContext);
   const localeContextObject: any = useContext(localeContext);
   useEffect(() => {
     setScrollRefs(scrollContext);
     setLocaleKey(localeContextObject.localeKey);
+    setDictionary(localeContextObject.dictionary);
   }, [scrollContext, localeContextObject]);
 
   const scrollTo = (ref: any | undefined) => {
@@ -47,9 +49,7 @@ const Header: FC = () => {
               scrollTo(scrollRefs.userSection);
             }}
           >
-            {localeContextObject.dictionary
-              ? localeContextObject.dictionary[localeKey]["aourUsers"]
-              : "ჩვენი მომხმარებლები"}
+            {dictionary ? dictionary[localeKey]["aourUsers"] : null}
           </li>
           <li
             className={styles.header_menu_item}
@@ -57,9 +57,7 @@ const Header: FC = () => {
               scrollTo(scrollRefs.projectsSection);
             }}
           >
-            {localeContextObject.dictionary
-              ? localeContextObject.dictionary[localeKey]["galery"]
-              : "გალერეა"}
+            {dictionary ? dictionary[localeKey]["galery"] : null}
           </li>
           <li
             className={styles.header_menu_item}
@@ -67,9 +65,7 @@ const Header: FC = () => {
               scrollTo(scrollRefs.aboutUs);
             }}
           >
-            {localeContextObject.dictionary
-              ? localeContextObject.dictionary[localeKey]["aboutUs"]
-              : "ჩვენს შესახებ"}
+            {dictionary ? dictionary[localeKey]["aboutUs"] : "ჩვენს შესახებ"}
           </li>
         </ul>
         <div className={styles.header_menu_switch_language}>
