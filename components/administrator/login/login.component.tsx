@@ -33,13 +33,13 @@ const Login: FC = () => {
       },
       body: JSON.stringify(body),
     };
-
     await fetch("http://localhost:3000/api/login", params)
       .then((res) => res.json())
       .then((data) => {
-        if (data.user.token && data.user.token !== "") {
-          router.push("/");
-        }
+        console.log(data);
+      })
+      .catch((err) => {
+        console.log(err);
       });
   };
 

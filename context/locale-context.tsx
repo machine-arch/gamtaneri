@@ -18,21 +18,15 @@ export const LocaleProvider: FC<PropsWithChildren> = ({ children }) => {
      * @description this function is used to get to fetch dictionary object from locale json file
      * @returns
      */
-    const fetchLocale = async () => {
-      const Data = await fetch("locale/locale.json", {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
+    fetch("locale/locale.json", {
+      method: "GET",
+    })
+      .then((res) => {
+        return res.json();
       })
-        .then((res) => res.json())
-        .then((data) => data)
-        .catch((err) => console.log(err));
-      return Data;
-    };
-    fetchLocale().then((data) => {
-      setDictionary(data);
-    });
+      .then((data) => {
+        setDictionary(data);
+      });
 
     /**
      * @description  set locale key from cookies if it exists, if not set default locale in cookies

@@ -9,17 +9,18 @@ import CompletedProjects from "../components/front/completedprojects/completed-p
 import AboutUs from "../components/front/aboutus/about-us.component";
 import Footer from "../components/front/footer/footer.component";
 import { localeContext } from "../context/locale-context";
-import Login from "../components/administrator/login/login.component";
 
 const Home: NextPage = () => {
   const [localeKey, setLocaleKey] = useState("");
+  const [dictionary, setDictionary] = useState(null);
   const localeContextObject: any = useContext(localeContext);
   useEffect(() => {
     setLocaleKey(localeContextObject.localeKey);
+    setDictionary(localeContextObject.dictionary);
   }, [localeContextObject]);
 
   const footerProps = {
-    dyctionary: localeContextObject.dictionary,
+    dyctionary: dictionary,
     key: localeKey,
   };
   return (
@@ -51,9 +52,6 @@ const Home: NextPage = () => {
           dictionary={footerProps.dyctionary}
           localeKey={footerProps.key}
         />
-      </section>
-      <section>
-        <Login />
       </section>
     </div>
   );
