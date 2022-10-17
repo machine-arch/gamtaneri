@@ -1,5 +1,6 @@
 import { FC } from "react";
 import { FormProps } from "../../config/interfaces/app.interfaces";
+import { Oval } from "react-loader-spinner";
 
 const Form: FC<FormProps> = (props: any) => {
   const withCommonParent: Array<any> = props.FormProps.inputs.filter(
@@ -53,6 +54,20 @@ const Form: FC<FormProps> = (props: any) => {
           {props.FormProps.buttonText}
         </button>
       ) : null}
+      <div className={props.loadrConteinerClassname}>
+        <Oval
+          height={30}
+          width={30}
+          color="#4fa94d"
+          wrapperStyle={{}}
+          wrapperClass=""
+          visible={props.Loader ? props.Loader : false}
+          ariaLabel="oval-loading"
+          secondaryColor="#4fa94d"
+          strokeWidth={2}
+          strokeWidthSecondary={2}
+        />
+      </div>
     </form>
   );
 };

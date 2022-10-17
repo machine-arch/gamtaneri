@@ -9,6 +9,8 @@ export interface FooterProps {
 
 export interface FormProps {
   FormProps: object;
+  Loader?: boolean;
+  loadrConteinerClassname?: string;
 }
 
 export interface FormPropsInterface {
@@ -49,4 +51,12 @@ export interface UserInterface {
   updatedAt: Date;
   ip: string;
   token: string;
+}
+
+export interface LogsInterface {
+  id: number;
+  apiName: string;
+  errorMessage: string;
+  remoteIp: string;
+  localeIp: string;
 }

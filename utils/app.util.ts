@@ -1,4 +1,3 @@
-import { AsyncHook } from "async_hooks";
 import nookies from "nookies";
 
 export const switchLanguage = (setLocale: any) => {

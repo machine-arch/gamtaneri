@@ -18,7 +18,7 @@ export const LocaleProvider: FC<PropsWithChildren> = ({ children }) => {
      * @description this function is used to get to fetch dictionary object from locale json file
      * @returns
      */
-    fetch("locale/locale.json", {
+    fetch("/locale/locale.json", {
       method: "GET",
     })
       .then((res) => {
