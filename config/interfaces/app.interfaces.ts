@@ -60,3 +60,17 @@ export interface LogsInterface {
   remoteIp: string;
   localeIp: string;
 }
+
+export interface buttonProps {
+  name: string;
+}
+
+export interface modal {
+  modal_title: string;
+  FormProps: FormPropsInterface;
+  isOpen: boolean;
+}
+
+export interface modalProps {
+  modalprops: modal;
+}

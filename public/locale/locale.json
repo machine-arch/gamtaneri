@@ -13,7 +13,8 @@
     "allRightsRecevd": "ყველა უფლება დაცულია",
     "contactUs": "დაგვიკავშირდით",
     "password": "პაროლი",
-    "login": "შესვლა"
+    "login": "შესვლა",
+    "add": "დამატება"
   },
   "en": {
     "aourUsers": "Our users",
@@ -29,6 +30,7 @@
     "allRightsRecevd": "All rights reserved",
     "contactUs": "Contact us",
     "password": "Password",
-    "login": "Login"
+    "login": "Login",
+    "add": "Add"
   }
 }

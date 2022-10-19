@@ -78,7 +78,11 @@ const Header: FC = () => {
             {localeKey}
           </span>
         </div>
-        <Button />
+        <Button
+          name={
+            dictionary ? dictionary[localeKey]["contactUs"] : "დაგვიკავშირდით"
+          }
+        />
       </div>
     </div>
   );

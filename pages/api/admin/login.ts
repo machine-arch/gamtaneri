@@ -13,6 +13,9 @@ const Auth = async (req: NextApiRequest, res: NextApiResponse) => {
     const user = await Connection?.manager?.findOne(User, {
       where: { email },
     });
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
+    console.log(hashedPassword);
     if (user) {
       if (bcrypt.compareSync(password, user.password)) {
         const accesToken = jwt.sign(

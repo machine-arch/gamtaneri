@@ -3,17 +3,17 @@ import { FormProps } from "../../config/interfaces/app.interfaces";
 import { Oval } from "react-loader-spinner";
 
 const Form: FC<FormProps> = (props: any) => {
-  const withCommonParent: Array<any> = props.FormProps.inputs.filter(
+  const withCommonParent: Array<any> = props?.FormProps?.inputs.filter(
     (i: any) => i.needCommonParent
   );
-  const withoutCommonParent: Array<any> = props.FormProps.inputs.filter(
+  const withoutCommonParent: Array<any> = props?.FormProps?.inputs.filter(
     (i: any) => !i.needCommonParent
   );
   return (
-    <form action="#" className={props.FormProps.formClassName}>
-      {withCommonParent.length ? (
-        <div className={props.FormProps.inputsCommonParentClass}>
-          {withCommonParent.map((input: any) => {
+    <form action="#" className={props?.FormProps?.formClassName}>
+      {withCommonParent?.length ? (
+        <div className={props?.FormProps?.inputsCommonParentClass}>
+          {withCommonParent?.map((input: any) => {
             const attrs = {
               type: input.type,
               name: input.name,
@@ -26,7 +26,7 @@ const Form: FC<FormProps> = (props: any) => {
           })}
         </div>
       ) : null}
-      {withoutCommonParent.length
+      {withoutCommonParent?.length
         ? withoutCommonParent.map((input: any) => {
             const attrs = {
               type: input.type,
@@ -39,19 +39,19 @@ const Form: FC<FormProps> = (props: any) => {
             return <input key={input.id} {...attrs} />;
           })
         : null}
-      {props.FormProps.needTextArea ? (
+      {props?.FormProps?.needTextArea ? (
         <textarea
-          className={props.FormProps.textareaClass}
-          name={props.FormProps.textareaName}
-          placeholder={props.FormProps.textareaPlaceholder}
+          className={props?.FormProps?.textareaClass}
+          name={props?.FormProps?.textareaName}
+          placeholder={props?.FormProps?.textareaPlaceholder}
         ></textarea>
       ) : null}
-      {props.FormProps.needButton ? (
+      {props?.FormProps?.needButton ? (
         <button
-          className={props.FormProps.buttonClass}
-          onClick={props.FormProps.ButtoncallBack}
+          className={props?.FormProps?.buttonClass}
+          onClick={props?.FormProps?.ButtoncallBack}
         >
-          {props.FormProps.buttonText}
+          {props?.FormProps?.buttonText}
         </button>
       ) : null}
       <div className={props.loadrConteinerClassname}>

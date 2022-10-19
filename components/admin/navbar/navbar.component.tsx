@@ -9,6 +9,7 @@ const Navbar = (props: any) => {
         el.classList.remove(styles.active);
       }
       props.setOpendMenuItem(e.currentTarget);
+      props.setIsModalOpen(true);
     });
   };
   return (
