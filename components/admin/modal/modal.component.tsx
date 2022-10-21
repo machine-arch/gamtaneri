@@ -10,11 +10,11 @@ const Modal: FC<modalProps> = (props) => {
         <div className={styles.modal_conteiner}>
           <div className={styles.modal_background}></div>
           <div className={styles.modal}>
-            <div className={styles.modal_title_conteiner}>
+            {/* <div className={styles.modal_title_conteiner}>
               <h1 className={styles.modal_title}>
                 {props?.modalprops?.modal_title}
               </h1>
-            </div>
+            </div> */}
             <div className={styles.modal_form_conteiner}>
               <Form FormProps={props?.modalprops?.FormProps} />
             </div>

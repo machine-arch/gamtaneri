@@ -1,4 +1,4 @@
-import { User } from "../../../src/entity/user.entity";
+import User from "../../../src/entity/user.entity";
 import AppDataSource from "../../../src/config/ormConfig";
 import { NextApiRequest, NextApiResponse } from "next";
 import jwt from "jsonwebtoken";
@@ -14,8 +14,6 @@ const Auth = async (req: NextApiRequest, res: NextApiResponse) => {
       where: { email },
     });
     const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(password, salt);
-    console.log(hashedPassword);
     if (user) {
       if (bcrypt.compareSync(password, user.password)) {
         const accesToken = jwt.sign(

@@ -3,14 +3,20 @@ import { useState } from "react";
 
 const Navbar = (props: any) => {
   const onClickHendler = (e) => {
-    e.currentTarget.classList.toggle(styles.active);
-    [...e.currentTarget.parentElement.children].forEach((el) => {
-      if (el !== e.currentTarget) {
-        el.classList.remove(styles.active);
-      }
+    if (e.currentTarget.classList.contains(styles.active)) {
+      e.currentTarget.classList.remove(styles.active);
+      props.setOpendMenuItem(null);
+      props.setIsModalOpen(false);
+    } else {
+      e.currentTarget.classList.add(styles.active);
+      [...e.currentTarget.parentElement.children].forEach((el) => {
+        if (el !== e.currentTarget) {
+          el.classList.remove(styles.active);
+        }
+      });
       props.setOpendMenuItem(e.currentTarget);
-      props.setIsModalOpen(true);
-    });
+      props.setIsModalOpen(false);
+    }
   };
   return (
     <>

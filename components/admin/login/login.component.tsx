@@ -124,12 +124,12 @@ const Login: FC = () => {
       },
     ];
     const FomrProps: FormPropsInterface = {
-      formClassName: "footer_form",
+      formClassName: "form",
       inputs: formInputs,
-      inputsCommonParentClass: "footer_inputs_common_parent",
+      inputsCommonParentClass: "inputs_common_parent",
       needTextArea: false,
       needButton: true,
-      buttonClass: "footer_form_button",
+      buttonClass: "form_button",
       buttonText: LocalCntextObject.dictionary
         ? LocalCntextObject.dictionary[LocalCntextObject.localeKey]["login"]
         : "შესვლა",

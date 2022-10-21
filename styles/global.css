@@ -29,7 +29,7 @@ html {
 }
 
 /* ===============================================start_footer_form======================================== */
-.footer_form {
+.form {
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -43,14 +43,14 @@ html {
   padding: 18px 0px 18px 15px;
   outline: none;
 }
-.footer_inputs_common_parent {
+.inputs_common_parent {
   display: flex;
   justify-content: space-between;
   align-items: center;
   gap: 10px;
 }
 
-.footer_form_button {
+.form_button {
   background-color: var(--dark-green);
   height: 40px;
   width: 100%;
@@ -60,12 +60,27 @@ html {
   color: var(--white);
   box-sizing: border-box;
 }
-.footer_form_textarea {
+.form_textarea {
   height: 108px;
   border: 1px solid rgba(145, 158, 171, 0.32);
   border-radius: 8px;
   resize: none;
   padding: 20px 0px 20px 15px;
   outline: none;
+}
+
+.form_close {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  cursor: pointer;
+}
+.form_title {
+  font-size: 20px;
+  line-height: 24px;
+  color: var(--dark-green);
+  font-weight: 500;
+  text-align: center;
+  padding-bottom: 20px;
 }
 /* ===============================================end_footer_form========================================= */

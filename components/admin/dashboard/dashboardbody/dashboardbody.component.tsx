@@ -12,6 +12,12 @@ const DashboardBody = (props: any) => {
     setLocaleKey(localeContextObject.localeKey);
     setDictionary(localeContextObject.dictionary);
   }, [localeContextObject]);
+
+  const openModalHendler = () => {
+    props.opendMenuItem
+      ? props.setIsModalOpen(true)
+      : props.setIsModalOpen(false);
+  };
   return (
     <>
       <div className={props.dashboard_body_conteiner}>
@@ -19,9 +25,12 @@ const DashboardBody = (props: any) => {
           <h1 className={props.dashboard_body_title}>{props.title}</h1>
         </div>
         <div className={props.dashboard_body_head_conteiner}>
-          <Button
-            name={dictionary ? dictionary[localeKey]["add"] : "დამატება"}
-          />
+          {props?.opendMenuItem ? (
+            <Button
+              name={dictionary ? dictionary[localeKey]["add"] : "დამატება"}
+              hendler={openModalHendler}
+            />
+          ) : null}
         </div>
         <div className={props.dashboard_body_content_conteiner}>
           <div className={props.dashboard_body_content}></div>

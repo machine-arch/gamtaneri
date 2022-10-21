@@ -5,7 +5,7 @@ import { FC } from "react";
 import { FooterProps } from "../../../config/interfaces/app.interfaces";
 import { FormPropsInterface } from "../../../config/interfaces/app.interfaces";
 
-const Footer: FC<FooterProps> = (props) => {
+const Footer: FC<FooterProps> = (props: any) => {
   const formInputs = [
     {
       id: "001",
@@ -39,20 +39,20 @@ const Footer: FC<FooterProps> = (props) => {
     },
   ];
   const formTextarea = {
-    textareaClass: "footer_form_textarea",
+    textareaClass: "form_textarea",
     textareaName: "message",
     textareaPlaceholder: props.dictionary
       ? props.dictionary[props.localeKey]["message"]
       : "შეტყობინება",
   };
   const formProps: FormPropsInterface = {
-    formClassName: "footer_form",
+    formClassName: "form",
     inputs: formInputs,
-    inputsCommonParentClass: "footer_inputs_common_parent",
+    inputsCommonParentClass: "inputs_common_parent",
     needTextArea: true,
     ...formTextarea,
     needButton: true,
-    buttonClass: "footer_form_button",
+    buttonClass: "form_button",
     buttonText: props.dictionary
       ? props.dictionary[props.localeKey]["send"]
       : "გაგზავნა",

@@ -2,21 +2,27 @@ import { Entity, PrimaryGeneratedColumn, Column, Index } from "typeorm";
 import { LogsInterface } from "./../../config/interfaces/app.interfaces";
 
 @Entity()
-class Logs implements LogsInterface {
+class OurUsers {
   @PrimaryGeneratedColumn()
   id: number;
 
   @Column("text", { nullable: true })
-  apiName: string;
+  title: string;
 
   @Column("text", { nullable: true })
-  errorMessage: string;
+  title_eng: string;
 
   @Column("text", { nullable: true })
-  remoteIp: string;
+  description: string;
 
-  @Column("text", { nullable: false })
-  localeIp: string;
+  @Column("text", { nullable: true })
+  description_eng: string;
+
+  @Column("timestamp", { nullable: true })
+  createdAt: Date;
+
+  @Column("timestamp", { nullable: true })
+  updatedAt: Date;
 }
 
-export default Logs;
+export default OurUsers;

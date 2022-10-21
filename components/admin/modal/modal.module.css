@@ -23,14 +23,14 @@
   height: 100vh;
   opacity: 1;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  display: flex;
 }
 
 .modal_form_conteiner {
-  width: 25%;
-  height: 40%;
+  width: 35%;
+  height: 60%;
   background-color: #fff;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
@@ -38,7 +38,6 @@
   flex-direction: column;
   justify-content: center;
   box-sizing: border-box;
-  /* justify-content: center; */
   padding: 0px 20px 0px 20px;
 }
 

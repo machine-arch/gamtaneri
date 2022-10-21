@@ -1,6 +1,7 @@
 import { FC } from "react";
 import { FormProps } from "../../config/interfaces/app.interfaces";
 import { Oval } from "react-loader-spinner";
+import Image from "next/image";
 
 const Form: FC<FormProps> = (props: any) => {
   const withCommonParent: Array<any> = props?.FormProps?.inputs.filter(
@@ -9,8 +10,29 @@ const Form: FC<FormProps> = (props: any) => {
   const withoutCommonParent: Array<any> = props?.FormProps?.inputs.filter(
     (i: any) => !i.needCommonParent
   );
+  console.log(props.FormProps.textareaClass);
+
   return (
     <form action="#" className={props?.FormProps?.formClassName}>
+      {props?.FormProps?.needClose ? (
+        <div
+          className={props?.FormProps?.closeClassname}
+          onClick={props?.FormProps?.hendler}
+        >
+          <Image
+            className={props?.FormProps?.closeLogoClassname}
+            src={props?.FormProps?.closeSrc}
+            alt="main logo"
+            width={20}
+            height={20}
+          />
+        </div>
+      ) : null}
+      {props?.FormProps?.needTitle ? (
+        <h1 className={props?.FormProps?.titleClassname}>
+          {props?.FormProps?.title}
+        </h1>
+      ) : null}
       {withCommonParent?.length ? (
         <div className={props?.FormProps?.inputsCommonParentClass}>
           {withCommonParent?.map((input: any) => {
@@ -45,6 +67,14 @@ const Form: FC<FormProps> = (props: any) => {
           name={props?.FormProps?.textareaName}
           placeholder={props?.FormProps?.textareaPlaceholder}
         ></textarea>
+      ) : null}
+      {props?.FormProps?.needFileUploader ? (
+        <input
+          type="file"
+          className={props?.FormProps?.fileUploaderClass}
+          multiple={props?.FormProps?.multiple}
+          name={props?.FormProps?.fileUploaderName}
+        ></input>
       ) : null}
       {props?.FormProps?.needButton ? (
         <button

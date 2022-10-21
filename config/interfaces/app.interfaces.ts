@@ -1,3 +1,5 @@
+import { MouseEventHandler } from "react";
+
 export interface HeaderProps {
   locale: string;
 }
@@ -14,15 +16,23 @@ export interface FormProps {
 }
 
 export interface FormPropsInterface {
+  needClose?: boolean;
+  close?: MouseEventHandler;
+  needTitle?: boolean;
+  title?: object;
   formClassName: string;
   inputs: InputInterface[];
   inputsCommonParentClass: string;
   needTextArea: boolean;
-  textarea?: TextareaInterface[];
+  textarea?: TextareaInterface;
   needButton: boolean;
   buttonClass: string;
   buttonText: object;
-  ButtoncallBack: Function;
+  needCheckbox?: boolean;
+  checkbox?: any;
+  needFileUploader?: boolean;
+  fileUploader?: any;
+  ButtoncallBack: any;
 }
 
 export interface InputInterface {
@@ -36,9 +46,9 @@ export interface InputInterface {
   callBack?: Function;
 }
 export interface TextareaInterface {
-  textareaClass: string;
-  textareaName: string;
-  textareaPlaceholder: object;
+  textareaClass: any;
+  textareaName: any;
+  textareaPlaceholder: any;
 }
 
 export interface UserInterface {
@@ -63,6 +73,7 @@ export interface LogsInterface {
 
 export interface buttonProps {
   name: string;
+  hendler?: MouseEventHandler<HTMLButtonElement>;
 }
 
 export interface modal {

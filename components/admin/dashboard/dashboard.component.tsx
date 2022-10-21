@@ -57,9 +57,16 @@ const Home = () => {
       ? opendMenuItem.getAttribute("datatype")
       : null;
     let inputs = [];
-    let textarea = [];
+    let textarea = {};
     let formProps = {};
+    let fileUploader = {};
+    let title = {};
+    let close = {};
     let modalProps = null;
+
+    const ModalCloseHendler = () => {
+      setIsModalOpen(false);
+    };
 
     switch (witchMenuItem) {
       case "our_users":
@@ -73,21 +80,33 @@ const Home = () => {
             needCommonParent: false,
           },
         ];
-        textarea = [
-          {
-            textareaClass: "footer_form_textarea",
-            textareaName: "description",
-            textareaPlaceholder: "აღწერა",
-          },
-        ];
+        textarea = {
+          textareaClass: "form_textarea",
+          textareaName: "description",
+          textareaPlaceholder: "აღწერა",
+        };
+        title = {
+          titleClassname: "form_title",
+          title: "მომხმარებლის დამატება",
+        };
+        close = {
+          closeClassname: "form_close",
+          closeLogoClassname: "footer_close_logo",
+          closeSrc: "/images/close.svg",
+          hendler: ModalCloseHendler,
+        };
         formProps = {
-          formClassName: "footer_form",
+          needClose: true,
+          ...close,
+          needTitle: true,
+          ...title,
+          formClassName: "form",
           inputs: inputs,
-          inputsCommonParentClass: "footer_inputs_common_parent",
+          inputsCommonParentClass: "inputs_common_parent",
           needTextArea: true,
           ...textarea,
           needButton: true,
-          buttonClass: "footer_form_button",
+          buttonClass: "form_button",
           buttonText: "დამატება",
           ButtoncallBack: (e: Event) => {
             e.preventDefault();
@@ -96,6 +115,188 @@ const Home = () => {
         };
         modalProps = {
           modal_title: "მომხმარებლები",
+          FormProps: formProps,
+          isOpen: isModalOpen,
+        };
+        break;
+      case "complated_projects":
+        inputs = [
+          {
+            id: Math.random().toString(),
+            name: "projectName",
+            type: "text ",
+            className: "form-input",
+            placeholder: "პროექტის დასახელება",
+            needCommonParent: false,
+          },
+        ];
+        textarea = {
+          textareaClass: "form_textarea",
+          textareaName: "description",
+          textareaPlaceholder: "აღწერა",
+        };
+        title = {
+          titleClassname: "form_title",
+          title: "დასრულებული პროექტები",
+        };
+        fileUploader = {
+          fileUploaderClass: "form_file_uploader",
+          multiple: true,
+          fileUploaderName: "projectImages",
+        };
+        close = {
+          closeClassname: "form_close",
+          closeLogoClassname: "close_logo",
+          closeSrc: "/images/close.svg",
+          hendler: ModalCloseHendler,
+        };
+        formProps = {
+          needClose: true,
+          ...close,
+          needTitle: true,
+          ...title,
+          formClassName: "form",
+          inputs: inputs,
+          inputsCommonParentClass: "inputs_common_parent",
+          needTextArea: true,
+          ...textarea,
+          needFileUploader: true,
+          ...fileUploader,
+          needButton: true,
+          buttonClass: "form_button",
+          buttonText: "დამატება",
+
+          ButtoncallBack: (e: Event) => {
+            e.preventDefault();
+            console.log("clicked");
+          },
+        };
+        modalProps = {
+          modal_title: "დასრულებული პროექტები",
+          FormProps: formProps,
+          isOpen: isModalOpen,
+        };
+        break;
+      case "about_us":
+        inputs = [
+          {
+            id: Math.random().toString(),
+            name: "aboutUs",
+            type: "text ",
+            className: "form-input",
+            placeholder: "სათაური",
+            needCommonParent: false,
+          },
+        ];
+        textarea = {
+          textareaClass: "form_textarea",
+          textareaName: "description",
+          textareaPlaceholder: "აღწერა",
+        };
+        title = {
+          titleClassname: "form_title",
+          title: "ჩვენს შესახებ",
+        };
+        close = {
+          closeClassname: "form_close",
+          closeLogoClassname: "close_logo",
+          closeSrc: "/images/close.svg",
+          hendler: ModalCloseHendler,
+        };
+        fileUploader = {
+          fileUploaderClass: "form_file_uploader",
+          multiple: true,
+          fileUploaderName: "projectImages",
+        };
+        formProps = {
+          needClose: true,
+          ...close,
+          needTitle: true,
+          ...title,
+          formClassName: "form",
+          inputs: inputs,
+          inputsCommonParentClass: "inputs_common_parent",
+          needTextArea: true,
+          ...textarea,
+          needFileUploader: true,
+          ...fileUploader,
+          needButton: true,
+          buttonClass: "form_button",
+          buttonText: "დამატება",
+          ButtoncallBack: (e: Event) => {
+            e.preventDefault();
+            console.log("clicked");
+          },
+        };
+        modalProps = {
+          modal_title: "ჩვენს შესახებ",
+          FormProps: formProps,
+          isOpen: isModalOpen,
+        };
+        break;
+      case "contact":
+        inputs = [
+          {
+            id: Math.random().toString(),
+            name: "address",
+            type: "text ",
+            className: "form-input",
+            placeholder: "მისამართი",
+            needCommonParent: true,
+          },
+          {
+            id: Math.random().toString(),
+            name: "email",
+            type: "email",
+            className: "form-input",
+            placeholder: "იმეილი",
+            needCommonParent: true,
+          },
+          {
+            id: Math.random().toString(),
+            name: "phone",
+            type: "text",
+            className: "form-input",
+            placeholder: "ტელეფონი",
+            needCommonParent: false,
+          },
+        ];
+        textarea = {
+          textareaClass: "form_textarea",
+          textareaName: "description",
+          textareaPlaceholder: "აღწერა",
+        };
+        title = {
+          titleClassname: "form_title",
+          title: "კონტაქტი",
+        };
+        close = {
+          closeClassname: "form_close",
+          closeLogoClassname: "close_logo",
+          closeSrc: "/images/close.svg",
+          hendler: ModalCloseHendler,
+        };
+        formProps = {
+          needClose: true,
+          ...close,
+          needTitle: true,
+          ...title,
+          formClassName: "form",
+          inputs: inputs,
+          inputsCommonParentClass: "inputs_common_parent",
+          needTextArea: true,
+          ...textarea,
+          needFileUploader: false,
+          needButton: true,
+          buttonClass: "form_button",
+          buttonText: "დამატება",
+          ButtoncallBack: (e: Event) => {
+            e.preventDefault();
+            console.log("clicked");
+          },
+        };
+        modalProps = {
+          modal_title: "ჩვენს შესახებ",
           FormProps: formProps,
           isOpen: isModalOpen,
         };
@@ -110,7 +311,10 @@ const Home = () => {
             setIsModalOpen={setIsModalOpen}
           />
           <div className={styles.dashboard_body}>
-            <DashboardBody />
+            <DashboardBody
+              setIsModalOpen={setIsModalOpen}
+              opendMenuItem={opendMenuItem}
+            />
           </div>
         </div>
       </div>

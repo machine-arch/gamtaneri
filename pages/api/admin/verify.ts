@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import AppDataSource from "../../../src/config/ormConfig";
-import { User } from "../../../src/entity/user.entity";
+import User from "../../../src/entity/user.entity";
 import jwt from "jsonwebtoken";
 import nookies from "nookies";
 
