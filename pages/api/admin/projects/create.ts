@@ -40,6 +40,7 @@ const CreateProject = async (req: NextApiRequest, res: NextApiResponse) => {
         description_eng,
         token,
       } = fields;
+      console.log(fields);
       const { email } = jwt.decode(token, {
         json: true,
       });
