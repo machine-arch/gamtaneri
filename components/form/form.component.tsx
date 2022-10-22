@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useEffect, useState } from "react";
 import { FormProps } from "../../config/interfaces/app.interfaces";
 import { Oval } from "react-loader-spinner";
 import Image from "next/image";
@@ -10,10 +10,14 @@ const Form: FC<FormProps> = (props: any) => {
   const withoutCommonParent: Array<any> = props?.FormProps?.inputs.filter(
     (i: any) => !i.needCommonParent
   );
-  console.log(props.FormProps.textareaClass);
 
   return (
-    <form action="#" className={props?.FormProps?.formClassName}>
+    <form
+      className={props?.FormProps?.formClassName}
+      onSubmit={props?.FormProps?.submit}
+      ref={props?.FormProps?.ref}
+      name={props?.FormProps?.name}
+    >
       {props?.FormProps?.needClose ? (
         <div
           className={props?.FormProps?.closeClassname}
@@ -61,13 +65,25 @@ const Form: FC<FormProps> = (props: any) => {
             return <input key={input.id} {...attrs} />;
           })
         : null}
-      {props?.FormProps?.needTextArea ? (
+      {props?.FormProps?.needTextarea ? (
         <textarea
           className={props?.FormProps?.textareaClass}
           name={props?.FormProps?.textareaName}
           placeholder={props?.FormProps?.textareaPlaceholder}
         ></textarea>
       ) : null}
+      {props?.FormProps?.needTextareas
+        ? props.FormProps.textareas.map((textarea: any) => {
+            return (
+              <textarea
+                key={textarea.id}
+                className={textarea.textareaClass}
+                name={textarea.textareaName}
+                placeholder={textarea.textareaPlaceholder}
+              ></textarea>
+            );
+          })
+        : null}
       {props?.FormProps?.needFileUploader ? (
         <input
           type="file"
@@ -78,6 +94,7 @@ const Form: FC<FormProps> = (props: any) => {
       ) : null}
       {props?.FormProps?.needButton ? (
         <button
+          type="submit"
           className={props?.FormProps?.buttonClass}
           onClick={props?.FormProps?.ButtoncallBack}
         >

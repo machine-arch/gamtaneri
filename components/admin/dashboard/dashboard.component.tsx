@@ -49,7 +49,8 @@ const Home = () => {
       }
     })();
   }, [authContextObject]);
-
+  const OurUSersRef = useRef(null);
+  const ProductsRef = useRef(null);
   if (needRedirect) {
     router.push("/admin/login");
   } else {
@@ -57,7 +58,7 @@ const Home = () => {
       ? opendMenuItem.getAttribute("datatype")
       : null;
     let inputs = [];
-    let textarea = {};
+    let textareas = [{}];
     let formProps = {};
     let fileUploader = {};
     let title = {};
@@ -68,23 +69,96 @@ const Home = () => {
       setIsModalOpen(false);
     };
 
+    const CreateOurUSers = (e: any) => {
+      e.preventDefault();
+      let url = "",
+        ref = null,
+        body: object,
+        headers: HeadersInit,
+        projectFormData = null;
+      switch (e.target.getAttribute("name")) {
+        case "our_users":
+          url = "/api/admin/users/create";
+          ref = OurUSersRef;
+          const data = new FormData(ref.current);
+          body = {
+            title: data.get("title"),
+            title_eng: data.get("title_eng"),
+            description: data.get("description"),
+            description_eng: data.get("description_eng"),
+            token: AES.decrypt(
+              localStorage.getItem("_token"),
+              "secretPassphrase"
+            ).toString(enc.Utf8),
+          };
+          headers = {
+            "Content-Type": "application/json",
+          };
+          break;
+        case "complated_projects":
+          url = "/api/admin/projects/create";
+          ref = ProductsRef;
+          projectFormData = new FormData(ref.current);
+          // body = {
+          //   title: projectFormData.get("project_name"),
+          //   title_eng: projectFormData.get("project_name_eng"),
+          //   description: projectFormData.get("description"),
+          //   description_eng: projectFormData.get("description_eng"),
+          //   images: projectFormData.getAll("images"),
+          // };
+          headers = {
+            "Content-Type": "multipart/form-data",
+          };
+          break;
+      }
+      fetch(url, {
+        method: "POST",
+        headers: headers,
+        body: projectFormData,
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data);
+        });
+    };
+
     switch (witchMenuItem) {
       case "our_users":
         inputs = [
           {
-            id: Math.random().toString(),
-            name: "name",
+            id: Date.now().toString(36) + Math.random().toString(36).slice(2),
+            name: "title",
             type: "text ",
             className: "form-input",
             placeholder: "დასახელება",
-            needCommonParent: false,
+            needCommonParent: true,
+          },
+          {
+            id: Date.now().toString(36) + Math.random().toString(36).slice(2),
+            name: "title_eng",
+            type: "text ",
+            className: "form-input",
+            placeholder: "title",
+            needCommonParent: true,
           },
         ];
-        textarea = {
-          textareaClass: "form_textarea",
-          textareaName: "description",
-          textareaPlaceholder: "აღწერა",
-        };
+        textareas = [
+          {
+            id: Date.now().toString(36) + Math.random().toString(36).slice(2),
+            textareaClass: "form_textarea",
+            textareaName: "description",
+            textareaPlaceholder: "აღწერა",
+            type: "textarea",
+          },
+          {
+            id: Date.now().toString(36) + Math.random().toString(36).slice(2),
+            textareaClass: "form_textarea",
+            textareaName: "description_eng",
+            textareaPlaceholder: "description",
+            type: "textarea",
+          },
+        ];
+
         title = {
           titleClassname: "form_title",
           title: "მომხმარებლის დამატება",
@@ -96,6 +170,8 @@ const Home = () => {
           hendler: ModalCloseHendler,
         };
         formProps = {
+          name: "our_users",
+          ref: OurUSersRef,
           needClose: true,
           ...close,
           needTitle: true,
@@ -103,15 +179,17 @@ const Home = () => {
           formClassName: "form",
           inputs: inputs,
           inputsCommonParentClass: "inputs_common_parent",
-          needTextArea: true,
-          ...textarea,
+          needTextarea: false,
+          needTextareas: true,
+          textareas,
           needButton: true,
           buttonClass: "form_button",
           buttonText: "დამატება",
           ButtoncallBack: (e: Event) => {
-            e.preventDefault();
-            console.log("clicked");
+            // e.preventDefault();
+            // CreateOurUSers;
           },
+          submit: CreateOurUSers,
         };
         modalProps = {
           modal_title: "მომხმარებლები",
@@ -122,19 +200,38 @@ const Home = () => {
       case "complated_projects":
         inputs = [
           {
-            id: Math.random().toString(),
-            name: "projectName",
+            id: Date.now().toString(36) + Math.random().toString(36).slice(2),
+            name: "project_name",
             type: "text ",
             className: "form-input",
             placeholder: "პროექტის დასახელება",
-            needCommonParent: false,
+            needCommonParent: true,
+          },
+          {
+            id: Date.now().toString(36) + Math.random().toString(36).slice(2),
+            name: "project_name_eng",
+            type: "text ",
+            className: "form-input",
+            placeholder: "project name",
+            needCommonParent: true,
           },
         ];
-        textarea = {
-          textareaClass: "form_textarea",
-          textareaName: "description",
-          textareaPlaceholder: "აღწერა",
-        };
+        textareas = [
+          {
+            id: Date.now().toString(36) + Math.random().toString(36).slice(2),
+            textareaClass: "form_textarea",
+            textareaName: "description",
+            textareaPlaceholder: "აღწერა",
+            name: "description",
+          },
+          {
+            id: Date.now().toString(36) + Math.random().toString(36).slice(2),
+            textareaClass: "form_textarea",
+            textareaName: "description_eng",
+            textareaPlaceholder: "description",
+            name: "description_eng",
+          },
+        ];
         title = {
           titleClassname: "form_title",
           title: "დასრულებული პროექტები",
@@ -142,7 +239,7 @@ const Home = () => {
         fileUploader = {
           fileUploaderClass: "form_file_uploader",
           multiple: true,
-          fileUploaderName: "projectImages",
+          fileUploaderName: "images",
         };
         close = {
           closeClassname: "form_close",
@@ -151,6 +248,9 @@ const Home = () => {
           hendler: ModalCloseHendler,
         };
         formProps = {
+          name: "complated_projects",
+          ref: ProductsRef,
+          submit: CreateOurUSers,
           needClose: true,
           ...close,
           needTitle: true,
@@ -158,17 +258,17 @@ const Home = () => {
           formClassName: "form",
           inputs: inputs,
           inputsCommonParentClass: "inputs_common_parent",
-          needTextArea: true,
-          ...textarea,
+          needTextArea: false,
+          needTextareas: true,
+          textareas: textareas,
           needFileUploader: true,
           ...fileUploader,
           needButton: true,
           buttonClass: "form_button",
           buttonText: "დამატება",
-
           ButtoncallBack: (e: Event) => {
-            e.preventDefault();
-            console.log("clicked");
+            // e.preventDefault();
+            // console.log("clicked");
           },
         };
         modalProps = {
@@ -180,7 +280,7 @@ const Home = () => {
       case "about_us":
         inputs = [
           {
-            id: Math.random().toString(),
+            id: Date.now().toString(36) + Math.random().toString(36).slice(2),
             name: "aboutUs",
             type: "text ",
             className: "form-input",
@@ -188,11 +288,20 @@ const Home = () => {
             needCommonParent: false,
           },
         ];
-        textarea = {
-          textareaClass: "form_textarea",
-          textareaName: "description",
-          textareaPlaceholder: "აღწერა",
-        };
+        textareas = [
+          {
+            id: Date.now().toString(36) + Math.random().toString(36).slice(2),
+            textareaClass: "form_textarea",
+            textareaName: "description",
+            textareaPlaceholder: "აღწერა",
+          },
+          {
+            id: Date.now().toString(36) + Math.random().toString(36).slice(2),
+            textareaClass: "form_textarea",
+            textareaName: "description",
+            textareaPlaceholder: "description",
+          },
+        ];
         title = {
           titleClassname: "form_title",
           title: "ჩვენს შესახებ",
@@ -209,6 +318,7 @@ const Home = () => {
           fileUploaderName: "projectImages",
         };
         formProps = {
+          CreateOurUSers: CreateOurUSers,
           needClose: true,
           ...close,
           needTitle: true,
@@ -216,8 +326,9 @@ const Home = () => {
           formClassName: "form",
           inputs: inputs,
           inputsCommonParentClass: "inputs_common_parent",
-          needTextArea: true,
-          ...textarea,
+          needTextArea: false,
+          needTextareas: true,
+          textareas: textareas,
           needFileUploader: true,
           ...fileUploader,
           needButton: true,
@@ -237,7 +348,7 @@ const Home = () => {
       case "contact":
         inputs = [
           {
-            id: Math.random().toString(),
+            id: Date.now().toString(36) + Math.random().toString(36).slice(2),
             name: "address",
             type: "text ",
             className: "form-input",
@@ -245,7 +356,7 @@ const Home = () => {
             needCommonParent: true,
           },
           {
-            id: Math.random().toString(),
+            id: Date.now().toString(36) + Math.random().toString(36).slice(2),
             name: "email",
             type: "email",
             className: "form-input",
@@ -253,7 +364,7 @@ const Home = () => {
             needCommonParent: true,
           },
           {
-            id: Math.random().toString(),
+            id: Date.now().toString(36) + Math.random().toString(36).slice(2),
             name: "phone",
             type: "text",
             className: "form-input",
@@ -261,11 +372,20 @@ const Home = () => {
             needCommonParent: false,
           },
         ];
-        textarea = {
-          textareaClass: "form_textarea",
-          textareaName: "description",
-          textareaPlaceholder: "აღწერა",
-        };
+        textareas = [
+          {
+            id: Date.now().toString(36) + Math.random().toString(36).slice(2),
+            textareaClass: "form_textarea",
+            textareaName: "description",
+            textareaPlaceholder: "აღწერა",
+          },
+          {
+            id: Date.now().toString(36) + Math.random().toString(36).slice(2),
+            textareaClass: "form_textarea",
+            textareaName: "description",
+            textareaPlaceholder: "description",
+          },
+        ];
         title = {
           titleClassname: "form_title",
           title: "კონტაქტი",
@@ -277,6 +397,7 @@ const Home = () => {
           hendler: ModalCloseHendler,
         };
         formProps = {
+          CreateOurUSers: CreateOurUSers,
           needClose: true,
           ...close,
           needTitle: true,
@@ -284,8 +405,9 @@ const Home = () => {
           formClassName: "form",
           inputs: inputs,
           inputsCommonParentClass: "inputs_common_parent",
-          needTextArea: true,
-          ...textarea,
+          needTextArea: false,
+          needTextareas: true,
+          textareas: textareas,
           needFileUploader: false,
           needButton: true,
           buttonClass: "form_button",

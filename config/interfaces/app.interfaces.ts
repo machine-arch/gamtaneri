@@ -16,6 +16,7 @@ export interface FormProps {
 }
 
 export interface FormPropsInterface {
+  name: string;
   needClose?: boolean;
   close?: MouseEventHandler;
   needTitle?: boolean;
@@ -23,7 +24,8 @@ export interface FormPropsInterface {
   formClassName: string;
   inputs: InputInterface[];
   inputsCommonParentClass: string;
-  needTextArea: boolean;
+  needTextarea: boolean;
+  needTextareas: boolean;
   textarea?: TextareaInterface;
   needButton: boolean;
   buttonClass: string;
@@ -33,6 +35,8 @@ export interface FormPropsInterface {
   needFileUploader?: boolean;
   fileUploader?: any;
   ButtoncallBack: any;
+  submit: any;
+  textareas: object[];
 }
 
 export interface InputInterface {

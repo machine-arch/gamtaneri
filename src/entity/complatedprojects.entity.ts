@@ -25,7 +25,7 @@ class ComplatedProjects {
   updatedAt: Date;
 
   @Column("text", { nullable: true })
-  images: string[];
+  images: string;
 }
 
 export default ComplatedProjects;
