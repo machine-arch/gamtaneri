@@ -1,11 +1,17 @@
-import { FC, useEffect, useState, useContext, useRef } from "react";
+import {
+  FC,
+  useEffect,
+  useState,
+  useContext,
+  useRef,
+  SyntheticEvent,
+} from "react";
 import { localeContext } from "../../../context/locale-context";
 import { FormPropsInterface } from "../../../config/interfaces/app.interfaces";
 import Form from "../../form/form.component";
 import styles from "./login.module.css";
 import { useRouter } from "next/router";
 import { Oval } from "react-loader-spinner";
-
 import AES from "crypto-js/aes";
 import { enc } from "crypto-js";
 import { authContext } from "../../../context/admin/auth.context";
@@ -45,8 +51,11 @@ const Login: FC = () => {
                 authContextObject.setUser(data.user);
                 needRedairect.current = true;
                 setShowSpinner(false);
-              } else {
+              } else if ((await data) && !(await data.isValid)) {
+                router.push("/admin/login");
                 setShowSpinner(false);
+              } else {
+                throw new Error("Something went wrong");
               }
             })
             .catch((err) => {
@@ -60,7 +69,7 @@ const Login: FC = () => {
         }
       }
     })();
-  }, [LocalCntextObject, authContextObject, showSpinner]);
+  }, [LocalCntextObject, authContextObject, showSpinner, router]);
   if (needRedairect.current) {
     router.push("/admin/dashboard");
   } else {
@@ -68,7 +77,11 @@ const Login: FC = () => {
       email: "",
       password: "",
     };
-    const loginHendler = async (e: any) => {
+    /**
+     * @description this is login function
+     * @param {Event} e
+     */
+    const loginHendler = async (e: SyntheticEvent) => {
       e.preventDefault();
       let params: RequestInit = {
         method: "POST",
@@ -87,6 +100,15 @@ const Login: FC = () => {
             localStorage.setItem("_token", token.toString());
             authContextObject.setUser(data.user);
             router.push("/admin/dashboard");
+          } else if (data && data.message === "Invalid Password") {
+            console.log(data.message);
+          } else if (
+            data &&
+            data.message === "Invalid Email, or user not exit"
+          ) {
+            console.log(data.message);
+          } else {
+            console.log("something went wrong");
           }
         });
     };
@@ -127,7 +149,7 @@ const Login: FC = () => {
       formClassName: "form",
       inputs: formInputs,
       inputsCommonParentClass: "inputs_common_parent",
-      needTextArea: false,
+      needTextareas: false,
       needButton: true,
       buttonClass: "form_button",
       buttonText: LocalCntextObject.dictionary

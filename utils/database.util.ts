@@ -1,5 +1,5 @@
 import AppDataSource from "../src/config/ormConfig";
-import { Logs } from "../src/entity/logs.entity";
+import Logs from "../src/entity/logs.entity";
 
 export const AddLogs = async (
   apiName: string,

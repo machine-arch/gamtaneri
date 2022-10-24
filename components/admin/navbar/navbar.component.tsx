@@ -1,5 +1,8 @@
 import styles from "./navbar.module.css";
 import { useState } from "react";
+import { useRouter } from "next/router";
+import AES from "crypto-js/aes";
+import { enc } from "crypto-js";
 
 const Navbar = (props: any) => {
   const onClickHendler = (e) => {
@@ -8,6 +11,44 @@ const Navbar = (props: any) => {
       props.setOpendMenuItem(null);
       props.setIsModalOpen(false);
     } else {
+      let fetchUrl = null;
+      switch (e.currentTarget.getAttribute("datatype")) {
+        case "our_users":
+          fetchUrl = `/api/admin/users/getall/?token=${AES.decrypt(
+            localStorage.getItem("_token"),
+            "secretPassphrase"
+          ).toString(enc.Utf8)}`;
+          break;
+        case "complated_projects":
+          fetchUrl = `/api/admin/projects/getall/?token=${AES.decrypt(
+            localStorage.getItem("_token"),
+            "secretPassphrase"
+          ).toString(enc.Utf8)}`;
+          break;
+        case "about_us":
+          fetchUrl = `/api/admin/aboutus/get/?token=${AES.decrypt(
+            localStorage.getItem("_token"),
+            "secretPassphrase"
+          ).toString(enc.Utf8)}`;
+          break;
+        case "contact":
+          fetchUrl = `/api/admin/contacts/get/?token=${AES.decrypt(
+            localStorage.getItem("_token"),
+            "secretPassphrase"
+          ).toString(enc.Utf8)}`;
+          break;
+      }
+
+      fetch(fetchUrl)
+        .then((res) => res.json())
+        .then((data) => {
+          props.setPageData(data);
+          console.log(data);
+        })
+        .catch((err) => {
+          props.setPageData([]);
+        });
+
       e.currentTarget.classList.add(styles.active);
       [...e.currentTarget.parentElement.children].forEach((el) => {
         if (el !== e.currentTarget) {

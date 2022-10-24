@@ -1,4 +1,9 @@
-import { MouseEventHandler } from "react";
+import React, {
+  EventHandler,
+  MouseEventHandler,
+  RefObject,
+  SyntheticEvent,
+} from "react";
 
 export interface HeaderProps {
   locale: string;
@@ -16,27 +21,26 @@ export interface FormProps {
 }
 
 export interface FormPropsInterface {
-  name: string;
+  name?: string;
   needClose?: boolean;
+  ref?: RefObject<HTMLElement>;
   close?: MouseEventHandler;
   needTitle?: boolean;
   title?: object;
   formClassName: string;
   inputs: InputInterface[];
   inputsCommonParentClass: string;
-  needTextarea: boolean;
-  needTextareas: boolean;
-  textarea?: TextareaInterface;
+  needTextareas?: boolean;
   needButton: boolean;
   buttonClass: string;
-  buttonText: object;
+  buttonText: string;
   needCheckbox?: boolean;
   checkbox?: any;
   needFileUploader?: boolean;
   fileUploader?: any;
-  ButtoncallBack: any;
-  submit: any;
-  textareas: object[];
+  ButtoncallBack: EventHandler<SyntheticEvent>;
+  submit?: any;
+  textareas?: object[];
 }
 
 export interface InputInterface {
@@ -64,7 +68,7 @@ export interface UserInterface {
   createdAt: Date;
   updatedAt: Date;
   ip: string;
-  token: string;
+  token: string | string[];
 }
 
 export interface LogsInterface {

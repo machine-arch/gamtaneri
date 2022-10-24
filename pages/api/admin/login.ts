@@ -6,14 +6,13 @@ import bcrypt from "bcryptjs";
 import nookies from "nookies";
 
 const Auth = async (req: NextApiRequest, res: NextApiResponse) => {
-  if (req.method === "POST") {
+  if (req.method === "POST" && req.socket.localAddress === "::1") {
     const Connection = await AppDataSource.initialize();
     const tokenExpairy = "2h";
     const { email, password } = req.body;
     const user = await Connection?.manager?.findOne(User, {
       where: { email },
     });
-    const salt = await bcrypt.genSalt(10);
     if (user) {
       if (bcrypt.compareSync(password, user.password)) {
         const accesToken = jwt.sign(

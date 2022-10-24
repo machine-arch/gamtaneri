@@ -75,12 +75,14 @@ const Form: FC<FormProps> = (props: any) => {
       {props?.FormProps?.needTextareas
         ? props.FormProps.textareas.map((textarea: any) => {
             return (
-              <textarea
-                key={textarea.id}
-                className={textarea.textareaClass}
-                name={textarea.textareaName}
-                placeholder={textarea.textareaPlaceholder}
-              ></textarea>
+              <>
+                <textarea
+                  key={textarea.id}
+                  className={textarea.textareaClass}
+                  name={textarea.textareaName}
+                  placeholder={textarea.textareaPlaceholder}
+                ></textarea>
+              </>
             );
           })
         : null}

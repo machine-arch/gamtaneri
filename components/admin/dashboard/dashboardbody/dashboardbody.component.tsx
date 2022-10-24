@@ -33,7 +33,25 @@ const DashboardBody = (props: any) => {
           ) : null}
         </div>
         <div className={props.dashboard_body_content_conteiner}>
-          <div className={props.dashboard_body_content}></div>
+          <div className={props.dashboard_body_content}>
+            <div className={styles.content_conteiner}>
+              {props.data
+                ? props.data.map((el) => {
+                    return (
+                      <div key={el.id} className={styles.content_card}>
+                        <h1>{el.title}</h1>
+                        <span className={styles.content_date}>
+                          {el.createdAt}
+                        </span>
+                        <div className={styles.content_description}>
+                          {el.description}
+                        </div>
+                      </div>
+                    );
+                  })
+                : null}
+            </div>
+          </div>
         </div>
       </div>
     </>

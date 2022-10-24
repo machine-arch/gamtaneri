@@ -10,7 +10,7 @@ import AboutUs from "../components/front/aboutus/about-us.component";
 import Footer from "../components/front/footer/footer.component";
 import { localeContext } from "../context/locale-context";
 
-const Home: NextPage = () => {
+const Home: NextPage = (props) => {
   const [localeKey, setLocaleKey] = useState("");
   const [dictionary, setDictionary] = useState(null);
   const localeContextObject: any = useContext(localeContext);
@@ -56,5 +56,13 @@ const Home: NextPage = () => {
     </div>
   );
 };
+
+export async function getStaticProps() {
+  return {
+    props: {
+      title: "Home",
+    },
+  };
+}
 
 export default Home;

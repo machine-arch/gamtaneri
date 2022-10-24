@@ -12,22 +12,20 @@ export const config = {
     bodyParser: false,
   },
 };
+const form = new formidable.IncomingForm({
+  multiples: true,
+  uploadDir: path.join(process.cwd(), "public", "uploads"),
+  keepFilenames: true,
+});
+
+const filePaths = [];
+
+form.on("fileBegin", (name, file) => {
+  file.path = path.join(form.uploadDir, slugify(file.name));
+  filePaths.push(path.relative(process.cwd(), file.path));
+});
 
 const CreateProject = async (req: NextApiRequest, res: NextApiResponse) => {
-  const form = new formidable.IncomingForm({
-    multiples: true,
-    uploadDir: path.join(process.cwd(), "public", "uploads"),
-    keepExtensions: true,
-    keepFilenames: true,
-  });
-
-  const filePaths = [];
-
-  form.on("fileBegin", (name, file) => {
-    file.path = path.join(form.uploadDir, slugify(file.name));
-    filePaths.push(path.relative(process.cwd(), file.path));
-  });
-
   form.parse(req, async (err, fields, files) => {
     if (req.method === "POST") {
       const Connection = AppDataSource.isInitialized

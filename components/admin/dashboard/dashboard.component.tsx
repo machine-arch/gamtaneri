@@ -1,5 +1,5 @@
 import router from "next/router";
-import { useContext, useEffect, useRef, useState } from "react";
+import { SyntheticEvent, useContext, useEffect, useRef, useState } from "react";
 import { authContext } from "../../../context/admin/auth.context";
 import AES from "crypto-js/aes";
 import { enc } from "crypto-js";
@@ -8,12 +8,14 @@ import Navbar from "./../navbar/navbar.component";
 import styles from "./dashboard.module.css";
 import DashboardBody from "./dashboardbody/dashboardbody.component";
 import Modal from "../modal/modal.component";
+import { FormPropsInterface } from "../../../config/interfaces/app.interfaces";
 
 const Home = () => {
   const authContextObject: any = useContext(authContext);
   const [needRedirect, setNeedRedirect] = useState(false);
   const [opendMenuItem, setOpendMenuItem] = useState<any>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [pageData, setPageData] = useState([]);
   const isVeriyfied = useRef(false);
   useEffect(() => {
     (async () => {
@@ -51,6 +53,8 @@ const Home = () => {
   }, [authContextObject]);
   const OurUSersRef = useRef(null);
   const ProductsRef = useRef(null);
+  const AboutUsRef = useRef(null);
+  const ContactsUsRef = useRef(null);
   if (needRedirect) {
     router.push("/admin/login");
   } else {
@@ -59,7 +63,7 @@ const Home = () => {
       : null;
     let inputs = [];
     let textareas = [{}];
-    let formProps = {};
+    let formProps: FormPropsInterface;
     let fileUploader = {};
     let title = {};
     let close = {};
@@ -69,19 +73,19 @@ const Home = () => {
       setIsModalOpen(false);
     };
 
-    const CreateOurUSers = (e: any) => {
+    const create = (e: any) => {
       e.preventDefault();
       let url = "",
         ref = null,
         body: object,
         headers: HeadersInit,
-        projectFormData = null;
+        formdata = null;
       switch (e.target.getAttribute("name")) {
         case "our_users":
           url = "/api/admin/users/create";
           ref = OurUSersRef;
           const data = new FormData(ref.current);
-          body = {
+          formdata = JSON.stringify({
             title: data.get("title"),
             title_eng: data.get("title_eng"),
             description: data.get("description"),
@@ -90,7 +94,7 @@ const Home = () => {
               localStorage.getItem("_token"),
               "secretPassphrase"
             ).toString(enc.Utf8),
-          };
+          });
           headers = {
             "Content-Type": "application/json",
           };
@@ -98,23 +102,34 @@ const Home = () => {
         case "complated_projects":
           url = "/api/admin/projects/create";
           ref = ProductsRef;
-          projectFormData = new FormData(ref.current);
-          // body = {
-          //   title: projectFormData.get("project_name"),
-          //   title_eng: projectFormData.get("project_name_eng"),
-          //   description: projectFormData.get("description"),
-          //   description_eng: projectFormData.get("description_eng"),
-          //   images: projectFormData.getAll("images"),
-          // };
-          headers = {
-            "Content-Type": "multipart/form-data",
-          };
+          formdata = new FormData(ref?.current);
+          formdata.append(
+            "token",
+            AES.decrypt(
+              localStorage.getItem("_token"),
+              "secretPassphrase"
+            ).toString(enc.Utf8)
+          );
+          headers = {};
+          break;
+        case "about_us":
+          url = "/api/admin/aboutus/create";
+          ref = AboutUsRef;
+          formdata = new FormData(ref?.current);
+          formdata.append(
+            "token",
+            AES.decrypt(
+              localStorage.getItem("_token"),
+              "secretPassphrase"
+            ).toString(enc.Utf8)
+          );
+          headers = {};
           break;
       }
       fetch(url, {
         method: "POST",
         headers: headers,
-        body: projectFormData,
+        body: formdata,
       })
         .then((res) => res.json())
         .then((data) => {
@@ -179,17 +194,17 @@ const Home = () => {
           formClassName: "form",
           inputs: inputs,
           inputsCommonParentClass: "inputs_common_parent",
-          needTextarea: false,
           needTextareas: true,
           textareas,
           needButton: true,
           buttonClass: "form_button",
           buttonText: "დამატება",
-          ButtoncallBack: (e: Event) => {
+          ButtoncallBack: (e: SyntheticEvent) => {
+            return;
             // e.preventDefault();
             // CreateOurUSers;
           },
-          submit: CreateOurUSers,
+          submit: create,
         };
         modalProps = {
           modal_title: "მომხმარებლები",
@@ -250,7 +265,7 @@ const Home = () => {
         formProps = {
           name: "complated_projects",
           ref: ProductsRef,
-          submit: CreateOurUSers,
+          submit: create,
           needClose: true,
           ...close,
           needTitle: true,
@@ -258,7 +273,6 @@ const Home = () => {
           formClassName: "form",
           inputs: inputs,
           inputsCommonParentClass: "inputs_common_parent",
-          needTextArea: false,
           needTextareas: true,
           textareas: textareas,
           needFileUploader: true,
@@ -266,7 +280,7 @@ const Home = () => {
           needButton: true,
           buttonClass: "form_button",
           buttonText: "დამატება",
-          ButtoncallBack: (e: Event) => {
+          ButtoncallBack: (e: SyntheticEvent) => {
             // e.preventDefault();
             // console.log("clicked");
           },
@@ -281,11 +295,19 @@ const Home = () => {
         inputs = [
           {
             id: Date.now().toString(36) + Math.random().toString(36).slice(2),
-            name: "aboutUs",
+            name: "title",
             type: "text ",
             className: "form-input",
             placeholder: "სათაური",
-            needCommonParent: false,
+            needCommonParent: true,
+          },
+          {
+            id: Date.now().toString(36) + Math.random().toString(36).slice(2),
+            name: "title_eng",
+            type: "text ",
+            className: "form-input",
+            placeholder: "title",
+            needCommonParent: true,
           },
         ];
         textareas = [
@@ -298,7 +320,7 @@ const Home = () => {
           {
             id: Date.now().toString(36) + Math.random().toString(36).slice(2),
             textareaClass: "form_textarea",
-            textareaName: "description",
+            textareaName: "description_eng",
             textareaPlaceholder: "description",
           },
         ];
@@ -318,7 +340,9 @@ const Home = () => {
           fileUploaderName: "projectImages",
         };
         formProps = {
-          CreateOurUSers: CreateOurUSers,
+          name: "about_us",
+          ref: AboutUsRef,
+          submit: create,
           needClose: true,
           ...close,
           needTitle: true,
@@ -326,7 +350,6 @@ const Home = () => {
           formClassName: "form",
           inputs: inputs,
           inputsCommonParentClass: "inputs_common_parent",
-          needTextArea: false,
           needTextareas: true,
           textareas: textareas,
           needFileUploader: true,
@@ -334,9 +357,9 @@ const Home = () => {
           needButton: true,
           buttonClass: "form_button",
           buttonText: "დამატება",
-          ButtoncallBack: (e: Event) => {
-            e.preventDefault();
-            console.log("clicked");
+          ButtoncallBack: (e: SyntheticEvent) => {
+            // e.preventDefault();
+            // console.log("clicked");
           },
         };
         modalProps = {
@@ -353,6 +376,14 @@ const Home = () => {
             type: "text ",
             className: "form-input",
             placeholder: "მისამართი",
+            needCommonParent: true,
+          },
+          {
+            id: Date.now().toString(36) + Math.random().toString(36).slice(2),
+            name: "address",
+            type: "text ",
+            className: "form-input",
+            placeholder: "address",
             needCommonParent: true,
           },
           {
@@ -397,7 +428,9 @@ const Home = () => {
           hendler: ModalCloseHendler,
         };
         formProps = {
-          CreateOurUSers: CreateOurUSers,
+          name: "contacts",
+          ref: ContactsUsRef,
+          submit: create,
           needClose: true,
           ...close,
           needTitle: true,
@@ -405,16 +438,15 @@ const Home = () => {
           formClassName: "form",
           inputs: inputs,
           inputsCommonParentClass: "inputs_common_parent",
-          needTextArea: false,
           needTextareas: true,
           textareas: textareas,
           needFileUploader: false,
           needButton: true,
           buttonClass: "form_button",
           buttonText: "დამატება",
-          ButtoncallBack: (e: Event) => {
-            e.preventDefault();
-            console.log("clicked");
+          ButtoncallBack: (e: SyntheticEvent) => {
+            // e.preventDefault();
+            // console.log("clicked");
           },
         };
         modalProps = {
@@ -431,11 +463,15 @@ const Home = () => {
           <Navbar
             setOpendMenuItem={setOpendMenuItem}
             setIsModalOpen={setIsModalOpen}
+            data={pageData}
+            setPageData={setPageData}
           />
           <div className={styles.dashboard_body}>
             <DashboardBody
               setIsModalOpen={setIsModalOpen}
               opendMenuItem={opendMenuItem}
+              data={pageData}
+              setPageData={setPageData}
             />
           </div>
         </div>

@@ -29,7 +29,7 @@ class User implements UserInterface {
   ip: string;
 
   @Column("text", { nullable: true })
-  token: string;
+  token: string | string[];
 
   @Column("timestamp", { nullable: true })
   tokenExpire: Date;

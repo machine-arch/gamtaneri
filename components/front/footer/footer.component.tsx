@@ -1,7 +1,7 @@
 import styles from "./footer.module.css";
 import Form from "../../form/form.component";
 import Image from "next/image";
-import { FC } from "react";
+import { FC, SyntheticEvent } from "react";
 import { FooterProps } from "../../../config/interfaces/app.interfaces";
 import { FormPropsInterface } from "../../../config/interfaces/app.interfaces";
 
@@ -38,25 +38,27 @@ const Footer: FC<FooterProps> = (props: any) => {
       needCommonParent: false,
     },
   ];
-  const formTextarea = {
-    textareaClass: "form_textarea",
-    textareaName: "message",
-    textareaPlaceholder: props.dictionary
-      ? props.dictionary[props.localeKey]["message"]
-      : "შეტყობინება",
-  };
+  const formTextareas = [
+    {
+      textareaClass: "form_textarea",
+      textareaName: "message",
+      textareaPlaceholder: props.dictionary
+        ? props.dictionary[props.localeKey]["message"]
+        : "შეტყობინება",
+    },
+  ];
   const formProps: FormPropsInterface = {
     formClassName: "form",
     inputs: formInputs,
     inputsCommonParentClass: "inputs_common_parent",
-    needTextArea: true,
-    ...formTextarea,
+    needTextareas: true,
+    textareas: formTextareas,
     needButton: true,
     buttonClass: "form_button",
     buttonText: props.dictionary
       ? props.dictionary[props.localeKey]["send"]
       : "გაგზავნა",
-    ButtoncallBack: (e: Event) => {
+    ButtoncallBack: (e: SyntheticEvent) => {
       e.preventDefault();
       console.log("clicked");
     },
