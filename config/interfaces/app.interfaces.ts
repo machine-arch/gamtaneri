@@ -12,6 +12,7 @@ export interface HeaderProps {
 export interface FooterProps {
   dictionary: Object;
   localeKey: string;
+  contacts: Object;
 }
 
 export interface FormProps {

@@ -3,6 +3,7 @@ import User from "../../../../src/entity/user.entity";
 import ComplatedProjects from "../../../../src/entity/complatedprojects.entity";
 import AppDataSource from "../../../../src/config/ormConfig";
 import jwt from "jsonwebtoken";
+import nookies from "nookies";
 
 const GetAllProjects = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === "GET") {
@@ -21,8 +22,42 @@ const GetAllProjects = async (req: NextApiRequest, res: NextApiResponse) => {
           ComplatedProjects
         );
         if (complatedProjects) {
+          const data = [];
+          for (let i = 0; i < complatedProjects.length; i++) {
+            const project = complatedProjects[i];
+            if (nookies.get({ req })["locale"] === "en") {
+              const {
+                id,
+                project_name_eng,
+                description_eng,
+                updatedAt,
+                createdAt,
+              } = project;
+              const images = JSON.parse(project.images);
+              data.push({
+                id,
+                project_name_eng,
+                description_eng,
+                updatedAt,
+                createdAt,
+                images,
+              });
+            } else {
+              const { id, project_name, description, updatedAt, createdAt } =
+                project;
+              const images = JSON.parse(project.images);
+              data.push({
+                id,
+                project_name,
+                description,
+                updatedAt,
+                createdAt,
+                images,
+              });
+            }
+          }
           res.status(200).json({
-            resource: complatedProjects,
+            resource: data,
             status: 200,
             success: true,
           });

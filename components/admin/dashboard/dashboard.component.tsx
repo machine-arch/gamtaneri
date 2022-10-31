@@ -288,7 +288,6 @@ const Home = () => {
           buttonText: "დამატება",
           ButtoncallBack: (e: SyntheticEvent) => {
             // e.preventDefault();
-            // console.log("clicked");
           },
         };
         modalProps = {
@@ -454,7 +453,6 @@ const Home = () => {
           buttonText: "დამატება",
           ButtoncallBack: (e: SyntheticEvent) => {
             // e.preventDefault();
-            // console.log("clicked");
           },
         };
         modalProps = {

@@ -8,7 +8,7 @@ import {
 } from "react";
 import nookies from "nookies";
 
-export const localeContext: any = createContext<Context<{}>>(null);
+export const localeContext: any = createContext<Context<any>>(null);
 
 export const LocaleProvider: FC<PropsWithChildren> = ({ children }) => {
   const [dictionary, setDictionary] = useState(null);
@@ -32,8 +32,8 @@ export const LocaleProvider: FC<PropsWithChildren> = ({ children }) => {
      * @description  set locale key from cookies if it exists, if not set default locale in cookies
      */
     if (
-      !nookies.get(null, "locale") ||
-      nookies.get(null, "locale").locale !== ""
+      !nookies.get(null, "locale").locale
+      // nookies.get(null, "locale").locale !== ""
     ) {
       nookies.set(null, "locale", "ka", {
         path: "/",

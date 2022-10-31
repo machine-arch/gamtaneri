@@ -32,6 +32,11 @@ const Header: FC<headerProps> = (props) => {
       : null;
   };
 
+  const openModalHeader = () => {
+    props.setismodalopen(true);
+    props.setModalKey("FORM");
+  };
+
   return (
     <div className={styles.header_conteiner}>
       <div
@@ -83,6 +88,7 @@ const Header: FC<headerProps> = (props) => {
           name={
             dictionary ? dictionary[localeKey]["contactUs"] : "დაგვიკავშირდით"
           }
+          hendler={openModalHeader}
         />
       </div>
     </div>

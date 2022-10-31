@@ -23,9 +23,15 @@ body {
   font-family: notosans;
   max-width: 1500px;
   margin: 0 auto;
+  height: 100%;
 }
 html {
   scroll-behavior: smooth;
+}
+
+.conteiner {
+  width: 100%;
+  height: 100%;
 }
 
 /* ===============================================start_footer_form======================================== */

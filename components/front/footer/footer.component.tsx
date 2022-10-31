@@ -1,9 +1,10 @@
 import styles from "./footer.module.css";
 import Form from "../../form/form.component";
 import Image from "next/image";
-import { FC, SyntheticEvent } from "react";
+import { FC, SyntheticEvent, useContext, useEffect, useState } from "react";
 import { FooterProps } from "../../../config/interfaces/app.interfaces";
 import { FormPropsInterface } from "../../../config/interfaces/app.interfaces";
+import { localeContext } from "../../../context/locale-context";
 
 const Footer: FC<FooterProps> = (props: any) => {
   const formInputs = [
@@ -40,6 +41,7 @@ const Footer: FC<FooterProps> = (props: any) => {
   ];
   const formTextareas = [
     {
+      id: Date.now().toString(36) + Math.random().toString(36).slice(2),
       textareaClass: "form_textarea",
       textareaName: "message",
       textareaPlaceholder: props.dictionary
@@ -63,6 +65,11 @@ const Footer: FC<FooterProps> = (props: any) => {
       console.log("clicked");
     },
   };
+  const [contacts, setContacts] = useState(null);
+  const { localeKey } = useContext<any>(localeContext);
+  useEffect(() => {
+    setContacts(props.contacts);
+  }, [props.contacts]);
   return (
     <footer className={styles.footer_conteiner}>
       <div className={styles.contact_info_conteiner}>
@@ -80,7 +87,9 @@ const Footer: FC<FooterProps> = (props: any) => {
               height={24}
               layout="fixed"
             />
-            <p>Tbilisi,Georgia</p>
+            <p>
+              {localeKey === "en" ? contacts?.address_eng : contacts?.address}
+            </p>
           </div>
           <div className={styles.contact_info_emile}>
             <Image
@@ -90,7 +99,7 @@ const Footer: FC<FooterProps> = (props: any) => {
               height={24}
               layout="fixed"
             />
-            <p>example@mail.com</p>
+            <p>{contacts?.email}</p>
           </div>
           <div className={styles.contact_info_phone}>
             <Image
@@ -100,19 +109,14 @@ const Footer: FC<FooterProps> = (props: any) => {
               height={24}
               layout="fixed"
             />
-            <p>+995 123 321 321</p>
+            <p>{contacts?.phone}</p>
           </div>
         </div>
         <div className={styles.contac_info_text}>
           <p>
-            ეკოლოგიური პოლიტიკა და გარემოსდაცვითი ცნობიერების ამაღლება მსოფლიოს
-            წამყვანი ქვეყნების ნომერ პირველი ამოცანაა. ერთი შეხედვით „უსარგებლო
-            ნარჩენის“ „სასარგებლო რესურსად“ გარდაქმნას შეუძლია მნიშვნელოვნად
-            შეამციროს ეკოლოგიური კატასტროფის რისკები. ჩვენს ქვეყანაში ეკო
-            მოძრაობა პირველ ნაბიჯებს დგამს, ვითარდება და უფრო გვაახლოვებს
-            ევროპულ ღირებულებებთან. სწორედ ასეთი ღირებულებების მატარებელია
-            „ნარჩენების მართვის კომპანია გამტანერი“, რომელიც ბაზარზე შემოდის
-            ახალი მიდგომებით.
+            {localeKey === "en"
+              ? contacts?.description_eng
+              : contacts?.description}
           </p>
         </div>
         <div className={styles.contact_info_termsAndCvonditions}>

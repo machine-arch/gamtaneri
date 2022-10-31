@@ -4,13 +4,19 @@ import {
   ScrollContext,
   scrollContextInterface,
 } from "../../../context/scroll-context";
-import { createRef, RefObject, useContext } from "react";
+import { createRef, RefObject, useContext, useEffect, useState } from "react";
+import { localeContext } from "../../../context/locale-context";
 
-const AboutUs = () => {
+const AboutUs = (props: any) => {
   const imagesStyle = { borderRadius: "8px", overflow: "hidden" };
   const aboutUs: RefObject<HTMLDivElement> = createRef();
   const scrollContext: scrollContextInterface = useContext(ScrollContext);
   scrollContext.aboutUs = aboutUs;
+  const { localeKey } = useContext<any>(localeContext);
+  const [data, setData] = useState(null);
+  useEffect(() => {
+    setData(props.data);
+  }, [props.data]);
   return (
     <div className={styles.about_us_conteiner} ref={aboutUs}>
       <div className={styles.about_us_image} style={imagesStyle}>
@@ -23,18 +29,8 @@ const AboutUs = () => {
         />
       </div>
       <div className={styles.about_us_text}>
-        <h2>ჩვენს შესახებ</h2>
-        <p>
-          „ნარჩენების მართვის კომპანია გამტანერი“ შეიქმნა ნარჩენების მართვის
-          სფეროში მნიშვნელოვანი ცვლილებების განსახორციელებლად. გამტანერები
-          ინტენსიურად იმუშავებენ ნარჩენის წარმომქმნელებთან. თანამშრომლობის
-          მთავარი მიზანი არის არა მხოლოდ ნარჩენის გატანა, არამედ ცნობიერების
-          ამაღლება ნარჩენების მეორადი გამოყენების შესახებ. ნარჩენების სასარგებლო
-          რესურსად გარდაქმნა ჩვენი ქვეყნისთვის იქნება უდიდესი წინგადადგმული
-          ნაბიჯი ეკოლოგიის და ეკონომიკის კუთხით. ასეთი მიდგომა წარმომქმნელებს
-          შეუმცირებს ნარჩენის მოცილების ხარჯს სეპარირებული რესურსიდან მიღებული
-          შემოსავლით.
-        </p>
+        <h2>{localeKey === "en" ? data?.title_eng : data?.title}</h2>
+        <p>{localeKey === "en" ? data?.description_eng : data?.description}</p>
       </div>
     </div>
   );

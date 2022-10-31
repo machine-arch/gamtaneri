@@ -1,17 +1,29 @@
-import { NextComponentType } from "next";
 import styles from "./userssection.module.css";
-import React, { createRef, RefObject, useContext } from "react";
+import React, {
+  createRef,
+  RefObject,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import Carousel from "nuka-carousel/lib/carousel";
 import { CaruselConfig } from "../../../config/global.config";
 import {
   ScrollContext,
   scrollContextInterface,
 } from "../../../context/scroll-context";
+import { localeContext } from "../../../context/locale-context";
 
-const UsersSection: NextComponentType = () => {
+const UsersSection = (props: any) => {
   const userSection: RefObject<HTMLDivElement> = createRef();
   const scrollContext: scrollContextInterface = useContext(ScrollContext);
   scrollContext.userSection = userSection;
+  const [users, setUsers] = useState(null);
+  const { localeKey } = useContext<any>(localeContext);
+  useEffect(() => {
+    setUsers(props.users);
+  }, [props.users]);
+
   return (
     <div
       className={styles.userssection_conteiner}
@@ -28,46 +40,21 @@ const UsersSection: NextComponentType = () => {
         renderCenterLeftControls={({}) => null}
         renderCenterRightControls={({}) => null}
       >
-        <div className={styles.current_user}>
-          <h1>დასახელება</h1>
-          <span>10.11.2022</span>
-          <p>
-            ნარჩენების მართვის კომპანია „გამტანერის“ მთავარი ფასეულობა უხვად
-            დაგროვილი თეორიული ცოდნისა და პრაქტიკული გამოცდილების მარაგია.
-          </p>
-        </div>
-        <div className={styles.current_user}>
-          <h1>დასახელება</h1>
-          <span>10.11.2022</span>
-          <p>
-            ნარჩენების მართვის კომპანია „გამტანერის“ მთავარი ფასეულობა უხვად
-            დაგროვილი თეორიული ცოდნისა და პრაქტიკული გამოცდილების მარაგია.
-          </p>
-        </div>
-        <div className={styles.current_user}>
-          <h1>დასახელება</h1>
-          <span>10.11.2022</span>
-          <p>
-            ნარჩენების მართვის კომპანია „გამტანერის“ მთავარი ფასეულობა უხვად
-            დაგროვილი თეორიული ცოდნისა და პრაქტიკული გამოცდილების მარაგია.
-          </p>
-        </div>
-        <div className={styles.current_user}>
-          <h1>დასახელება</h1>
-          <span>10.11.2022</span>
-          <p>
-            ნარჩენების მართვის კომპანია „გამტანერის“ მთავარი ფასეულობა უხვად
-            დაგროვილი თეორიული ცოდნისა და პრაქტიკული გამოცდილების მარაგია.
-          </p>
-        </div>
-        <div className={styles.current_user}>
-          <h1>დასახელება</h1>
-          <span>10.11.2022</span>
-          <p>
-            ნარჩენების მართვის კომპანია „გამტანერის“ მთავარი ფასეულობა უხვად
-            დაგროვილი თეორიული ცოდნისა და პრაქტიკული გამოცდილების მარაგია.
-          </p>
-        </div>
+        {users
+          ? users.map((user: any) => {
+              return (
+                <div key={user.id} className={styles.current_user}>
+                  <h1>{localeKey === "en" ? user.title_eng : user.title}</h1>
+                  <span>{user.createdAt}</span>
+                  <p>
+                    {localeKey === "en"
+                      ? user.description_eng
+                      : user.description}
+                  </p>
+                </div>
+              );
+            })
+          : null}
       </Carousel>
     </div>
   );

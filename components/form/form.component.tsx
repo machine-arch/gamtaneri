@@ -65,29 +65,21 @@ const Form: FC<FormProps> = (props: any) => {
             return <input key={input.id} {...attrs} />;
           })
         : null}
-      {props?.FormProps?.needTextarea ? (
-        <textarea
-          className={props?.FormProps?.textareaClass}
-          name={props?.FormProps?.textareaName}
-          placeholder={props?.FormProps?.textareaPlaceholder}
-        ></textarea>
-      ) : null}
       {props?.FormProps?.needTextareas
         ? props.FormProps.textareas.map((textarea: any) => {
             return (
-              <>
-                <textarea
-                  key={textarea.id}
-                  className={textarea.textareaClass}
-                  name={textarea.textareaName}
-                  placeholder={textarea.textareaPlaceholder}
-                ></textarea>
-              </>
+              <textarea
+                key={textarea?.id}
+                className={textarea?.textareaClass}
+                name={textarea?.textareaName}
+                placeholder={textarea?.textareaPlaceholder}
+              ></textarea>
             );
           })
         : null}
       {props?.FormProps?.needFileUploader ? (
         <input
+          key={Math.random().toString()}
           type="file"
           className={props?.FormProps?.fileUploaderClass}
           multiple={props?.FormProps?.multiple}

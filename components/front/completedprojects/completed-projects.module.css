@@ -11,6 +11,7 @@
 
 .copleted_project {
   width: 95%;
+  cursor: pointer;
 }
 
 .completed_project_image {

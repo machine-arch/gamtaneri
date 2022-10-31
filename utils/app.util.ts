@@ -14,3 +14,7 @@ export const switchLanguage = (setLocale: any) => {
     });
   }
 };
+
+export function ModalCloseHendler(param: any) {
+  param(false);
+}

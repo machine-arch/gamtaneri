@@ -2,6 +2,7 @@ import { FC } from "react";
 import { modalProps } from "../../config/interfaces/app.interfaces";
 import Form from "../form/form.component";
 import styles from "./modal.module.css";
+import Gallery from "../gallery/gallery.component";
 
 const Modal: FC<modalProps> = (props) => {
   return (
@@ -14,6 +15,7 @@ const Modal: FC<modalProps> = (props) => {
               {props?.modalprops?.key === "FORM" ? (
                 <Form FormProps={props?.modalprops?.FormProps} />
               ) : null}
+              {props?.modalprops?.key === "GALLERY" ? <Gallery /> : null}
             </div>
           </div>
         </div>

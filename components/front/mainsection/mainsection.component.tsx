@@ -9,7 +9,7 @@ import {
 } from "../../../context/scroll-context";
 import { localeContext } from "../../../context/locale-context";
 
-const Mainsection: NextComponentType = () => {
+const Mainsection = (props: any) => {
   const [localeKey, setLocaleKey] = useState("");
   const [dictionary, setDictionary] = useState(null);
   const localeContextObject: any = useContext(localeContext);
@@ -20,6 +20,10 @@ const Mainsection: NextComponentType = () => {
   const mainSection: RefObject<HTMLDivElement> = createRef();
   const scrollContext: scrollContextInterface = useContext(ScrollContext);
   scrollContext.mainSection = mainSection;
+  const openModalHeader = () => {
+    props.setismodalopen(true);
+    props.setModalKey("FORM");
+  };
   return (
     <div
       className={styles.mainsection_conteiner}
@@ -36,6 +40,7 @@ const Mainsection: NextComponentType = () => {
           name={
             dictionary ? dictionary[localeKey]["contactUs"] : "დაგვიკავშირდით"
           }
+          hendler={openModalHeader}
         />
       </div>
       <div className={styles.mainsection_image_conteiner}>

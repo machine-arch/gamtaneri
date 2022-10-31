@@ -59,7 +59,6 @@ const UpdateProject = (req: NextApiRequest, res: NextApiResponse) => {
           );
           const oldImages = JSON.parse(project.images);
           filePaths.push(...oldImages);
-          console.log(filePaths);
           project.project_name = project_name;
           project.project_name_eng = project_name_eng;
           project.description = description;
