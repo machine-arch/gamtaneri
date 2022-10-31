@@ -1,7 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import OurUsers from "../../../../src/entity/ourusers.entity";
 import AppDataSource from "../../../../src/config/ormConfig";
-import nookies from "nookies";
 
 const GetAllUsers = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === "GET") {
@@ -23,11 +22,21 @@ const GetAllUsers = async (req: NextApiRequest, res: NextApiResponse) => {
         });
       }
     } catch (error) {
-      res.json({ message: "Token not valid", status: 401, success: false });
+      res.json({
+        resource: [],
+        message: "Token not valid",
+        status: 401,
+        success: false,
+      });
     }
     Connection.isInitialized ? Connection.destroy() : null;
   } else {
-    res.json({ message: "Method not Allowd", status: 405, success: false });
+    res.json({
+      resource: [],
+      message: "Method not Allowd",
+      status: 405,
+      success: false,
+    });
   }
 };
 

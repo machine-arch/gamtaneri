@@ -141,18 +141,12 @@ const Home: NextPage = (props: any) => {
 };
 
 export async function getServerSideProps({ req }) {
-  const loacale = nookies.get(null, "locale")["locale"] === "en" ? "en" : "ka";
   const projects = await fetch(
     "http://localhost:3000/api/client/projects/getall",
     {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        "set-cookie": `HttpOnly;Secure;locale=${
-          nookies.get(null, "locale")["locale"]
-            ? nookies.get(null, "locale")["locale"]
-            : "ka"
-        }`,
       },
     }
   )
@@ -164,9 +158,6 @@ export async function getServerSideProps({ req }) {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        "set-cookie": `HttpOnly;Secure;locale=${
-          nookies.get(null, "locale")["locale"]
-        }`,
       },
     }
   )
@@ -179,9 +170,6 @@ export async function getServerSideProps({ req }) {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        "set-cookie": `HttpOnly;Secure;locale=${
-          nookies.get(null, "locale")["locale"]
-        }`,
       },
     }
   )

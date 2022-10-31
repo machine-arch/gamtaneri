@@ -14,10 +14,16 @@ const GetContacts = async (req: NextApiRequest, res: NextApiResponse) => {
           .status(200)
           .json({ resource: contacts[0], status: 200, success: true });
       } else {
-        res.json({ status: 401, message: "data not found", success: false });
+        res.json({
+          resource: {},
+          status: 401,
+          message: "data not found",
+          success: false,
+        });
       }
     } catch (error) {
       res.json({
+        resource: {},
         status: 401,
         message: "Token not valid",
         success: false,
@@ -25,7 +31,12 @@ const GetContacts = async (req: NextApiRequest, res: NextApiResponse) => {
     }
     Connection.isInitialized ? Connection.destroy() : null;
   } else {
-    res.json({ message: "Method not Allowd", status: 405, success: false });
+    res.json({
+      resource: {},
+      message: "Method not Allowd",
+      status: 405,
+      success: false,
+    });
   }
 };
 

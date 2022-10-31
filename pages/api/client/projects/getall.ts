@@ -19,14 +19,29 @@ const GetAllProjects = async (req: NextApiRequest, res: NextApiResponse) => {
           success: true,
         });
       } else {
-        res.json({ message: "data not found", status: 404, success: false });
+        res.json({
+          resource: [],
+          message: "data not found",
+          status: 404,
+          success: false,
+        });
       }
     } catch (error) {
-      res.json({ message: "Token not valid", status: 401, success: false });
+      res.json({
+        resource: [],
+        message: "Token not valid",
+        status: 401,
+        success: false,
+      });
     }
     Connection.isInitialized ? Connection.destroy() : null;
   } else {
-    res.json({ message: "Method not Allowd", status: 405, success: false });
+    res.json({
+      resource: [],
+      message: "Method not Allowd",
+      status: 405,
+      success: false,
+    });
   }
 };
 
