@@ -16,7 +16,8 @@ const DeleteProject = async (req: NextApiRequest, res: NextApiResponse) => {
     });
     const user = await Connection?.manager?.findOne(User, { where: { email } });
     if (user) {
-      if (jwt.verify(token, process.env.JWT_SECRET)) {
+      try {
+        jwt.verify(token, process.env.JWT_SECRET);
         const project = await Connection?.manager?.findOne(ComplatedProjects, {
           where: { id },
         });
@@ -26,19 +27,23 @@ const DeleteProject = async (req: NextApiRequest, res: NextApiResponse) => {
             fs.unlinkSync(image);
           });
           await Connection?.manager?.remove(project);
-          res.status(200).json({ message: "Project deleted" });
+          res.status(200).json({ message: "Project deleted", success: true });
         } else {
-          res.status(404).json({ message: "Project not found" });
+          res.json({
+            message: "Project not found",
+            success: false,
+            status: 404,
+          });
         }
-      } else {
-        res.status(401).json({ message: "Unauthorized" });
+      } catch (error) {
+        res.json({ message: "Token not valid", success: false, status: 401 });
       }
     } else {
-      res.status(404).json({ message: "User not found" });
+      res.json({ message: "User not found", success: false, status: 404 });
     }
     Connection.isInitialized ? Connection.destroy() : null;
   } else {
-    res.status(404).json({ message: "Method not Allowd" });
+    res.json({ message: "Method not Allowd", success: false, status: 405 });
   }
 };
 

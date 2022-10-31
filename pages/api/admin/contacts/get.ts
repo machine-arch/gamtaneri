@@ -15,22 +15,29 @@ const GetAllContacts = async (req: NextApiRequest, res: NextApiResponse) => {
     });
     const user = await Connection?.manager?.findOne(User, { where: { email } });
     if (user) {
-      if (jwt.verify(token.toString(), process.env.JWT_SECRET)) {
+      try {
+        jwt.verify(token.toString(), process.env.JWT_SECRET);
         const contacts = await Connection?.manager?.find(Contact);
         if (contacts) {
-          res.status(200).json(contacts);
+          res
+            .status(200)
+            .json({ resource: contacts, status: 200, success: true });
         } else {
-          res.status(404).json({ message: "data not found" });
+          res.json({ status: 401, message: "data not found", success: false });
         }
-      } else {
-        res.status(401).json({ message: "Unauthorized" });
+      } catch (error) {
+        res.json({
+          status: 401,
+          message: "Token not valid",
+          success: false,
+        });
       }
     } else {
-      res.status(404).json({ message: "User not found" });
+      res.json({ message: "User not found", status: 404, success: false });
     }
     Connection.isInitialized ? Connection.destroy() : null;
   } else {
-    res.status(404).json({ message: "Method not Allowd" });
+    res.json({ message: "Method not Allowd", status: 405, success: false });
   }
 };
 

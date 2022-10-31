@@ -85,11 +85,17 @@ export interface buttonProps {
 }
 
 export interface modal {
-  modal_title: string;
-  FormProps: FormPropsInterface;
+  modal_title?: string;
+  FormProps?: FormPropsInterface;
+  key?: string;
   isOpen: boolean;
 }
 
 export interface modalProps {
   modalprops: modal;
+}
+
+export interface headerProps {
+  setismodalopen: Function;
+  setModalKey: Function;
 }

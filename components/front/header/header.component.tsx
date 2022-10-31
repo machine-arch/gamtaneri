@@ -9,8 +9,9 @@ import { useContext, useEffect, useState } from "react";
 import { localeContext } from "../../../context/locale-context";
 import { FC } from "react";
 import { switchLanguage } from "../../../utils/app.util";
+import { headerProps } from "../../../config/interfaces/app.interfaces";
 
-const Header: FC = () => {
+const Header: FC<headerProps> = (props) => {
   const [scrollRefs, setScrollRefs] = useState(null);
   const [localeKey, setLocaleKey] = useState("");
   const [dictionary, setDictionary] = useState(null);

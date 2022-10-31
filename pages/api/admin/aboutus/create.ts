@@ -6,6 +6,7 @@ import jwt from "jsonwebtoken";
 import formidable from "formidable-serverless";
 import path from "path";
 import slugify from "slugify";
+import nookies from "nookies";
 
 export const config = {
   api: {
@@ -42,7 +43,8 @@ const CreateAboutUs = async (req: NextApiRequest, res: NextApiResponse) => {
         },
       });
       if (user) {
-        if (jwt.verify(token, process.env.JWT_SECRET)) {
+        try {
+          jwt.verify(token, process.env.JWT_SECRET);
           const aboutUs = new AboutUs();
           aboutUs.title = title;
           aboutUs.title_eng = title_eng;
@@ -54,23 +56,32 @@ const CreateAboutUs = async (req: NextApiRequest, res: NextApiResponse) => {
           await Connection.getRepository(AboutUs).save(aboutUs);
           res.status(200).json({
             message: "About Us created",
+            success: true,
           });
-        } else {
-          res.status(400).json({
+        } catch (error) {
+          res.json({
             message: "Token not valid",
-            isVerified: false,
+            token: null,
+            success: false,
+            status: 401,
           });
         }
       } else {
-        res.status(400).json({
+        res.json({
           message: "User not found",
           isVerified: false,
+          token: null,
+          success: false,
+          status: 401,
         });
       }
       Connection.isInitialized ? Connection.destroy() : null;
     } else {
-      res.status(400).json({
+      res.json({
         message: "Method not allowed",
+        token: null,
+        success: false,
+        status: 405,
       });
     }
   });

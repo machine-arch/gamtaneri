@@ -28,7 +28,8 @@ const UpdateContacts = async (req: NextApiRequest, res: NextApiResponse) => {
       },
     });
     if (user) {
-      if (jwt.verify(token, process.env.JWT_SECRET)) {
+      try {
+        jwt.verify(token, process.env.JWT_SECRET);
         const contacts = await Connection.getRepository(Contacts).findOne({
           where: {
             id,
@@ -45,20 +46,27 @@ const UpdateContacts = async (req: NextApiRequest, res: NextApiResponse) => {
         await Connection.getRepository(Contacts).save(contacts);
         res.status(200).json({
           message: "Contacts updated",
+          success: true,
         });
-      } else {
-        res.status(400).json({
+      } catch (error) {
+        res.json({
           message: "Token not valid",
+          success: false,
+          status: 401,
         });
       }
     } else {
-      res.status(400).json({
+      res.json({
         message: "User not found",
+        success: false,
+        status: 404,
       });
     }
   } else {
-    res.status(400).json({
+    res.json({
       message: "Method not allowed",
+      status: 405,
+      success: false,
     });
   }
 };

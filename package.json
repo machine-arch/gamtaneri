@@ -6,10 +6,10 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
+    "start": "SET APP_ENV=production && nodemon app.js",
     "lint": "next lint",
     "orm:build": "tsc --build  src",
-    "migrations:generate": "npm run orm:bild && typeorm migration:generate  -d src/dist/src/config/ormConfig.js",
+    "migrations:generate": "typeorm migration:generate  -d src/dist/src/config/ormConfig.js",
     "migration:create": "typeorm migration:create src/migrations/user",
     "migration:run": "npm run orm:build && typeorm migration:run -d src/dist/src/config/ormConfig.js"
   },
@@ -27,6 +27,7 @@
     "mysql2": "^2.3.3",
     "next": "12.3.0",
     "next-connect": "^0.13.0",
+    "nodemon": "^2.0.20",
     "nookies": "^2.5.2",
     "nuka-carousel": "^5.3.0",
     "react": "18.2.0",
@@ -34,7 +35,6 @@
     "react-loader-spinner": "^5.3.4",
     "react-scroll": "^1.8.7",
     "reflect-metadata": "^0.1.13",
-    "sharp": "^0.31.1",
     "slugify": "^1.6.5",
     "ts-node": "^10.9.1",
     "typeorm": "^0.3.10"

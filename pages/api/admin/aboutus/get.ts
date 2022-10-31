@@ -3,6 +3,7 @@ import User from "../../../../src/entity/user.entity";
 import AboutUs from "../../../../src/entity/aboutus.entity";
 import AppDataSource from "../../../../src/config/ormConfig";
 import jwt from "jsonwebtoken";
+import nookies from "nookies";
 
 const GetAboutUs = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === "GET") {
@@ -15,22 +16,25 @@ const GetAboutUs = async (req: NextApiRequest, res: NextApiResponse) => {
     });
     const user = await Connection?.manager?.findOne(User, { where: { email } });
     if (user) {
-      if (jwt.verify(token.toString(), process.env.JWT_SECRET)) {
+      try {
+        jwt.verify(token.toString(), process.env.JWT_SECRET);
         const aboutus = await Connection?.manager?.find(AboutUs);
         if (aboutus) {
-          res.status(200).json(aboutus);
+          res
+            .status(200)
+            .json({ resource: aboutus, status: 200, success: true });
         } else {
-          res.status(404).json({ message: "data not found" });
+          res.json({ message: "data not found", status: 404, success: false });
         }
-      } else {
-        res.status(401).json({ message: "Unauthorized" });
+      } catch (error) {
+        res.json({ message: "Token not valid", status: 401, success: false });
       }
     } else {
-      res.status(404).json({ message: "User not found" });
+      res.json({ message: "User not found", status: 404, success: false });
     }
     Connection.isInitialized ? Connection.destroy() : null;
   } else {
-    res.status(404).json({ message: "Method not Allowd" });
+    res.json({ message: "Method not Allowd", status: 405, success: false });
   }
 };
 

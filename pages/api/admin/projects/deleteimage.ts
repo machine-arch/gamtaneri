@@ -20,7 +20,8 @@ const DeleteSingleImage = async (req: NextApiRequest, res: NextApiResponse) => {
       },
     });
     if (user) {
-      if (jwt.verify(token, process.env.JWT_SECRET)) {
+      try {
+        jwt.verify(token, process.env.JWT_SECRET);
         const project = await Connection.getRepository(
           ComplatedProjects
         ).findOne({
@@ -36,27 +37,34 @@ const DeleteSingleImage = async (req: NextApiRequest, res: NextApiResponse) => {
           fs.unlinkSync(`./public/uploads/${image}`);
           res.status(200).json({
             message: "Image deleted",
+            success: true,
           });
         } else {
-          res.status(400).json({
+          res.json({
             message: "Project not found",
+            success: false,
+            status: 404,
           });
         }
-      } else {
-        res.status(400).json({
+      } catch (error) {
+        res.json({
           message: "Token not valid",
-          isVerified: false,
+          success: false,
+          status: 401,
         });
       }
     } else {
-      res.status(400).json({
+      res.json({
         message: "User not found",
-        isVerified: false,
+        success: false,
+        status: 404,
       });
     }
   } else {
-    res.status(400).json({
+    res.json({
       message: "Method not allowed",
+      success: false,
+      status: 405,
     });
   }
 };

@@ -21,19 +21,25 @@ const DeleteOurUser = async (req: NextApiRequest, res: NextApiResponse) => {
         });
         if (ourUser) {
           await Connection?.manager?.remove(ourUser);
-          res.status(200).json({ message: "Our User deleted" });
+          res
+            .status(200)
+            .json({ message: "Our User deleted", status: 200, success: true });
         } else {
-          res.status(404).json({ message: "Our User not found" });
+          res.json({
+            message: "Our User not found",
+            status: 404,
+            success: false,
+          });
         }
       } else {
-        res.status(401).json({ message: "Unauthorized" });
+        res.json({ message: "Token not valid", status: 401, success: false });
       }
     } else {
-      res.status(404).json({ message: "User not found" });
+      res.json({ message: "User not found", status: 404, success: false });
     }
     Connection.isInitialized ? Connection.destroy() : null;
   } else {
-    res.status(404).json({ message: "Method not Allowd" });
+    res.json({ message: "Method not Allowd", status: 405, success: false });
   }
 };
 

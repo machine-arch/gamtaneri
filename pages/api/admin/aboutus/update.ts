@@ -43,7 +43,8 @@ const UpdateAboutUs = async (req: NextApiRequest, res: NextApiResponse) => {
         },
       });
       if (user) {
-        if (jwt.verify(token, process.env.JWT_SECRET)) {
+        try {
+          jwt.verify(token, process.env.JWT_SECRET);
           const aboutUs = await Connection?.getRepository(AboutUs).findOne({
             where: {
               id,
@@ -60,23 +61,28 @@ const UpdateAboutUs = async (req: NextApiRequest, res: NextApiResponse) => {
           await Connection.getRepository(AboutUs).save(aboutUs);
           res.status(200).json({
             message: "About Us updated",
+            success: true,
           });
-        } else {
-          res.status(400).json({
+        } catch (error) {
+          res.json({
             message: "Token not valid",
-            isVerified: false,
+            isuccess: false,
+            status: 401,
           });
         }
       } else {
-        res.status(400).json({
+        res.json({
           message: "User not found",
-          isVerified: false,
+          success: false,
+          status: 401,
         });
       }
       Connection.isInitialized ? Connection.destroy() : null;
     } else {
-      res.status(400).json({
+      res.json({
         message: "Method not allowed",
+        success: false,
+        status: 405,
       });
     }
   });

@@ -49,7 +49,8 @@ const UpdateProject = (req: NextApiRequest, res: NextApiResponse) => {
       });
       const user = Connection?.manager?.findOne(User, { where: { email } });
       if (user) {
-        if (jwt.verify(token, process.env.JWT_SECRET)) {
+        try {
+          jwt.verify(token, process.env.JWT_SECRET);
           const project = await Connection?.manager?.findOne(
             ComplatedProjects,
             {
@@ -70,15 +71,15 @@ const UpdateProject = (req: NextApiRequest, res: NextApiResponse) => {
             : project.images;
           await Connection.manager.save(project);
           res.status(200).json({ success: true, message: "add sucess" });
-        } else {
-          res.status(401).json({ success: false, message: "unauthorized" });
+        } catch (err) {
+          res.json({ success: false, message: "Token not valid", status: 401 });
         }
       } else {
-        res.status(401).json({ success: false, message: "not authorized" });
+        res.json({ success: false, message: "User not found", status: 401 });
       }
       Connection.isInitialized ? Connection.destroy() : null;
     } else {
-      res.status(405).json({ success: false, message: "method not allowed" });
+      res.json({ success: false, message: "method not allowed", status: 405 });
     }
   });
 };

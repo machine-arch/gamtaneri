@@ -18,19 +18,21 @@ const GetAllUsers = async (req: NextApiRequest, res: NextApiResponse) => {
       if (jwt.verify(token.toString(), process.env.JWT_SECRET)) {
         const ourUsers = await Connection?.manager?.find(OurUsers);
         if (ourUsers) {
-          res.status(200).json(ourUsers);
+          res
+            .status(200)
+            .json({ resource: ourUsers, success: true, status: 200 });
         } else {
-          res.status(404).json({ message: "data not found" });
+          res.json({ message: "data not found", status: 404, success: false });
         }
       } else {
-        res.status(401).json({ message: "Unauthorized" });
+        res.json({ message: "Token not valid", status: 401, success: false });
       }
     } else {
-      res.status(404).json({ message: "User not found" });
+      res.json({ message: "User not found", status: 404, success: false });
     }
     Connection.isInitialized ? Connection.destroy() : null;
   } else {
-    res.status(404).json({ message: "Method not Allowd" });
+    res.json({ message: "Method not Allowd", status: 405, success: false });
   }
 };
 

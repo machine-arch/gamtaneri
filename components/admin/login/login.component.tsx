@@ -49,6 +49,11 @@ const Login: FC = () => {
             .then(async (data) => {
               if ((await data) && (await data.isValid)) {
                 authContextObject.setUser(data.user);
+                const token = AES.encrypt(
+                  data.user.token,
+                  "secretPassphrase"
+                ).toString();
+                localStorage.setItem("_token", token);
                 needRedairect.current = true;
                 setShowSpinner(false);
               } else if ((await data) && !(await data.isValid)) {
@@ -87,11 +92,12 @@ const Login: FC = () => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          "accept-control-allow-origin": "*", // for cors
         },
         body: JSON.stringify(requestBody),
       };
       setNeedLoader(true);
-      await fetch("http://localhost:3000/api/admin/login", params)
+      await fetch("/api/admin/login", params)
         .then((res) => res.json())
         .then((data) => {
           setNeedLoader(false);
@@ -101,7 +107,6 @@ const Login: FC = () => {
             authContextObject.setUser(data.user);
             router.push("/admin/dashboard");
           } else if (data && data.message === "Invalid Password") {
-            console.log(data.message);
           } else if (
             data &&
             data.message === "Invalid Email, or user not exit"
@@ -113,7 +118,7 @@ const Login: FC = () => {
         });
     };
 
-    const getvalues = (e: any) => {
+    const getvalues = async (e: any) => {
       e.preventDefault();
       if (e.currentTarget.name === "email") {
         requestBody.email = e.currentTarget.value;

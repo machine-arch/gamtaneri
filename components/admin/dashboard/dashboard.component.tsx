@@ -7,7 +7,7 @@ import Header from "../header/header.component";
 import Navbar from "./../navbar/navbar.component";
 import styles from "./dashboard.module.css";
 import DashboardBody from "./dashboardbody/dashboardbody.component";
-import Modal from "../modal/modal.component";
+import Modal from "../../modal/modal.component";
 import { FormPropsInterface } from "../../../config/interfaces/app.interfaces";
 
 const Home = () => {
@@ -40,6 +40,11 @@ const Home = () => {
                 setNeedRedirect(true);
               } else if (data && data.isValid) {
                 authContextObject.setUser(data.user);
+                const token = AES.encrypt(
+                  data.user.token,
+                  "secretPassphrase"
+                ).toString();
+                localStorage.setItem("_token", token);
               }
             })
             .catch((err) => {
@@ -210,6 +215,7 @@ const Home = () => {
           modal_title: "მომხმარებლები",
           FormProps: formProps,
           isOpen: isModalOpen,
+          key: "FORM",
         };
         break;
       case "complated_projects":
@@ -289,6 +295,7 @@ const Home = () => {
           modal_title: "დასრულებული პროექტები",
           FormProps: formProps,
           isOpen: isModalOpen,
+          key: "FORM",
         };
         break;
       case "about_us":
@@ -366,6 +373,7 @@ const Home = () => {
           modal_title: "ჩვენს შესახებ",
           FormProps: formProps,
           isOpen: isModalOpen,
+          key: "FORM",
         };
         break;
       case "contact":
@@ -453,6 +461,7 @@ const Home = () => {
           modal_title: "ჩვენს შესახებ",
           FormProps: formProps,
           isOpen: isModalOpen,
+          key: "FORM",
         };
     }
     return (

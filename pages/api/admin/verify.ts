@@ -14,32 +14,39 @@ const CheckToken = async (req: NextApiRequest, res: NextApiResponse) => {
       where: { token },
     });
     if (user) {
-      if (jwt.verify(token, process.env.JWT_SECRET)) {
+      try {
+        jwt.verify(token, process.env.JWT_SECRET);
         res
           .setHeader("Content-Type", "application/json")
           .json({ user, isValid: true, status: 200 });
-      } else {
+      } catch (error) {
         const refreshToken = nookies.get({ req })["refreshToken"];
         if (refreshToken) {
-          jwt.verify(refreshToken, process.env.JWT_SECRET);
-          const accesToken = jwt.sign(
-            { id: user.id, email: user.email },
-            process.env.JWT_SECRET,
-            {
-              expiresIn: "2h",
-            }
-          );
-          user.token = accesToken;
-          const date = new Date();
-          date.setHours(date.getHours() + 2);
-          user.tokenExpire = date;
-          await Connection.manager.save(user);
-          res
-            .setHeader("Content-Type", "application/json")
-            .json({ user, isValid: true, status: 200 });
+          try {
+            jwt.verify(refreshToken, process.env.JWT_SECRET);
+            const accesToken = jwt.sign(
+              { id: user.id, email: user.email },
+              process.env.JWT_SECRET,
+              {
+                expiresIn: "2h",
+              }
+            );
+            user.token = accesToken;
+            const date = new Date();
+            date.setHours(date.getHours() + 2);
+            user.tokenExpire = date;
+            await Connection.manager.save(user);
+            res
+              .setHeader("Content-Type", "application/json")
+              .json({ user, isValid: true, status: 200 });
+          } catch (error) {
+            res
+              .setHeader("Content-Type", "application/json")
+              .json({ isValid: false, status: 401 });
+          }
         } else {
           res.setHeader("Content-Type", "application/json").json({
-            message: "Token Expired",
+            message: "no refresh token",
             status: 401,
             errorType: "unauthorized",
             isValid: false,
@@ -48,7 +55,7 @@ const CheckToken = async (req: NextApiRequest, res: NextApiResponse) => {
       }
     } else {
       res.setHeader("Content-Type", "application/json").json({
-        message: "Invalid Token",
+        message: "no user found",
         status: 401,
         errorType: "unauthorized",
         isValid: false,

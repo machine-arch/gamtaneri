@@ -6,7 +6,7 @@ import bcrypt from "bcryptjs";
 import nookies from "nookies";
 
 const Auth = async (req: NextApiRequest, res: NextApiResponse) => {
-  if (req.method === "POST" && req.socket.localAddress === "::1") {
+  if (req.method === "POST") {
     const Connection = await AppDataSource.initialize();
     const tokenExpairy = "2h";
     const { email, password } = req.body;
@@ -26,7 +26,7 @@ const Auth = async (req: NextApiRequest, res: NextApiResponse) => {
           { id: user.id, email: user.email },
           process.env.JWT_SECRET,
           {
-            expiresIn: "1d",
+            expiresIn: "2d",
           }
         );
 

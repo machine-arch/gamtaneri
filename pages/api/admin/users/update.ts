@@ -35,23 +35,29 @@ const UpdateUser = async (req: NextApiRequest, res: NextApiResponse) => {
         await Connection.getRepository(User).save(ourUser);
         res.status(200).json({
           message: "User created",
+          status: 200,
+          success: true,
         });
       } else {
-        res.status(400).json({
+        res.json({
           message: "Token not valid",
-          isVerified: false,
+          status: 401,
+          success: false,
         });
       }
     } else {
-      res.status(400).json({
+      res.json({
         message: "User not found",
-        isVerified: false,
+        status: 404,
+        success: false,
       });
     }
     Connection.isInitialized ? Connection.destroy() : null;
   } else {
-    res.status(400).json({
+    res.json({
       message: "Method not allowed",
+      status: 405,
+      success: false,
     });
   }
 };

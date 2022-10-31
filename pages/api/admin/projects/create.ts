@@ -44,7 +44,8 @@ const CreateProject = async (req: NextApiRequest, res: NextApiResponse) => {
       });
       const user = Connection?.manager?.findOne(User, { where: { email } });
       if (user) {
-        if (jwt.verify(token, process.env.JWT_SECRET)) {
+        try {
+          jwt.verify(token, process.env.JWT_SECRET);
           const project = new ComplatedProjects();
           project.project_name = project_name;
           project.project_name_eng = project_name_eng;
@@ -55,15 +56,25 @@ const CreateProject = async (req: NextApiRequest, res: NextApiResponse) => {
           project.images = JSON.stringify(filePaths);
           await Connection.manager.save(project);
           res.status(200).json({ success: true, message: "add sucess" });
-        } else {
-          res.status(401).json({ success: false, message: "unauthorized" });
+        } catch {
+          res.json({
+            success: false,
+            message: "token not valid",
+            status: 401,
+          });
         }
       } else {
-        res.status(401).json({ success: false, message: "not authorized" });
+        res.json({
+          success: false,
+          message: "User not found",
+          status: 404,
+        });
       }
       Connection.isInitialized ? Connection.destroy() : null;
     } else {
-      res.status(405).json({ success: false, message: "method not allowed" });
+      res
+        .status(405)
+        .json({ success: false, message: "method not allowed", status: 405 });
     }
   });
 };

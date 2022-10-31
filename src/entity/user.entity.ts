@@ -13,7 +13,6 @@ class User implements UserInterface {
   lastName: string;
 
   @Column("text", { nullable: true })
-  @Index({ unique: true })
   email: string;
 
   @Column("text", { nullable: false })

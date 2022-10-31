@@ -1,6 +1,6 @@
 import styles from "./navbar.module.css";
 import { useState } from "react";
-import { useRouter } from "next/router";
+import router, { useRouter } from "next/router";
 import AES from "crypto-js/aes";
 import { enc } from "crypto-js";
 
@@ -42,8 +42,20 @@ const Navbar = (props: any) => {
       fetch(fetchUrl)
         .then((res) => res.json())
         .then((data) => {
-          props.setPageData(data);
-          console.log(data);
+          if (data.status === 200 && data.resource && data.success) {
+            props.setPageData(data.resource);
+          } else {
+            props.setPageData(null);
+            if (
+              (!data.success && data.status === 401) ||
+              (!data.success &&
+                data.status === 404 &&
+                data.message === "User not found")
+            ) {
+              localStorage.removeItem("_token");
+              router.push("/admin/login");
+            }
+          }
         })
         .catch((err) => {
           props.setPageData([]);
