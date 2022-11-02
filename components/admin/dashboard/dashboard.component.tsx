@@ -184,16 +184,14 @@ const Home = () => {
           title: "მომხმარებლის დამატება",
         };
         close = {
-          closeClassname: "form_close",
-          closeLogoClassname: "footer_close_logo",
+          closeClassname: "modal_close",
+          closeLogoClassname: "modal_close_logo",
           closeSrc: "/images/close.svg",
           hendler: ModalCloseHendler,
         };
         formProps = {
           name: "our_users",
           ref: OurUSersRef,
-          needClose: true,
-          ...close,
           needTitle: true,
           ...title,
           formClassName: "form",
@@ -216,6 +214,8 @@ const Home = () => {
           FormProps: formProps,
           isOpen: isModalOpen,
           key: "FORM",
+          needClose: true,
+          ...close,
         };
         break;
       case "complated_projects":
@@ -263,8 +263,8 @@ const Home = () => {
           fileUploaderName: "images",
         };
         close = {
-          closeClassname: "form_close",
-          closeLogoClassname: "close_logo",
+          closeClassname: "modal_close",
+          closeLogoClassname: "modal_close_logo",
           closeSrc: "/images/close.svg",
           hendler: ModalCloseHendler,
         };
@@ -272,8 +272,6 @@ const Home = () => {
           name: "complated_projects",
           ref: ProductsRef,
           submit: create,
-          needClose: true,
-          ...close,
           needTitle: true,
           ...title,
           formClassName: "form",
@@ -295,6 +293,8 @@ const Home = () => {
           FormProps: formProps,
           isOpen: isModalOpen,
           key: "FORM",
+          needClose: true,
+          ...close,
         };
         break;
       case "about_us":
@@ -335,8 +335,8 @@ const Home = () => {
           title: "ჩვენს შესახებ",
         };
         close = {
-          closeClassname: "form_close",
-          closeLogoClassname: "close_logo",
+          closeClassname: "modal_close",
+          closeLogoClassname: "modal_close_logo",
           closeSrc: "/images/close.svg",
           hendler: ModalCloseHendler,
         };
@@ -349,8 +349,6 @@ const Home = () => {
           name: "about_us",
           ref: AboutUsRef,
           submit: create,
-          needClose: true,
-          ...close,
           needTitle: true,
           ...title,
           formClassName: "form",
@@ -373,6 +371,8 @@ const Home = () => {
           FormProps: formProps,
           isOpen: isModalOpen,
           key: "FORM",
+          needClose: true,
+          ...close,
         };
         break;
       case "contact":
@@ -429,8 +429,8 @@ const Home = () => {
           title: "კონტაქტი",
         };
         close = {
-          closeClassname: "form_close",
-          closeLogoClassname: "close_logo",
+          closeClassname: "modal_close",
+          closeLogoClassname: "modal_close_logo",
           closeSrc: "/images/close.svg",
           hendler: ModalCloseHendler,
         };
@@ -438,8 +438,6 @@ const Home = () => {
           name: "contacts",
           ref: ContactsUsRef,
           submit: create,
-          needClose: true,
-          ...close,
           needTitle: true,
           ...title,
           formClassName: "form",
@@ -460,6 +458,8 @@ const Home = () => {
           FormProps: formProps,
           isOpen: isModalOpen,
           key: "FORM",
+          needClose: true,
+          ...close,
         };
     }
     return (

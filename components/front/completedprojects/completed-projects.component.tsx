@@ -20,9 +20,12 @@ const CompletedProjects = (props: any) => {
     setProjects(props.projects);
   }, [props.projects]);
 
-  const openProjectHendler = () => {
+  const openProjectHendler = (e) => {
     props.setismodalopen(true);
     props.setModalKey("GALLERY");
+    const current_el_id = e.currentTarget.getAttribute("itemID");
+    const current_el = projects.find((el: any) => el.id == current_el_id);
+    props.setcurrentproject(current_el);
   };
   return (
     <div
@@ -36,21 +39,18 @@ const CompletedProjects = (props: any) => {
         slidesToShow={3}
         renderCenterLeftControls={() => null}
         renderCenterRightControls={() => null}
+        dragging={true}
       >
         {projects
           ? projects.map((project: any) => {
               return (
-                <div
-                  key={project.id}
-                  className={styles.copleted_project}
-                  onClick={openProjectHendler}
-                >
+                <div key={project.id} className={styles.copleted_project}>
                   <div
-                    className={styles.completed_project_image}
+                    className={styles.completed_project_image_conteiner}
                     style={imagesStyle}
                   >
                     <Image
-                      src={"/uploads/project_one.jpg"}
+                      src={JSON.parse(project.images)[0]}
                       alt={
                         localeKey === "en"
                           ? project.project_name_eng
@@ -61,8 +61,9 @@ const CompletedProjects = (props: any) => {
                       sizes="100vw"
                       layout="responsive"
                       priority={true}
+                      className={styles.completed_project_image}
                     />
-                    <h2>
+                    <h2 onClick={openProjectHendler} itemID={project.id}>
                       {localeKey === "en"
                         ? project.description_eng
                         : project.description}

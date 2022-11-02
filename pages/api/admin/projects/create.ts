@@ -22,7 +22,10 @@ const filePaths = [];
 
 form.on("fileBegin", (name, file) => {
   file.path = path.join(form.uploadDir, slugify(file.name));
-  filePaths.push(path.relative(process.cwd(), file.path));
+  const filePath = path
+    .relative(process.cwd(), file.path)
+    .replace("public", "");
+  filePaths.push(filePath.replace(/\\/g, "/"));
 });
 
 const CreateProject = async (req: NextApiRequest, res: NextApiResponse) => {
@@ -38,7 +41,6 @@ const CreateProject = async (req: NextApiRequest, res: NextApiResponse) => {
         description_eng,
         token,
       } = fields;
-      console.log(fields);
       const { email } = jwt.decode(token, {
         json: true,
       });

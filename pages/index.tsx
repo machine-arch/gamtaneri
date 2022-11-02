@@ -11,13 +11,13 @@ import Footer from "../components/front/footer/footer.component";
 import { localeContext } from "../context/locale-context";
 import Modal from "../components/modal/modal.component";
 import { FormPropsInterface } from "../config/interfaces/app.interfaces";
-import nookies from "nookies";
 
 const Home: NextPage = (props: any) => {
   const [localeKey, setLocaleKey] = useState("");
   const [dictionary, setDictionary] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalKey, setModalKey] = useState("");
+  const [currentProject, setCurrentProject] = useState(null);
   const localeContextObject: any = useContext(localeContext);
   useEffect(() => {
     setLocaleKey(localeContextObject.localeKey);
@@ -70,8 +70,8 @@ const Home: NextPage = (props: any) => {
   ];
 
   const close = {
-    closeClassname: "form_close",
-    closeLogoClassname: "footer_close_logo",
+    closeClassname: "modal_close",
+    closeLogoClassname: "modal_close_logo",
     closeSrc: "/images/close.svg",
     hendler: ModalCloseHendler,
   };
@@ -96,6 +96,9 @@ const Home: NextPage = (props: any) => {
     FormProps: formProps,
     isOpen: isModalOpen,
     key: modalKey,
+    currentproject: currentProject,
+    needClose: true,
+    ...close,
   };
   return (
     <div className="conteiner">
@@ -123,6 +126,7 @@ const Home: NextPage = (props: any) => {
         <CompletedProjects
           setismodalopen={setIsModalOpen}
           setModalKey={setModalKey}
+          setcurrentproject={setCurrentProject}
           projects={props.projects}
         />
       </section>

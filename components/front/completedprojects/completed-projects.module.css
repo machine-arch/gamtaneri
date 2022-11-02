@@ -14,11 +14,12 @@
   cursor: pointer;
 }
 
-.completed_project_image {
+.completed_project_image_conteiner {
   border-radius: 8px !important;
-  display: flex;
-  flex-direction: column;
-  position: relative;
+}
+
+.completed_project_image {
+  pointer-events: none;
 }
 
 .copleted_project h2 {

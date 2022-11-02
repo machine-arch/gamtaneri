@@ -18,20 +18,6 @@ const Form: FC<FormProps> = (props: any) => {
       ref={props?.FormProps?.ref}
       name={props?.FormProps?.name}
     >
-      {props?.FormProps?.needClose ? (
-        <div
-          className={props?.FormProps?.closeClassname}
-          onClick={props?.FormProps?.hendler}
-        >
-          <Image
-            className={props?.FormProps?.closeLogoClassname}
-            src={props?.FormProps?.closeSrc}
-            alt="main logo"
-            width={20}
-            height={20}
-          />
-        </div>
-      ) : null}
       {props?.FormProps?.needTitle ? (
         <h1 className={props?.FormProps?.titleClassname}>
           {props?.FormProps?.title}

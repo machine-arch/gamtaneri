@@ -90,6 +90,12 @@ export interface modal {
   FormProps?: FormPropsInterface;
   key?: string;
   isOpen: boolean;
+  currentproject?: any;
+  needClose?: boolean;
+  closeClassname?: string;
+  closeLogoClassname?: string;
+  closeSrc?: string;
+  hendler?: any;
 }
 
 export interface modalProps {
