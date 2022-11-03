@@ -43,7 +43,7 @@
   justify-content: space-between;
   width: 70%;
 }
-.contact_info_termsAndCvonditions {
+.contact_info_termsAndConditions {
   font-size: 13px;
   color: var(--grey);
 }
@@ -61,4 +61,7 @@
   margin-left: 10px;
   color: var(--grey);
   font-size: 14px;
+}
+.contact_us {
+  width: 35%;
 }

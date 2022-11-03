@@ -26,7 +26,10 @@ const CreateAboutUs = async (req: NextApiRequest, res: NextApiResponse) => {
 
   form.on("fileBegin", (name, file) => {
     file.path = path.join(form.uploadDir, slugify(file.name));
-    ImagePath = path.relative(process.cwd(), file.path);
+    const filePath = path
+      .relative(process.cwd(), file.path)
+      .replace("public", "");
+    ImagePath = filePath.replace(/\\/g, "/");
   });
   form.parse(req, async (err, fields, files) => {
     if (req.method === "POST") {

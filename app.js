@@ -8,7 +8,7 @@ const prod= process.env.NODE_ENV !== 'development'
 const hostname = 'localhost'
 const port = 3000
 // when using middleware `hostname` and `port` must be provided below
-const app = next({ prod, hostname, port })
+const app = next({ dev, hostname, port })
 const handle = app.getRequestHandler()
 
 

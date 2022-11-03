@@ -71,7 +71,7 @@ const Home = () => {
     let formProps: FormPropsInterface;
     let fileUploader = {};
     let title = {};
-    let close = {};
+    let modalHeader = {};
     let modalProps = null;
 
     const ModalCloseHendler = () => {
@@ -183,11 +183,12 @@ const Home = () => {
           titleClassname: "form_title",
           title: "მომხმარებლის დამატება",
         };
-        close = {
-          closeClassname: "modal_close",
-          closeLogoClassname: "modal_close_logo",
-          closeSrc: "/images/close.svg",
-          hendler: ModalCloseHendler,
+        modalHeader = {
+          headerClassname: "dashboard_modal_header",
+          headerLogoClassname: "modal_close_logo",
+          headerCloseImageSrc: "/images/close.svg",
+          needHeaderTitle: false,
+          colosHendler: ModalCloseHendler,
         };
         formProps = {
           name: "our_users",
@@ -214,8 +215,9 @@ const Home = () => {
           FormProps: formProps,
           isOpen: isModalOpen,
           key: "FORM",
-          needClose: true,
-          ...close,
+          needHeader: true,
+          ...modalHeader,
+          modal_item_conteiner_class: "modal_item_conteiner",
         };
         break;
       case "complated_projects":
@@ -262,11 +264,12 @@ const Home = () => {
           multiple: true,
           fileUploaderName: "images",
         };
-        close = {
-          closeClassname: "modal_close",
-          closeLogoClassname: "modal_close_logo",
-          closeSrc: "/images/close.svg",
-          hendler: ModalCloseHendler,
+        modalHeader = {
+          headerClassname: "dashboard_modal_header",
+          headerLogoClassname: "modal_close_logo",
+          headerCloseImageSrc: "/images/close.svg",
+          needHeaderTitle: false,
+          colosHendler: ModalCloseHendler,
         };
         formProps = {
           name: "complated_projects",
@@ -293,8 +296,9 @@ const Home = () => {
           FormProps: formProps,
           isOpen: isModalOpen,
           key: "FORM",
-          needClose: true,
-          ...close,
+          needHeader: true,
+          ...modalHeader,
+          modal_item_conteiner_class: "modal_item_conteiner",
         };
         break;
       case "about_us":
@@ -334,11 +338,12 @@ const Home = () => {
           titleClassname: "form_title",
           title: "ჩვენს შესახებ",
         };
-        close = {
-          closeClassname: "modal_close",
-          closeLogoClassname: "modal_close_logo",
-          closeSrc: "/images/close.svg",
-          hendler: ModalCloseHendler,
+        modalHeader = {
+          headerClassname: "dashboard_modal_header",
+          headerLogoClassname: "modal_close_logo",
+          headerCloseImageSrc: "/images/close.svg",
+          needHeaderTitle: false,
+          colosHendler: ModalCloseHendler,
         };
         fileUploader = {
           fileUploaderClass: "form_file_uploader",
@@ -371,8 +376,9 @@ const Home = () => {
           FormProps: formProps,
           isOpen: isModalOpen,
           key: "FORM",
-          needClose: true,
-          ...close,
+          needHeader: true,
+          ...modalHeader,
+          modal_item_conteiner_class: "modal_item_conteiner",
         };
         break;
       case "contact":
@@ -428,11 +434,12 @@ const Home = () => {
           titleClassname: "form_title",
           title: "კონტაქტი",
         };
-        close = {
-          closeClassname: "modal_close",
-          closeLogoClassname: "modal_close_logo",
-          closeSrc: "/images/close.svg",
-          hendler: ModalCloseHendler,
+        modalHeader = {
+          headerClassname: "dashboard_modal_header",
+          headerLogoClassname: "modal_close_logo",
+          headerCloseImageSrc: "/images/close.svg",
+          needHeaderTitle: false,
+          colosHendler: ModalCloseHendler,
         };
         formProps = {
           name: "contacts",
@@ -458,8 +465,9 @@ const Home = () => {
           FormProps: formProps,
           isOpen: isModalOpen,
           key: "FORM",
-          needClose: true,
-          ...close,
+          needHeader: true,
+          ...modalHeader,
+          modal_item_conteiner_class: "modal_item_conteiner",
         };
     }
     return (

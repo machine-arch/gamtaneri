@@ -20,21 +20,44 @@ const GetAboutUs = async (req: NextApiRequest, res: NextApiResponse) => {
         jwt.verify(token.toString(), process.env.JWT_SECRET);
         const aboutus = await Connection?.manager?.find(AboutUs);
         if (aboutus) {
-          res
-            .status(200)
-            .json({ resource: aboutus, status: 200, success: true });
+          res.status(200).json({
+            resource: aboutus,
+            status: 200,
+            success: true,
+            from: "aboutus",
+          });
         } else {
-          res.json({ message: "data not found", status: 404, success: false });
+          res.json({
+            message: "data not found",
+            status: 404,
+            success: false,
+            from: "aboutus",
+          });
         }
       } catch (error) {
-        res.json({ message: "Token not valid", status: 401, success: false });
+        res.json({
+          message: "Token not valid",
+          status: 401,
+          success: false,
+          from: "aboutus",
+        });
       }
     } else {
-      res.json({ message: "User not found", status: 404, success: false });
+      res.json({
+        message: "User not found",
+        status: 404,
+        success: false,
+        from: "aboutus",
+      });
     }
     Connection.isInitialized ? Connection.destroy() : null;
   } else {
-    res.json({ message: "Method not Allowd", status: 405, success: false });
+    res.json({
+      message: "Method not Allowd",
+      status: 405,
+      success: false,
+      from: "aboutus",
+    });
   }
 };
 

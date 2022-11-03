@@ -43,7 +43,7 @@ const Navbar = (props: any) => {
         .then((res) => res.json())
         .then((data) => {
           if (data.status === 200 && data.resource && data.success) {
-            props.setPageData(data.resource);
+            props.setPageData(data);
           } else {
             props.setPageData(null);
             if (

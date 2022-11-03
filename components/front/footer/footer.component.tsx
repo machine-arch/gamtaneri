@@ -119,7 +119,7 @@ const Footer: FC<FooterProps> = (props: any) => {
               : contacts?.description}
           </p>
         </div>
-        <div className={styles.contact_info_termsAndCvonditions}>
+        <div className={styles.contact_info_termsAndConditions}>
           <p>
             {props.dictionary
               ? props.dictionary[props.localeKey]["termsAndConditions"]

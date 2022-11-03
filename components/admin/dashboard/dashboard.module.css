@@ -11,6 +11,23 @@
   height: 100%;
   box-shadow: 0 0 10px rgb(0 0 0 / 50%);
   box-sizing: border-box;
+  overflow: auto;
+}
+/* width */
+.dashboard_body::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Track */
+.dashboard_body::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  width: 5px;
+}
+
+/* Handle */
+.dashboard_body::-webkit-scrollbar-thumb {
+  background: #888;
+  width: 5px;
 }
 
 .dashboard_body {

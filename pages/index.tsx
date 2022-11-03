@@ -9,16 +9,24 @@ import CompletedProjects from "../components/front/completedprojects/completed-p
 import AboutUs from "../components/front/aboutus/about-us.component";
 import Footer from "../components/front/footer/footer.component";
 import { localeContext } from "../context/locale-context";
+import { modalContext } from "../context/modal-context";
 import Modal from "../components/modal/modal.component";
 import { FormPropsInterface } from "../config/interfaces/app.interfaces";
 
 const Home: NextPage = (props: any) => {
   const [localeKey, setLocaleKey] = useState("");
   const [dictionary, setDictionary] = useState(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [modalKey, setModalKey] = useState("");
   const [currentProject, setCurrentProject] = useState(null);
   const localeContextObject: any = useContext(localeContext);
+  const modalContextObject: any = useContext(modalContext);
+  const {
+    isModalOpen,
+    modalKey,
+    modalTitle,
+    setIsModalOpen,
+    setModalKey,
+    setModalTitle,
+  } = modalContextObject;
   useEffect(() => {
     setLocaleKey(localeContextObject.localeKey);
     setDictionary(localeContextObject.dictionary);
@@ -69,16 +77,14 @@ const Home: NextPage = (props: any) => {
     },
   ];
 
-  const close = {
-    closeClassname: "modal_close",
-    closeLogoClassname: "modal_close_logo",
-    closeSrc: "/images/close.svg",
-    hendler: ModalCloseHendler,
+  const modalHeader = {
+    headerClassname: "modal_header",
+    headerLogoClassname: "modal_header_logo",
+    headerCloseImageSrc: "/images/close.svg",
+    colosHendler: ModalCloseHendler,
   };
 
   const formProps: FormPropsInterface = {
-    needClose: true,
-    ...close,
     formClassName: "form",
     inputs: formInputs,
     inputsCommonParentClass: "inputs_common_parent",
@@ -92,13 +98,20 @@ const Home: NextPage = (props: any) => {
     },
   };
   const modalProps = {
-    modal_title: "ჩვენს შესახებ",
+    modal_title: modalTitle,
     FormProps: formProps,
     isOpen: isModalOpen,
     key: modalKey,
     currentproject: currentProject,
-    needClose: true,
-    ...close,
+    needHeader: true,
+    ...modalHeader,
+    needHeaderTitle: true,
+    modal_item_conteiner_class:
+      modalKey === "FORM"
+        ? "contact_modal_item_conteiner"
+        : modalKey === "GALLERY"
+        ? "modal_item_conteiner"
+        : "modal_item_conteiner",
   };
   return (
     <div className="conteiner">
@@ -127,6 +140,7 @@ const Home: NextPage = (props: any) => {
           setismodalopen={setIsModalOpen}
           setModalKey={setModalKey}
           setcurrentproject={setCurrentProject}
+          setModalTitle={setModalTitle}
           projects={props.projects}
         />
       </section>

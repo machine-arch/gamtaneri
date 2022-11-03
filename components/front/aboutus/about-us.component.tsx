@@ -21,7 +21,7 @@ const AboutUs = (props: any) => {
     <div className={styles.about_us_conteiner} ref={aboutUs}>
       <div className={styles.about_us_image} style={imagesStyle}>
         <Image
-          src="/images/about-us.jpg"
+          src="/images/teqnika.jpg"
           alt="about-us"
           width={600}
           height={500}

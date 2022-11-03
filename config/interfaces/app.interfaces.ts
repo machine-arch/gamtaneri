@@ -91,15 +91,18 @@ export interface modal {
   key?: string;
   isOpen: boolean;
   currentproject?: any;
-  needClose?: boolean;
-  closeClassname?: string;
-  closeLogoClassname?: string;
-  closeSrc?: string;
-  hendler?: any;
+  needHeader?: boolean;
+  headerClassname?: string;
+  headerLogoClassname?: string;
+  headerCloseImageSrc?: string;
+  colosHendler?: any;
+  needHeaderTitle?: boolean;
+  modal_item_conteiner_class?: string;
 }
 
 export interface modalProps {
   modalprops: modal;
+  setModalTitle?: any;
 }
 
 export interface headerProps {

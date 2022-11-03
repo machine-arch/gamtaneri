@@ -20,12 +20,13 @@ const CompletedProjects = (props: any) => {
     setProjects(props.projects);
   }, [props.projects]);
 
-  const openProjectHendler = (e) => {
+  const openProjectHendler = (e: any) => {
     props.setismodalopen(true);
     props.setModalKey("GALLERY");
     const current_el_id = e.currentTarget.getAttribute("itemID");
     const current_el = projects.find((el: any) => el.id == current_el_id);
     props.setcurrentproject(current_el);
+    props?.setModalTitle(current_el.project_name);
   };
   return (
     <div
@@ -33,6 +34,9 @@ const CompletedProjects = (props: any) => {
       ref={projectsSection}
       id="completed_projects"
     >
+      <div className={styles.projects_title}>
+        <p>დასრულებული პროექტები</p>
+      </div>
       <Carousel
         adaptiveHeight={true}
         defaultControlsConfig={CaruselConfig}

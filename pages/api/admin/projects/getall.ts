@@ -22,57 +22,44 @@ const GetAllProjects = async (req: NextApiRequest, res: NextApiResponse) => {
           ComplatedProjects
         );
         if (complatedProjects) {
-          const data = [];
-          for (let i = 0; i < complatedProjects.length; i++) {
-            const project = complatedProjects[i];
-            if (nookies.get({ req })["locale"] === "en") {
-              const {
-                id,
-                project_name_eng,
-                description_eng,
-                updatedAt,
-                createdAt,
-              } = project;
-              const images = JSON.parse(project.images);
-              data.push({
-                id,
-                project_name_eng,
-                description_eng,
-                updatedAt,
-                createdAt,
-                images,
-              });
-            } else {
-              const { id, project_name, description, updatedAt, createdAt } =
-                project;
-              const images = JSON.parse(project.images);
-              data.push({
-                id,
-                project_name,
-                description,
-                updatedAt,
-                createdAt,
-                images,
-              });
-            }
-          }
           res.status(200).json({
-            resource: data,
+            resource: complatedProjects,
             status: 200,
             success: true,
+            from: "projects",
           });
         } else {
-          res.json({ message: "data not found", status: 404, success: false });
+          res.json({
+            message: "data not found",
+            status: 404,
+            success: false,
+            from: "projects",
+          });
         }
       } catch (error) {
-        res.json({ message: "Token not valid", status: 401, success: false });
+        res.json({
+          message: "Token not valid",
+          status: 401,
+          success: false,
+          from: "projects",
+        });
       }
     } else {
-      res.json({ message: "User not found", status: 404, success: false });
+      res.json({
+        message: "User not found",
+        status: 404,
+        success: false,
+        from: "projects",
+      });
     }
     Connection.isInitialized ? Connection.destroy() : null;
   } else {
-    res.json({ message: "Method not Allowd", status: 405, success: false });
+    res.json({
+      message: "Method not Allowd",
+      status: 405,
+      success: false,
+      from: "projects",
+    });
   }
 };
 

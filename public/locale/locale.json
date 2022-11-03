@@ -1,7 +1,7 @@
 {
   "ka": {
     "aourUsers": "ჩვენი მომხმარებლები",
-    "galery": "გალერეა",
+    "galery": "პროექტები",
     "aboutUs": "ჩვენს შესახებ",
     "contact": "საკონტაქტო",
     "fullName": "სახელი და გვარი",
@@ -18,7 +18,7 @@
   },
   "en": {
     "aourUsers": "Our users",
-    "galery": "Galery",
+    "galery": "Projects",
     "aboutUs": "About us",
     "contact": "Contact",
     "fullName": "Full name",
