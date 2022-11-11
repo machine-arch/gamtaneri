@@ -24,7 +24,6 @@ const DashboardBody = (props: any) => {
     const id = e.target.getAttribute("itemid");
     props.setCurrentItemID(id);
     if (actionType !== "delete") {
-      console.log("actionType", actionType);
       props.setModalKey("FORM");
       actionType === "edit" ? props?.getItem(id) : null;
     } else if (actionType === "delete") {

@@ -241,6 +241,7 @@ const Home = () => {
     };
 
     const create = async (e: any) => {
+      console.log("create");
       const response = await httpRequest(
         httpProps.url,
         httpProps.method,
