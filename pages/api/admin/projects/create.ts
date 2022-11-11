@@ -57,7 +57,18 @@ const CreateProject = async (req: NextApiRequest, res: NextApiResponse) => {
           project.updatedAt = new Date();
           project.images = JSON.stringify(filePaths);
           await Connection.manager.save(project);
-          res.status(200).json({ success: true, message: "add sucess" });
+          const complatedProjects = await Connection.getRepository(
+            ComplatedProjects
+          ).find({
+            order: { id: "DESC" },
+          });
+          res.status(200).json({
+            resource: complatedProjects,
+            success: true,
+            message: "add sucess",
+            status: 200,
+            from: "projects",
+          });
         } catch {
           res.json({
             success: false,

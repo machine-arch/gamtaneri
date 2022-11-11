@@ -1,11 +1,10 @@
 import styles from "./navbar.module.css";
-import { useState } from "react";
-import router, { useRouter } from "next/router";
+import router from "next/router";
 import AES from "crypto-js/aes";
 import { enc } from "crypto-js";
 
 const Navbar = (props: any) => {
-  const onClickHendler = (e) => {
+  const onClickHendler = (e: any) => {
     if (e.currentTarget.classList.contains(styles.active)) {
       e.currentTarget.classList.remove(styles.active);
       props.setOpendMenuItem(null);
@@ -71,6 +70,7 @@ const Navbar = (props: any) => {
       props.setIsModalOpen(false);
     }
   };
+
   return (
     <>
       <div className={styles.navbar_conteiner}>

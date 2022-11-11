@@ -1,7 +1,6 @@
 import { FC, useEffect, useState } from "react";
 import { FormProps } from "../../config/interfaces/app.interfaces";
 import { Oval } from "react-loader-spinner";
-import Image from "next/image";
 
 const Form: FC<FormProps> = (props: any) => {
   const withCommonParent: Array<any> = props?.FormProps?.inputs.filter(
@@ -32,6 +31,7 @@ const Form: FC<FormProps> = (props: any) => {
               id: input.name,
               placeholder: input.placeholder,
               className: input.className,
+              defaultValue: input.value,
               [input.eventType]: input.callBack,
             };
             return <input key={input.id} {...attrs} />;
@@ -46,6 +46,7 @@ const Form: FC<FormProps> = (props: any) => {
               id: input.name,
               placeholder: input.placeholder,
               className: input.className,
+              defaultValue: input.value,
               [input.eventType]: input.callBack,
             };
             return <input key={input.id} {...attrs} />;
@@ -59,6 +60,7 @@ const Form: FC<FormProps> = (props: any) => {
                 className={textarea?.textareaClass}
                 name={textarea?.textareaName}
                 placeholder={textarea?.textareaPlaceholder}
+                defaultValue={textarea?.value}
               ></textarea>
             );
           })

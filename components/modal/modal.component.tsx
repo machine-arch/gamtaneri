@@ -4,9 +4,10 @@ import Form from "../form/form.component";
 import styles from "./modal.module.css";
 import Gallery from "../front/gallery/gallery.component";
 import Image from "next/image";
+import Confirm from "../confirm/confirm.component";
+import Message from "../message/message.component";
 
 const Modal: FC<modalProps> = (props) => {
-  console.log(props);
   return (
     <>
       {props?.modalprops?.isOpen ? (
@@ -40,6 +41,12 @@ const Modal: FC<modalProps> = (props) => {
                   currentproject={props?.modalprops?.currentproject}
                   setModalTitle={props?.setModalTitle}
                 />
+              ) : null}
+              {props?.modalprops?.key === "CONFIRM" ? (
+                <Confirm confirmProps={props.modalprops.confirmProps} />
+              ) : null}
+              {props?.modalprops?.key === "MESSAGE" ? (
+                <Message confirmProps={props.modalprops.confirmProps} />
               ) : null}
             </div>
           </div>

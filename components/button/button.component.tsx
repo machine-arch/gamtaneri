@@ -5,7 +5,11 @@ import { buttonProps } from "../../config/interfaces/app.interfaces";
 const Button: FC<buttonProps> = (props) => {
   return (
     <div className="button-conteiner">
-      <button className={styles.main_button} onClick={props.hendler}>
+      <button
+        className={styles.main_button}
+        onClick={props.hendler}
+        datatype={props.datatype}
+      >
         {props.name}
       </button>
     </div>

@@ -16,7 +16,9 @@ const GetAllUsers = async (req: NextApiRequest, res: NextApiResponse) => {
     const user = await Connection?.manager?.findOne(User, { where: { email } });
     if (user) {
       if (jwt.verify(token.toString(), process.env.JWT_SECRET)) {
-        const ourUsers = await Connection?.manager?.find(OurUsers);
+        const ourUsers = await Connection.getRepository(OurUsers).find({
+          order: { id: "DESC" },
+        });
         if (ourUsers) {
           res.status(200).json({
             resource: ourUsers,

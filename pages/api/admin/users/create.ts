@@ -28,10 +28,15 @@ const CreateUser = async (req: NextApiRequest, res: NextApiResponse) => {
         ourUser.createdAt = new Date();
         ourUser.updatedAt = new Date();
         await Connection.getRepository(OurUsers).save(ourUser);
+        const ourUsers = await Connection.getRepository(OurUsers).find({
+          order: { id: "DESC" },
+        });
         res.status(200).json({
+          resource: ourUsers,
           message: "User created",
           status: 200,
           success: true,
+          from: "users",
         });
       } else {
         res.json({

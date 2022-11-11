@@ -10,24 +10,31 @@ const DeleteProject = async (req: NextApiRequest, res: NextApiResponse) => {
     const Connection = AppDataSource.isInitialized
       ? AppDataSource
       : await AppDataSource.initialize();
-    const { token, id } = req.body;
-    const { email } = jwt.decode(token, {
+    const { token, id } = req.query;
+    const { email } = jwt.decode(token.toString(), {
       json: true,
     });
     const user = await Connection?.manager?.findOne(User, { where: { email } });
     if (user) {
       try {
-        jwt.verify(token, process.env.JWT_SECRET);
+        jwt.verify(token.toString(), process.env.JWT_SECRET);
         const project = await Connection?.manager?.findOne(ComplatedProjects, {
-          where: { id },
+          where: { id: Number(id) },
         });
         if (project) {
           const images = JSON.parse(project.images);
           images.forEach((image: string) => {
-            fs.unlinkSync(image);
+            fs.unlinkSync(`./public${image}`);
           });
           await Connection?.manager?.remove(project);
-          res.status(200).json({ message: "Project deleted", success: true });
+          const projects = await Connection?.manager?.find(ComplatedProjects);
+          res.status(200).json({
+            resource: projects,
+            message: "Project deleted",
+            success: true,
+            status: 200,
+            from: "projects",
+          });
         } else {
           res.json({
             message: "Project not found",

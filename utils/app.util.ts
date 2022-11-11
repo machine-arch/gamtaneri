@@ -18,3 +18,19 @@ export const switchLanguage = (setLocale: any) => {
 export function ModalCloseHendler(param: any) {
   param(false);
 }
+
+export const httpRequest = async (
+  url: string,
+  method: string,
+  body?: any,
+  headers?: any
+) => {
+  const response = await fetch(url, {
+    method: method,
+    headers: headers,
+    body: body,
+  })
+    .then((res) => res.json())
+    .then((data) => data);
+  return response;
+};

@@ -9,21 +9,30 @@ const DeleteOurUser = async (req: NextApiRequest, res: NextApiResponse) => {
     const Connection = AppDataSource.isInitialized
       ? AppDataSource
       : await AppDataSource.initialize();
-    const { token, id } = req.body;
-    const { email } = jwt.decode(token, {
+    const { token, id } = req.query;
+    console.log(token, id);
+    const { email } = jwt.decode(token.toString(), {
       json: true,
     });
+    const userID = Number(id);
     const user = await Connection?.manager?.findOne(User, { where: { email } });
     if (user) {
-      if (jwt.verify(token, process.env.JWT_SECRET)) {
-        const ourUser = await Connection?.manager?.findOne(OurUsers, {
-          where: { id },
+      if (jwt.verify(token.toString(), process.env.JWT_SECRET)) {
+        const ourUser = await Connection?.manager?.find(OurUsers, {
+          where: { id: userID },
         });
         if (ourUser) {
           await Connection?.manager?.remove(ourUser);
-          res
-            .status(200)
-            .json({ message: "Our User deleted", status: 200, success: true });
+          const user = await Connection.getRepository(OurUsers).find({
+            order: { id: "DESC" },
+          });
+          res.status(200).json({
+            resource: user,
+            message: "Our User deleted",
+            status: 200,
+            success: true,
+            from: "users",
+          });
         } else {
           res.json({
             message: "Our User not found",

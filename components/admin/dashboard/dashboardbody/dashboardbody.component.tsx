@@ -1,8 +1,10 @@
 import styles from "./dashboardbody.module.css";
 import Button from "../../../button/button.component";
-import { useState, useContext, useEffect } from "react";
+import { useState, useContext, useEffect, Fragment } from "react";
 import { localeContext } from "../../../../context/locale-context";
 import Image from "next/image";
+import AES from "crypto-js/aes";
+import { enc } from "crypto-js";
 
 const DashboardBody = (props: any) => {
   const [localeKey, setLocaleKey] = useState("");
@@ -14,10 +16,21 @@ const DashboardBody = (props: any) => {
     setDictionary(localeContextObject.dictionary);
   }, [localeContextObject]);
 
-  const openModalHendler = () => {
+  const openModalHendler = async (e: any) => {
     props.opendMenuItem
       ? props.setIsModalOpen(true)
       : props.setIsModalOpen(false);
+    const actionType = e.target.getAttribute("datatype");
+    const id = e.target.getAttribute("itemid");
+    props.setCurrentItemID(id);
+    if (actionType !== "delete") {
+      console.log("actionType", actionType);
+      props.setModalKey("FORM");
+      actionType === "edit" ? props?.getItem(id) : null;
+    } else if (actionType === "delete") {
+      props.setModalKey("CONFIRM");
+    }
+    props.setActionType(actionType);
   };
 
   const PAGE_KEYS = {
@@ -26,17 +39,26 @@ const DashboardBody = (props: any) => {
     users: "users",
     projects: "projects",
   };
+  const ACTION_TYPES = {
+    create: "create",
+    update: "edit",
+    delete: "delete",
+  };
   return (
-    <>
+    <Fragment>
       <div className={props.dashboard_body_conteiner}>
         <div className={props.dashboard_body_title_conteiner}>
           <h1 className={props.dashboard_body_title}>{props.title}</h1>
         </div>
         <div className={props.dashboard_body_head_conteiner}>
-          {props?.opendMenuItem ? (
+          {props?.opendMenuItem &&
+          props.data &&
+          (props?.data?.from === PAGE_KEYS.projects ||
+            props?.data?.from === PAGE_KEYS.users) ? (
             <Button
               name={dictionary ? dictionary[localeKey]["add"] : "დამატება"}
               hendler={openModalHendler}
+              datatype={ACTION_TYPES.create}
             />
           ) : null}
         </div>
@@ -60,7 +82,8 @@ const DashboardBody = (props: any) => {
                               height={19}
                               className={styles.edit}
                               itemID={el.id}
-                              datatype={props?.data?.from}
+                              datatype={ACTION_TYPES.update}
+                              onClick={openModalHendler}
                             />
                           </div>
                         </div>
@@ -127,7 +150,8 @@ const DashboardBody = (props: any) => {
                               height={19}
                               className={styles.edit}
                               itemID={el.id}
-                              datatype={props?.data?.from}
+                              datatype={ACTION_TYPES.update}
+                              onClick={openModalHendler}
                             />
                           </div>
                         </div>
@@ -168,7 +192,8 @@ const DashboardBody = (props: any) => {
                               height={19}
                               className={styles.edit}
                               itemID={el.id}
-                              datatype={props?.data?.from}
+                              datatype={ACTION_TYPES.update}
+                              onClick={openModalHendler}
                             />
                             <Image
                               src="/images/close.svg"
@@ -177,7 +202,8 @@ const DashboardBody = (props: any) => {
                               height={15}
                               className={styles.delete}
                               itemID={el.id}
-                              datatype={props?.data?.from}
+                              datatype={ACTION_TYPES.delete}
+                              onClick={openModalHendler}
                             />
                           </div>
                         </div>
@@ -216,7 +242,8 @@ const DashboardBody = (props: any) => {
                               height={19}
                               className={styles.edit}
                               itemID={el.id}
-                              datatype={props?.data?.from}
+                              datatype={ACTION_TYPES.update}
+                              onClick={openModalHendler}
                             />
                             <Image
                               src="/images/close.svg"
@@ -225,7 +252,8 @@ const DashboardBody = (props: any) => {
                               height={15}
                               className={styles.delete}
                               itemID={el.id}
-                              datatype={props?.data?.from}
+                              datatype={ACTION_TYPES.delete}
+                              onClick={openModalHendler}
                             />
                           </div>
                         </div>
@@ -260,7 +288,7 @@ const DashboardBody = (props: any) => {
           </div>
         </div>
       </div>
-    </>
+    </Fragment>
   );
 };
 

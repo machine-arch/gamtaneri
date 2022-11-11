@@ -9,14 +9,23 @@ import styles from "./dashboard.module.css";
 import DashboardBody from "./dashboardbody/dashboardbody.component";
 import Modal from "../../modal/modal.component";
 import { FormPropsInterface } from "../../../config/interfaces/app.interfaces";
+import { httpRequest } from "../../../utils/app.util";
+import { modalContext } from "../../../context/modal-context";
 
 const Home = () => {
   const authContextObject: any = useContext(authContext);
   const [needRedirect, setNeedRedirect] = useState(false);
   const [opendMenuItem, setOpendMenuItem] = useState<any>(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const [pageData, setPageData] = useState([]);
+  const [actionType, setActionType] = useState("");
+  const [confirmQuestion, setConfirmQuestion] = useState("");
+  const [httpProps, setHttpProps] = useState<any>(null);
+  const [currentItemId, setCurrentItemId] = useState<any>(null);
+  const [currentItem, setCurrentItem] = useState<any>(null);
   const isVeriyfied = useRef(false);
+  const modalContextObject: any = useContext(modalContext);
+  const { isModalOpen, modalKey, setIsModalOpen, setModalKey } =
+    modalContextObject;
   useEffect(() => {
     (async () => {
       if (!isVeriyfied.current) {
@@ -56,14 +65,14 @@ const Home = () => {
       }
     })();
   }, [authContextObject]);
-  const OurUSersRef = useRef(null);
-  const ProductsRef = useRef(null);
   const AboutUsRef = useRef(null);
+  const ProductsRef = useRef(null);
+  const OurUsersRef = useRef(null);
   const ContactsUsRef = useRef(null);
   if (needRedirect) {
     router.push("/admin/login");
   } else {
-    const witchMenuItem = opendMenuItem
+    const currentPage = opendMenuItem
       ? opendMenuItem.getAttribute("datatype")
       : null;
     let inputs = [];
@@ -73,233 +82,658 @@ const Home = () => {
     let title = {};
     let modalHeader = {};
     let modalProps = null;
+    let ConfirmProps = null;
+    let url = "",
+      ref = null,
+      headers: HeadersInit,
+      formdata = null,
+      method = "POST",
+      GetOneUrl = "",
+      token = "",
+      props = {},
+      response = null;
 
     const ModalCloseHendler = () => {
       setIsModalOpen(false);
     };
 
-    const create = (e: any) => {
+    const initCreate = async (e: any) => {
       e.preventDefault();
-      let url = "",
-        ref = null,
-        body: object,
-        headers: HeadersInit,
-        formdata = null;
-      switch (e.target.getAttribute("name")) {
-        case "our_users":
-          url = "/api/admin/users/create";
-          ref = OurUSersRef;
-          const data = new FormData(ref.current);
-          formdata = JSON.stringify({
-            title: data.get("title"),
-            title_eng: data.get("title_eng"),
-            description: data.get("description"),
-            description_eng: data.get("description_eng"),
-            token: AES.decrypt(
-              localStorage.getItem("_token"),
-              "secretPassphrase"
-            ).toString(enc.Utf8),
-          });
-          headers = {
-            "Content-Type": "application/json",
-          };
-          break;
-        case "complated_projects":
-          url = "/api/admin/projects/create";
-          ref = ProductsRef;
-          formdata = new FormData(ref?.current);
-          formdata.append(
-            "token",
-            AES.decrypt(
-              localStorage.getItem("_token"),
-              "secretPassphrase"
-            ).toString(enc.Utf8)
-          );
-          headers = {};
-          break;
-        case "about_us":
-          url = "/api/admin/aboutus/create";
-          ref = AboutUsRef;
-          formdata = new FormData(ref?.current);
-          formdata.append(
-            "token",
-            AES.decrypt(
-              localStorage.getItem("_token"),
-              "secretPassphrase"
-            ).toString(enc.Utf8)
-          );
-          headers = {};
-          break;
-      }
-      fetch(url, {
-        method: "POST",
-        headers: headers,
-        body: formdata,
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          console.log(data);
-        });
+      return new Promise((resolve, reject) => {
+        switch (currentPage) {
+          case "our_users":
+            url = "/api/admin/users/create";
+            ref = OurUsersRef;
+            const data = new FormData(ref.current);
+            formdata = JSON.stringify({
+              title: data.get("title"),
+              title_eng: data.get("title_eng"),
+              description: data.get("description"),
+              description_eng: data.get("description_eng"),
+              token: AES.decrypt(
+                localStorage.getItem("_token"),
+                "secretPassphrase"
+              ).toString(enc.Utf8),
+            });
+            headers = {
+              "Content-Type": "application/json",
+            };
+            props = {
+              url,
+              method,
+              headers,
+              formdata,
+            };
+            setHttpProps(props);
+            resolve(true);
+            break;
+          case "complated_projects":
+            url = "/api/admin/projects/create";
+            ref = ProductsRef;
+            formdata = new FormData(ref?.current);
+            formdata.append(
+              "token",
+              AES.decrypt(
+                localStorage.getItem("_token"),
+                "secretPassphrase"
+              ).toString(enc.Utf8)
+            );
+            headers = {};
+            props = {
+              url,
+              method,
+              headers,
+              formdata,
+            };
+            setHttpProps(props);
+            resolve(true);
+            break;
+        }
+      }).then((res) => {
+        setModalKey("CONFIRM");
+        setConfirmQuestion("Are you sure you want to create this item?");
+      });
     };
 
-    switch (witchMenuItem) {
-      case "our_users":
-        inputs = [
-          {
-            id: Date.now().toString(36) + Math.random().toString(36).slice(2),
-            name: "title",
-            type: "text ",
-            className: "form-input",
-            placeholder: "დასახელება",
-            needCommonParent: true,
-          },
-          {
-            id: Date.now().toString(36) + Math.random().toString(36).slice(2),
-            name: "title_eng",
-            type: "text ",
-            className: "form-input",
-            placeholder: "title",
-            needCommonParent: true,
-          },
-        ];
-        textareas = [
-          {
-            id: Date.now().toString(36) + Math.random().toString(36).slice(2),
-            textareaClass: "form_textarea",
-            textareaName: "description",
-            textareaPlaceholder: "აღწერა",
-            type: "textarea",
-          },
-          {
-            id: Date.now().toString(36) + Math.random().toString(36).slice(2),
-            textareaClass: "form_textarea",
-            textareaName: "description_eng",
-            textareaPlaceholder: "description",
-            type: "textarea",
-          },
-        ];
+    const getItem = async (id: any) => {
+      switch (currentPage) {
+        case "our_users":
+          token = AES.decrypt(
+            localStorage.getItem("_token"),
+            "secretPassphrase"
+          ).toString(enc.Utf8);
+          GetOneUrl = `/api/admin/users/${id}?token=${token}`;
+          response = await httpRequest(GetOneUrl, "GET");
+          setCurrentItem(response.resource);
+          break;
+        case "complated_projects":
+          token = AES.decrypt(
+            localStorage.getItem("_token"),
+            "secretPassphrase"
+          ).toString(enc.Utf8);
+          GetOneUrl = `/api/admin/projects/${id}?token=${token}`;
+          response = await httpRequest(GetOneUrl, "GET");
+          setCurrentItem(response.resource);
+          break;
+      }
+    };
 
-        title = {
-          titleClassname: "form_title",
-          title: "მომხმარებლის დამატება",
-        };
-        modalHeader = {
-          headerClassname: "dashboard_modal_header",
-          headerLogoClassname: "modal_close_logo",
-          headerCloseImageSrc: "/images/close.svg",
-          needHeaderTitle: false,
-          colosHendler: ModalCloseHendler,
-        };
-        formProps = {
-          name: "our_users",
-          ref: OurUSersRef,
-          needTitle: true,
-          ...title,
-          formClassName: "form",
-          inputs: inputs,
-          inputsCommonParentClass: "inputs_common_parent",
-          needTextareas: true,
-          textareas,
-          needButton: true,
-          buttonClass: "form_button",
-          buttonText: "დამატება",
-          ButtoncallBack: (e: SyntheticEvent) => {
-            return;
-            // e.preventDefault();
-            // CreateOurUSers;
-          },
-          submit: create,
-        };
-        modalProps = {
-          modal_title: "მომხმარებლები",
-          FormProps: formProps,
-          isOpen: isModalOpen,
-          key: "FORM",
-          needHeader: true,
-          ...modalHeader,
-          modal_item_conteiner_class: "modal_item_conteiner",
-        };
+    const initUpdate = async (e: any) => {
+      e.preventDefault();
+      return new Promise((resolve, reject) => {
+        switch (currentPage) {
+          case "our_users":
+            url = "/api/admin/users/update";
+            ref = OurUsersRef;
+            const data = new FormData(ref.current);
+            formdata = JSON.stringify({
+              id: currentItemId,
+              title: data.get("title"),
+              title_eng: data.get("title_eng"),
+              description: data.get("description"),
+              description_eng: data.get("description_eng"),
+              token: AES.decrypt(
+                localStorage.getItem("_token"),
+                "secretPassphrase"
+              ).toString(enc.Utf8),
+            });
+            headers = {
+              "Content-Type": "application/json",
+            };
+            method = "PUT";
+            props = {
+              url,
+              method,
+              headers,
+              formdata,
+            };
+            setHttpProps(props);
+            resolve(true);
+            break;
+          case "complated_projects":
+            url = "/api/admin/projects/update";
+            ref = ProductsRef;
+            formdata = new FormData(ref?.current);
+            formdata.append(
+              "token",
+              AES.decrypt(
+                localStorage.getItem("_token"),
+                "secretPassphrase"
+              ).toString(enc.Utf8)
+            );
+            formdata.append("id", currentItemId);
+            headers = {};
+            method = "PUT";
+            props = {
+              url,
+              method,
+              headers,
+              formdata,
+            };
+            setHttpProps(props);
+            resolve(true);
+            break;
+        }
+      }).then((res) => {
+        setModalKey("CONFIRM");
+        setConfirmQuestion("Are you sure you want to create this item?");
+      });
+    };
+
+    const create = async (e: any) => {
+      const response = await httpRequest(
+        httpProps.url,
+        httpProps.method,
+        httpProps.formdata,
+        httpProps.headers
+      );
+      if (response.status === 200) {
+        setPageData(response);
+        setModalKey("MESSAGE");
+        setConfirmQuestion(response.message);
+      } else {
+        setModalKey("ERROR");
+        setConfirmQuestion("Error");
+      }
+    };
+    const update = async (e: any) => {
+      const response = await httpRequest(
+        httpProps.url,
+        httpProps.method,
+        httpProps.formdata,
+        httpProps.headers
+      );
+      if (response.status === 200) {
+        setPageData(response);
+        setModalKey("MESSAGE");
+        setConfirmQuestion(response.message);
+      } else {
+        setModalKey("ERROR");
+        setConfirmQuestion("Error");
+      }
+    };
+
+    const deleteItem = async (e: any) => {
+      switch (currentPage) {
+        case "our_users":
+          url = `/api/admin/users/delete/?token=${AES.decrypt(
+            localStorage.getItem("_token"),
+            "secretPassphrase"
+          ).toString(enc.Utf8)}&id=${currentItemId}`;
+          break;
+        case "complated_projects":
+          url = `/api/admin/projects/delete/?token=${AES.decrypt(
+            localStorage.getItem("_token"),
+            "secretPassphrase"
+          ).toString(enc.Utf8)}&id=${currentItemId}`;
+          break;
+      }
+      const response = await httpRequest(url, "DELETE");
+      setPageData(response);
+      setModalKey("MESSAGE");
+      setConfirmQuestion(response.message);
+    };
+
+    const denialOperation = (e: any) => {
+      setModalKey("FORM");
+      setConfirmQuestion("");
+    };
+
+    switch (currentPage) {
+      case "our_users":
+        switch (actionType) {
+          case "create":
+            inputs = [
+              {
+                id:
+                  Date.now().toString(36) + Math.random().toString(36).slice(2),
+                name: "title",
+                type: "text ",
+                className: "form-input",
+                placeholder: "დასახელება",
+                needCommonParent: true,
+              },
+              {
+                id:
+                  Date.now().toString(36) + Math.random().toString(36).slice(2),
+                name: "title_eng",
+                type: "text ",
+                className: "form-input",
+                placeholder: "title",
+                needCommonParent: true,
+              },
+            ];
+            textareas = [
+              {
+                id:
+                  Date.now().toString(36) + Math.random().toString(36).slice(2),
+                textareaClass: "form_textarea",
+                textareaName: "description",
+                textareaPlaceholder: "აღწერა",
+                type: "textarea",
+              },
+              {
+                id:
+                  Date.now().toString(36) + Math.random().toString(36).slice(2),
+                textareaClass: "form_textarea",
+                textareaName: "description_eng",
+                textareaPlaceholder: "description",
+                type: "textarea",
+              },
+            ];
+            title = {
+              titleClassname: "form_title",
+              title:
+                actionType === "create"
+                  ? "მომხმარებლის დამატება"
+                  : actionType === "edit"
+                  ? "მომხმარებლის რედაქტირება"
+                  : "",
+            };
+            modalHeader = {
+              headerClassname: "dashboard_modal_header",
+              headerLogoClassname: "modal_close_logo",
+              headerCloseImageSrc: "/images/close.svg",
+              needHeaderTitle: false,
+              colosHendler: ModalCloseHendler,
+            };
+            formProps = {
+              name: "our_users",
+              ref: OurUsersRef,
+              needTitle: true,
+              ...title,
+              formClassName: "form",
+              inputs: inputs,
+              inputsCommonParentClass: "inputs_common_parent",
+              needTextareas: true,
+              textareas,
+              needButton: true,
+              buttonClass: "form_button",
+              buttonText: "დამატება",
+              ButtoncallBack: (e: SyntheticEvent) => {
+                return;
+                // e.preventDefault();
+                // CreateOurUSers;
+              },
+              submit: initCreate,
+            };
+            ConfirmProps = {
+              acceptHendler: create,
+              cancelHendler: ModalCloseHendler,
+              question: confirmQuestion,
+              name: "our_users",
+            };
+            modalProps = {
+              modal_title: "მომხმარებლები",
+              FormProps: formProps,
+              confirmProps: ConfirmProps,
+              isOpen: isModalOpen,
+              key: modalKey,
+              needHeader: true,
+              ...modalHeader,
+              modal_item_conteiner_class: "modal_item_conteiner",
+            };
+            break;
+          case "edit":
+            inputs = [
+              {
+                id:
+                  Date.now().toString(36) + Math.random().toString(36).slice(2),
+                name: "title",
+                type: "text ",
+                className: "form-input",
+                placeholder: "დასახელება",
+                needCommonParent: true,
+                value: currentItem?.title,
+              },
+              {
+                id:
+                  Date.now().toString(36) + Math.random().toString(36).slice(2),
+                name: "title_eng",
+                type: "text ",
+                className: "form-input",
+                placeholder: "title",
+                needCommonParent: true,
+                value: currentItem?.title_eng,
+              },
+            ];
+            textareas = [
+              {
+                id:
+                  Date.now().toString(36) + Math.random().toString(36).slice(2),
+                textareaClass: "form_textarea",
+                textareaName: "description",
+                textareaPlaceholder: "აღწერა",
+                type: "textarea",
+                value: currentItem?.description,
+              },
+              {
+                id:
+                  Date.now().toString(36) + Math.random().toString(36).slice(2),
+                textareaClass: "form_textarea",
+                textareaName: "description_eng",
+                textareaPlaceholder: "description",
+                type: "textarea",
+                value: currentItem?.description_eng,
+              },
+            ];
+
+            title = {
+              titleClassname: "form_title",
+              title: "მომხმარებლის რედაქტირება",
+            };
+            modalHeader = {
+              headerClassname: "dashboard_modal_header",
+              headerLogoClassname: "modal_close_logo",
+              headerCloseImageSrc: "/images/close.svg",
+              needHeaderTitle: false,
+              colosHendler: ModalCloseHendler,
+            };
+            formProps = {
+              name: "our_users",
+              ref: OurUsersRef,
+              needTitle: true,
+              ...title,
+              formClassName: "form",
+              inputs: inputs,
+              inputsCommonParentClass: "inputs_common_parent",
+              needTextareas: true,
+              textareas,
+              needButton: true,
+              buttonClass: "form_button",
+              buttonText: "დამატება",
+              ButtoncallBack: initUpdate,
+              submit: null,
+              data: currentItem,
+            };
+
+            ConfirmProps = {
+              acceptHendler: update,
+              cancelHendler: ModalCloseHendler,
+              question: confirmQuestion,
+            };
+
+            modalProps = {
+              modal_title: "მომხმარებლები",
+              FormProps: formProps,
+              confirmProps: ConfirmProps,
+              isOpen: isModalOpen,
+              key: modalKey,
+              needHeader: true,
+              ...modalHeader,
+              modal_item_conteiner_class: "modal_item_conteiner",
+            };
+            break;
+          case "delete":
+            modalHeader = {
+              headerClassname: "dashboard_modal_header",
+              headerLogoClassname: "modal_close_logo",
+              headerCloseImageSrc: "/images/close.svg",
+              needHeaderTitle: false,
+              colosHendler: ModalCloseHendler,
+            };
+            ConfirmProps = {
+              acceptHendler: deleteItem,
+              cancelHendler: ModalCloseHendler,
+              question: confirmQuestion,
+              name: "our_users",
+            };
+            modalProps = {
+              modal_title: "მომხმარებლები",
+              isOpen: isModalOpen,
+              confirmProps: ConfirmProps,
+              key: modalKey,
+              needHeader: true,
+              ...modalHeader,
+              modal_item_conteiner_class: "modal_item_conteiner",
+            };
+        }
         break;
       case "complated_projects":
-        inputs = [
-          {
-            id: Date.now().toString(36) + Math.random().toString(36).slice(2),
-            name: "project_name",
-            type: "text ",
-            className: "form-input",
-            placeholder: "პროექტის დასახელება",
-            needCommonParent: true,
-          },
-          {
-            id: Date.now().toString(36) + Math.random().toString(36).slice(2),
-            name: "project_name_eng",
-            type: "text ",
-            className: "form-input",
-            placeholder: "project name",
-            needCommonParent: true,
-          },
-        ];
-        textareas = [
-          {
-            id: Date.now().toString(36) + Math.random().toString(36).slice(2),
-            textareaClass: "form_textarea",
-            textareaName: "description",
-            textareaPlaceholder: "აღწერა",
-            name: "description",
-          },
-          {
-            id: Date.now().toString(36) + Math.random().toString(36).slice(2),
-            textareaClass: "form_textarea",
-            textareaName: "description_eng",
-            textareaPlaceholder: "description",
-            name: "description_eng",
-          },
-        ];
-        title = {
-          titleClassname: "form_title",
-          title: "დასრულებული პროექტები",
-        };
-        fileUploader = {
-          fileUploaderClass: "form_file_uploader",
-          multiple: true,
-          fileUploaderName: "images",
-        };
-        modalHeader = {
-          headerClassname: "dashboard_modal_header",
-          headerLogoClassname: "modal_close_logo",
-          headerCloseImageSrc: "/images/close.svg",
-          needHeaderTitle: false,
-          colosHendler: ModalCloseHendler,
-        };
-        formProps = {
-          name: "complated_projects",
-          ref: ProductsRef,
-          submit: create,
-          needTitle: true,
-          ...title,
-          formClassName: "form",
-          inputs: inputs,
-          inputsCommonParentClass: "inputs_common_parent",
-          needTextareas: true,
-          textareas: textareas,
-          needFileUploader: true,
-          ...fileUploader,
-          needButton: true,
-          buttonClass: "form_button",
-          buttonText: "დამატება",
-          ButtoncallBack: (e: SyntheticEvent) => {
-            // e.preventDefault();
-          },
-        };
-        modalProps = {
-          modal_title: "დასრულებული პროექტები",
-          FormProps: formProps,
-          isOpen: isModalOpen,
-          key: "FORM",
-          needHeader: true,
-          ...modalHeader,
-          modal_item_conteiner_class: "modal_item_conteiner",
-        };
+        switch (actionType) {
+          case "create":
+            inputs = [
+              {
+                id:
+                  Date.now().toString(36) + Math.random().toString(36).slice(2),
+                name: "project_name",
+                type: "text ",
+                className: "form-input",
+                placeholder: "პროექტის დასახელება",
+                needCommonParent: true,
+              },
+              {
+                id:
+                  Date.now().toString(36) + Math.random().toString(36).slice(2),
+                name: "project_name_eng",
+                type: "text ",
+                className: "form-input",
+                placeholder: "project name",
+                needCommonParent: true,
+              },
+            ];
+            textareas = [
+              {
+                id:
+                  Date.now().toString(36) + Math.random().toString(36).slice(2),
+                textareaClass: "form_textarea",
+                textareaName: "description",
+                textareaPlaceholder: "აღწერა",
+                name: "description",
+              },
+              {
+                id:
+                  Date.now().toString(36) + Math.random().toString(36).slice(2),
+                textareaClass: "form_textarea",
+                textareaName: "description_eng",
+                textareaPlaceholder: "description",
+                name: "description_eng",
+              },
+            ];
+            title = {
+              titleClassname: "form_title",
+              title:
+                actionType === "create"
+                  ? "პროექტის დამატება"
+                  : actionType === "edit"
+                  ? "პროექტის რედაქტირება"
+                  : "",
+            };
+            fileUploader = {
+              fileUploaderClass: "form_file_uploader",
+              multiple: true,
+              fileUploaderName: "images",
+            };
+            modalHeader = {
+              headerClassname: "dashboard_modal_header",
+              headerLogoClassname: "modal_close_logo",
+              headerCloseImageSrc: "/images/close.svg",
+              needHeaderTitle: false,
+              colosHendler: ModalCloseHendler,
+            };
+            formProps = {
+              name: "complated_projects",
+              ref: ProductsRef,
+              needTitle: true,
+              ...title,
+              formClassName: "form",
+              inputs: inputs,
+              inputsCommonParentClass: "inputs_common_parent",
+              needTextareas: true,
+              textareas: textareas,
+              needFileUploader: true,
+              ...fileUploader,
+              needButton: true,
+              buttonClass: "form_button",
+              buttonText: "დამატება",
+              ButtoncallBack: (e: SyntheticEvent) => {
+                // e.preventDefault();
+              },
+              submit: initCreate,
+            };
+            ConfirmProps = {
+              acceptHendler: create,
+              cancelHendler: ModalCloseHendler,
+              question: confirmQuestion,
+              name: "our_users",
+            };
+            modalProps = {
+              modal_title: "დასრულებული პროექტები",
+              FormProps: formProps,
+              confirmProps: ConfirmProps,
+              isOpen: isModalOpen,
+              key: modalKey,
+              needHeader: true,
+              ...modalHeader,
+              modal_item_conteiner_class: "modal_item_conteiner",
+            };
+            break;
+          case "edit":
+            inputs = [
+              {
+                id:
+                  Date.now().toString(36) + Math.random().toString(36).slice(2),
+                name: "project_name",
+                type: "text ",
+                className: "form-input",
+                placeholder: "პროექტის დასახელება",
+                needCommonParent: true,
+                value: currentItem?.project_name,
+              },
+              {
+                id:
+                  Date.now().toString(36) + Math.random().toString(36).slice(2),
+                name: "project_name_eng",
+                type: "text ",
+                className: "form-input",
+                placeholder: "project name",
+                needCommonParent: true,
+                value: currentItem?.project_name_eng,
+              },
+            ];
+            textareas = [
+              {
+                id:
+                  Date.now().toString(36) + Math.random().toString(36).slice(2),
+                textareaClass: "form_textarea",
+                textareaName: "description",
+                textareaPlaceholder: "აღწერა",
+                name: "description",
+                value: currentItem?.description,
+              },
+              {
+                id:
+                  Date.now().toString(36) + Math.random().toString(36).slice(2),
+                textareaClass: "form_textarea",
+                textareaName: "description_eng",
+                textareaPlaceholder: "description",
+                name: "description_eng",
+                value: currentItem?.description_eng,
+              },
+            ];
+            title = {
+              titleClassname: "form_title",
+              title:
+                actionType === "edit"
+                  ? "პროექტის დამატება"
+                  : actionType === "edit"
+                  ? "პროექტის რედაქტირება"
+                  : "",
+            };
+            fileUploader = {
+              fileUploaderClass: "form_file_uploader",
+              multiple: true,
+              fileUploaderName: "images",
+              paht: currentItem?.images,
+            };
+            modalHeader = {
+              headerClassname: "dashboard_modal_header",
+              headerLogoClassname: "modal_close_logo",
+              headerCloseImageSrc: "/images/close.svg",
+              needHeaderTitle: false,
+              colosHendler: ModalCloseHendler,
+            };
+            formProps = {
+              name: "complated_projects",
+              ref: ProductsRef,
+              needTitle: true,
+              ...title,
+              formClassName: "form",
+              inputs: inputs,
+              inputsCommonParentClass: "inputs_common_parent",
+              needTextareas: true,
+              textareas: textareas,
+              needFileUploader: true,
+              ...fileUploader,
+              needButton: true,
+              buttonClass: "form_button",
+              buttonText: "დამატება",
+              ButtoncallBack: (e: SyntheticEvent) => {
+                // e.preventDefault();
+              },
+              submit: initUpdate,
+            };
+            ConfirmProps = {
+              acceptHendler: update,
+              cancelHendler: ModalCloseHendler,
+              question: confirmQuestion,
+              name: "our_users",
+            };
+            modalProps = {
+              modal_title: "დასრულებული პროექტები",
+              FormProps: formProps,
+              confirmProps: ConfirmProps,
+              isOpen: isModalOpen,
+              key: modalKey,
+              needHeader: true,
+              ...modalHeader,
+              modal_item_conteiner_class: "modal_item_conteiner",
+            };
+            break;
+          case "delete":
+            modalHeader = {
+              headerClassname: "dashboard_modal_header",
+              headerLogoClassname: "modal_close_logo",
+              headerCloseImageSrc: "/images/close.svg",
+              needHeaderTitle: false,
+              colosHendler: ModalCloseHendler,
+            };
+            ConfirmProps = {
+              acceptHendler: deleteItem,
+              cancelHendler: ModalCloseHendler,
+              question: confirmQuestion,
+              name: "our_users",
+            };
+            modalProps = {
+              modal_title: "მომხმარებლები",
+              isOpen: isModalOpen,
+              confirmProps: ConfirmProps,
+              key: modalKey,
+              needHeader: true,
+              ...modalHeader,
+              modal_item_conteiner_class: "modal_item_conteiner",
+            };
+        }
         break;
       case "about_us":
         inputs = [
@@ -353,7 +787,7 @@ const Home = () => {
         formProps = {
           name: "about_us",
           ref: AboutUsRef,
-          submit: create,
+          submit: null,
           needTitle: true,
           ...title,
           formClassName: "form",
@@ -366,16 +800,13 @@ const Home = () => {
           needButton: true,
           buttonClass: "form_button",
           buttonText: "დამატება",
-          ButtoncallBack: (e: SyntheticEvent) => {
-            // e.preventDefault();
-            // console.log("clicked");
-          },
+          ButtoncallBack: initUpdate,
         };
         modalProps = {
           modal_title: "ჩვენს შესახებ",
           FormProps: formProps,
           isOpen: isModalOpen,
-          key: "FORM",
+          key: modalKey,
           needHeader: true,
           ...modalHeader,
           modal_item_conteiner_class: "modal_item_conteiner",
@@ -393,7 +824,7 @@ const Home = () => {
           },
           {
             id: Date.now().toString(36) + Math.random().toString(36).slice(2),
-            name: "address",
+            name: "address_eng",
             type: "text ",
             className: "form-input",
             placeholder: "address",
@@ -426,7 +857,7 @@ const Home = () => {
           {
             id: Date.now().toString(36) + Math.random().toString(36).slice(2),
             textareaClass: "form_textarea",
-            textareaName: "description",
+            textareaName: "description_eng",
             textareaPlaceholder: "description",
           },
         ];
@@ -444,7 +875,7 @@ const Home = () => {
         formProps = {
           name: "contacts",
           ref: ContactsUsRef,
-          submit: create,
+          submit: null,
           needTitle: true,
           ...title,
           formClassName: "form",
@@ -456,15 +887,13 @@ const Home = () => {
           needButton: true,
           buttonClass: "form_button",
           buttonText: "დამატება",
-          ButtoncallBack: (e: SyntheticEvent) => {
-            // e.preventDefault();
-          },
+          ButtoncallBack: initUpdate,
         };
         modalProps = {
           modal_title: "ჩვენს შესახებ",
           FormProps: formProps,
           isOpen: isModalOpen,
-          key: "FORM",
+          key: modalKey,
           needHeader: true,
           ...modalHeader,
           modal_item_conteiner_class: "modal_item_conteiner",
@@ -487,6 +916,12 @@ const Home = () => {
               opendMenuItem={opendMenuItem}
               data={pageData}
               setPageData={setPageData}
+              setActionType={setActionType}
+              currentpage={currentPage}
+              setModalKey={setModalKey}
+              setCurrentItemID={setCurrentItemId}
+              currentItem={currentItem}
+              getItem={getItem}
             />
           </div>
         </div>

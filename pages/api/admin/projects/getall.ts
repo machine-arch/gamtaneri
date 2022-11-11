@@ -18,9 +18,11 @@ const GetAllProjects = async (req: NextApiRequest, res: NextApiResponse) => {
     if (user) {
       try {
         jwt.verify(token.toString(), process.env.JWT_SECRET);
-        const complatedProjects = await Connection?.manager?.find(
+        const complatedProjects = await Connection.getRepository(
           ComplatedProjects
-        );
+        ).find({
+          order: { id: "DESC" },
+        });
         if (complatedProjects) {
           res.status(200).json({
             resource: complatedProjects,

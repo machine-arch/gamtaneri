@@ -30,13 +30,19 @@ const UpdateUser = async (req: NextApiRequest, res: NextApiResponse) => {
         ourUser.title_eng = title_eng;
         ourUser.description = description;
         ourUser.description_eng = description_eng;
-        ourUser.createdAt = new Date();
         ourUser.updatedAt = new Date();
-        await Connection.getRepository(User).save(ourUser);
+        await Connection.getRepository(OurUsers).save(ourUser);
+        const ourUsers = await Connection.getRepository(OurUsers).find({
+          order: {
+            id: "DESC",
+          },
+        });
         res.status(200).json({
-          message: "User created",
+          resource: ourUsers,
+          message: "User updated successfully",
           status: 200,
           success: true,
+          from: "users",
         });
       } else {
         res.json({

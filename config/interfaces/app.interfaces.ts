@@ -42,6 +42,7 @@ export interface FormPropsInterface {
   ButtoncallBack: EventHandler<SyntheticEvent>;
   submit?: any;
   textareas?: object[];
+  data?: any;
 }
 
 export interface InputInterface {
@@ -82,12 +83,14 @@ export interface LogsInterface {
 
 export interface buttonProps {
   name: string;
+  datatype?: string;
   hendler?: MouseEventHandler<HTMLButtonElement>;
 }
 
 export interface modal {
   modal_title?: string;
   FormProps?: FormPropsInterface;
+  confirmProps?: any;
   key?: string;
   isOpen: boolean;
   currentproject?: any;

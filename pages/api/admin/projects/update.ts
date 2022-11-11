@@ -25,7 +25,10 @@ const UpdateProject = (req: NextApiRequest, res: NextApiResponse) => {
 
   form.on("fileBegin", (name, file) => {
     file.path = path.join(form.uploadDir, slugify(file.name));
-    filePaths.push(path.relative(process.cwd(), file.path));
+    const filePath = path
+      .relative(process.cwd(), file.path)
+      .replace("public", "");
+    filePaths.push(filePath.replace(/\\/g, "/"));
   });
 
   form.parse(req, async (err, fields, files) => {
@@ -69,7 +72,18 @@ const UpdateProject = (req: NextApiRequest, res: NextApiResponse) => {
             ? JSON.stringify(filePaths)
             : project.images;
           await Connection.manager.save(project);
-          res.status(200).json({ success: true, message: "add sucess" });
+          const projects = await Connection.getRepository(
+            ComplatedProjects
+          ).find({
+            order: { id: "DESC" },
+          });
+          res.status(200).json({
+            resource: projects,
+            success: true,
+            message: "add sucess",
+            from: "projects",
+            status: 200,
+          });
         } catch (err) {
           res.json({ success: false, message: "Token not valid", status: 401 });
         }
