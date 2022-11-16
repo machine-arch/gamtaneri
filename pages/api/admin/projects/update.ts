@@ -6,6 +6,9 @@ import ComplatedProjects from "../../../../src/entity/complatedprojects.entity";
 import AppDataSource from "../../../../src/config/ormConfig";
 import slugify from "slugify";
 import jwt from "jsonwebtoken";
+import { randomUUID } from "crypto";
+import { apiResponseInterface } from "../../../../config/interfaces/api.interfaces";
+import ApiHelper from "../../../../utils/api/apihelper.utils";
 
 export const config = {
   api: {
@@ -13,46 +16,60 @@ export const config = {
   },
 };
 
-const UpdateProject = (req: NextApiRequest, res: NextApiResponse) => {
-  const form = new formidable.IncomingForm({
-    multiples: true,
-    uploadDir: path.join(process.cwd(), "public", "uploads"),
-    keepExtensions: true,
-    keepFilenames: true,
-  });
-
-  const filePaths = [];
-
-  form.on("fileBegin", (name, file) => {
-    file.path = path.join(form.uploadDir, slugify(file.name));
-    const filePath = path
-      .relative(process.cwd(), file.path)
-      .replace("public", "");
-    filePaths.push(filePath.replace(/\\/g, "/"));
-  });
-
-  form.parse(req, async (err, fields, files) => {
-    if (err) {
-      throw new Error(err.message);
-    }
-    if (req.method === "PUT") {
-      const Connection = AppDataSource.isInitialized
-        ? AppDataSource
-        : await AppDataSource.initialize();
-      const {
-        id,
-        project_name,
-        project_name_eng,
-        description,
-        description_eng,
-        token,
-      } = fields;
-      const { email } = jwt.decode(token, {
-        json: true,
+const UpdateProject = async (req: NextApiRequest, res: NextApiResponse) => {
+  const apiResponseData: apiResponseInterface = {
+    res,
+    message: "",
+    status: 0,
+    success: true,
+    from: "",
+    resource: null,
+  };
+  if (req.method === "PUT") {
+    const form = new formidable.IncomingForm({
+      multiples: true,
+      uploadDir: path.join(process.cwd(), "public", "uploads"),
+      keepExtensions: true,
+      keepFilenames: true,
+    });
+    let filePaths = [];
+    form.on("fileBegin", (name, file) => {
+      if (file) {
+        const NAME = randomUUID(file).toString() + "-" + file.name;
+        file.path = path.join(form.uploadDir, slugify(NAME));
+        const filePath = path
+          .relative(process.cwd(), file.path)
+          .replace("public", "");
+        filePaths.push(filePath.replace(/\\/g, "/"));
+      }
+    });
+    return new Promise((resolve, reject) => {
+      form.parse(req, async (err: any, fields: any, files: any) => {
+        if (files)
+          if (err) {
+            reject(err);
+          } else {
+            resolve(fields);
+          }
       });
-      const user = Connection?.manager?.findOne(User, { where: { email } });
-      if (user) {
-        try {
+    })
+      .then(async (fields: any) => {
+        const Connection = AppDataSource.isInitialized
+          ? AppDataSource
+          : await AppDataSource.initialize();
+        const {
+          id,
+          project_name,
+          project_name_eng,
+          description,
+          description_eng,
+          token,
+        } = fields;
+        const { email } = jwt.decode(token, {
+          json: true,
+        });
+        const user = Connection?.manager?.findOne(User, { where: { email } });
+        if (user) {
           jwt.verify(token, process.env.JWT_SECRET);
           const project = await Connection?.manager?.findOne(
             ComplatedProjects,
@@ -77,24 +94,46 @@ const UpdateProject = (req: NextApiRequest, res: NextApiResponse) => {
           ).find({
             order: { id: "DESC" },
           });
-          res.status(200).json({
-            resource: projects,
-            success: true,
-            message: "add sucess",
-            from: "projects",
-            status: 200,
-          });
-        } catch (err) {
-          res.json({ success: false, message: "Token not valid", status: 401 });
+          filePaths = [];
+          apiResponseData.message = "Project updated successfully";
+          apiResponseData.status = 200;
+          apiResponseData.success = true;
+          apiResponseData.from = "projects";
+          apiResponseData.resource = projects;
+          ApiHelper.successResponse(apiResponseData);
+        } else {
+          apiResponseData.message = "Forbidden, permission denied";
+          apiResponseData.status = 403;
+          apiResponseData.success = false;
+          apiResponseData.from = "projects";
+          apiResponseData.resource = null;
+          ApiHelper.FaildResponse(apiResponseData);
         }
-      } else {
-        res.json({ success: false, message: "User not found", status: 401 });
-      }
-      Connection.isInitialized ? Connection.destroy() : null;
-    } else {
-      res.json({ success: false, message: "method not allowed", status: 405 });
-    }
-  });
+        Connection.isInitialized ? Connection.destroy() : null;
+      })
+      .catch((error) => {
+        apiResponseData.message = error.message;
+        apiResponseData.status = 500;
+        apiResponseData.success = false;
+        apiResponseData.from = "projects";
+        apiResponseData.resource = null;
+        ApiHelper.FaildResponse(apiResponseData);
+
+        ApiHelper.AddLogs(
+          "UpdateProject",
+          error.message,
+          req.socket.remoteAddress,
+          req.socket.localAddress
+        );
+      });
+  } else {
+    apiResponseData.message = "Method not allowed";
+    apiResponseData.status = 405;
+    apiResponseData.success = false;
+    apiResponseData.from = "UpdateProject";
+    apiResponseData.resource = null;
+    ApiHelper.FaildResponse(apiResponseData);
+  }
 };
 
 export default UpdateProject;

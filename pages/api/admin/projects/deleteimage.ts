@@ -4,23 +4,33 @@ import User from "../../../../src/entity/user.entity";
 import ComplatedProjects from "../../../../src/entity/complatedprojects.entity";
 import AppDataSource from "../../../../src/config/ormConfig";
 import jwt from "jsonwebtoken";
+import { apiResponseInterface } from "../../../../config/interfaces/api.interfaces";
+import ApiHelper from "../../../../utils/api/apihelper.utils";
 
 const DeleteSingleImage = async (req: NextApiRequest, res: NextApiResponse) => {
+  const apiResponseData: apiResponseInterface = {
+    res,
+    message: "",
+    status: 0,
+    success: true,
+    from: "",
+    resource: null,
+  };
   if (req.method === "DELETE") {
-    const { token, id, image } = req.body;
-    const Connection = AppDataSource.isInitialized
-      ? AppDataSource
-      : await AppDataSource.initialize();
-    const { email } = jwt.decode(token, {
-      json: true,
-    });
-    const user = await Connection.getRepository(User).findOne({
-      where: {
-        email: email,
-      },
-    });
-    if (user) {
-      try {
+    return new Promise(async (resolve, reject) => {
+      const { token, id, image } = req.body;
+      const Connection = AppDataSource.isInitialized
+        ? AppDataSource
+        : await AppDataSource.initialize();
+      const { email } = jwt.decode(token, {
+        json: true,
+      });
+      const user = await Connection.getRepository(User).findOne({
+        where: {
+          email: email,
+        },
+      });
+      if (user) {
         jwt.verify(token, process.env.JWT_SECRET);
         const project = await Connection.getRepository(
           ComplatedProjects
@@ -35,37 +45,47 @@ const DeleteSingleImage = async (req: NextApiRequest, res: NextApiResponse) => {
           project.images = JSON.parse(newImages);
           await Connection.getRepository(ComplatedProjects).save(project);
           fs.unlinkSync(`./public/uploads/${image}`);
-          res.status(200).json({
-            message: "Image deleted",
-            success: true,
-          });
+          apiResponseData.message = "";
+          apiResponseData.status = 200;
+          apiResponseData.success = true;
+          apiResponseData.from = "projects";
+          apiResponseData.resource = project;
+          ApiHelper.successResponse(apiResponseData);
         } else {
-          res.json({
-            message: "Project not found",
-            success: false,
-            status: 404,
-          });
+          apiResponseData.message = "data not found";
+          apiResponseData.status = 404;
+          apiResponseData.success = false;
+          apiResponseData.from = "projects";
+          ApiHelper.FaildResponse(apiResponseData);
         }
-      } catch (error) {
-        res.json({
-          message: "Token not valid",
-          success: false,
-          status: 401,
-        });
+      } else {
+        apiResponseData.message = "forbidden, permission denied";
+        apiResponseData.status = 403;
+        apiResponseData.success = false;
+        apiResponseData.from = "projects";
+        ApiHelper.FaildResponse(apiResponseData);
       }
-    } else {
-      res.json({
-        message: "User not found",
-        success: false,
-        status: 404,
-      });
-    }
-  } else {
-    res.json({
-      message: "Method not allowed",
-      success: false,
-      status: 405,
+      Connection.isInitialized ? Connection.destroy() : null;
+    }).catch((error) => {
+      apiResponseData.message = "something went wrong";
+      apiResponseData.status = 500;
+      apiResponseData.success = false;
+      apiResponseData.from = "projects";
+      ApiHelper.FaildResponse(apiResponseData);
+
+      ApiHelper.AddLogs(
+        "DeleteSingleImage",
+        error.message,
+        req.socket.remoteAddress,
+        req.socket.localAddress
+      );
     });
+  } else {
+    apiResponseData.message = "method not allowed";
+    apiResponseData.status = 405;
+    apiResponseData.success = false;
+    apiResponseData.from = "complatedprojects";
+    ApiHelper.FaildResponse(apiResponseData);
   }
 };
 

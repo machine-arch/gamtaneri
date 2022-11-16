@@ -1,12 +1,12 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import User from "../../../../src/entity/user.entity";
-import OurUsers from "../../../../src/entity/ourusers.entity";
 import AppDataSource from "../../../../src/config/ormConfig";
 import jwt from "jsonwebtoken";
-import { apiResponseInterface } from "../../../../config/interfaces/api.interfaces";
+import AboutUs from "./../../../../src/entity/aboutus.entity";
 import ApiHelper from "../../../../utils/api/apihelper.utils";
+import { apiResponseInterface } from "../../../../config/interfaces/api.interfaces";
 
-const GetUser = async (req: NextApiRequest, res: NextApiResponse) => {
+const GetAboutUs = async (req: NextApiRequest, res: NextApiResponse) => {
   const apiResponseData: apiResponseInterface = {
     res,
     message: "",
@@ -29,52 +29,51 @@ const GetUser = async (req: NextApiRequest, res: NextApiResponse) => {
       });
       if (user) {
         jwt.verify(token.toString(), process.env.JWT_SECRET);
-        const ourUser = await Connection.getRepository(OurUsers).findOne({
+        const aboutUs = await Connection.getRepository(AboutUs).findOne({
           where: { id: Number(id) },
         });
-        if (ourUser) {
-          apiResponseData.message = "";
+        if (aboutUs) {
+          apiResponseData.message = "updated successfully";
           apiResponseData.status = 200;
           apiResponseData.success = true;
-          apiResponseData.from = "users";
-          apiResponseData.resource = ourUser;
+          apiResponseData.from = "aboutus";
+          apiResponseData.resource = aboutUs;
           ApiHelper.successResponse(apiResponseData);
         } else {
           apiResponseData.message = "data not found";
           apiResponseData.status = 404;
           apiResponseData.success = false;
-          apiResponseData.from = "users";
+          apiResponseData.from = "aboutus";
           ApiHelper.FaildResponse(apiResponseData);
         }
       } else {
-        apiResponseData.message = "forbidden, permission denied";
-        apiResponseData.status = 403;
+        apiResponseData.message = "forbidden,permission denied";
+        apiResponseData.status = 404;
         apiResponseData.success = false;
-        apiResponseData.from = "users";
+        apiResponseData.from = "aboutus";
         ApiHelper.FaildResponse(apiResponseData);
       }
       Connection.isInitialized ? Connection.destroy() : null;
     }).catch((error) => {
-      apiResponseData.message = "something went wrong";
+      apiResponseData.message = "Something went wrong";
       apiResponseData.status = 500;
       apiResponseData.success = false;
-      apiResponseData.from = "users";
+      apiResponseData.from = "aboutus";
       ApiHelper.FaildResponse(apiResponseData);
-
       ApiHelper.AddLogs(
-        "GetUser",
+        "GetProject",
         error.message,
         req.socket.remoteAddress,
         req.socket.localAddress
       );
     });
   } else {
-    apiResponseData.message = "method not allowed";
+    apiResponseData.message = "Method not Allowd";
     apiResponseData.status = 405;
     apiResponseData.success = false;
-    apiResponseData.from = "users";
+    apiResponseData.from = "aboutus";
     ApiHelper.FaildResponse(apiResponseData);
   }
 };
 
-export default GetUser;
+export default GetAboutUs;

@@ -1,5 +1,12 @@
 import type { NextPage } from "next";
-import { SyntheticEvent, useContext, useEffect, useState } from "react";
+import {
+  SyntheticEvent,
+  useContext,
+  useEffect,
+  useState,
+  createRef,
+  RefObject,
+} from "react";
 import Head from "next/head";
 import styles from "../styles/Index.module.css";
 import Header from "../components/front/header/header.component";
@@ -12,6 +19,7 @@ import { localeContext } from "../context/locale-context";
 import { modalContext } from "../context/modal-context";
 import Modal from "../components/modal/modal.component";
 import { FormPropsInterface } from "../config/interfaces/app.interfaces";
+import { httpRequest } from "../utils/app.util";
 
 const Home: NextPage = (props: any) => {
   const [localeKey, setLocaleKey] = useState("");
@@ -39,6 +47,33 @@ const Home: NextPage = (props: any) => {
     dyctionary: dictionary,
     key: localeKey,
   };
+
+  const sendMail = async (e: SyntheticEvent) => {
+    e.preventDefault();
+    const form = e.target as HTMLFormElement;
+    const formData = new FormData(form);
+    const { fullname, phone, email, message } = Object.fromEntries(formData);
+    const data = {
+        fullname,
+        phone,
+        email,
+        message,
+      },
+      url = "/api/admin/contacts/send",
+      method = "POST",
+      headers = {
+        "Content-Type": "application/json",
+      };
+
+    const response = await httpRequest(
+      url,
+      method,
+      JSON.stringify(data),
+      headers
+    );
+    console.log(response);
+  };
+
   const formInputs = [
     {
       id: "001",
@@ -93,9 +128,8 @@ const Home: NextPage = (props: any) => {
     needButton: true,
     buttonClass: "form_button",
     buttonText: dictionary ? dictionary[localeKey]["send"] : "გაგზავნა",
-    ButtoncallBack: (e: SyntheticEvent) => {
-      e.preventDefault();
-    },
+    ButtoncallBack: null,
+    submit: sendMail,
   };
   const modalProps = {
     modal_title: modalTitle,

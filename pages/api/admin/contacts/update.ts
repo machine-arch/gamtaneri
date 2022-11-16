@@ -3,32 +3,42 @@ import User from "../../../../src/entity/user.entity";
 import Contacts from "../../../../src/entity/contacts.entity";
 import AppDataSource from "../../../../src/config/ormConfig";
 import jwt from "jsonwebtoken";
+import { apiResponseInterface } from "../../../../config/interfaces/api.interfaces";
+import ApiHelper from "../../../../utils/api/apihelper.utils";
 
 const UpdateContacts = async (req: NextApiRequest, res: NextApiResponse) => {
+  const apiResponseData: apiResponseInterface = {
+    res,
+    message: "",
+    status: 0,
+    success: true,
+    from: "",
+    resource: null,
+  };
   if (req.method === "PUT") {
-    const {
-      id,
-      token,
-      address,
-      address_eng,
-      phone,
-      email,
-      description,
-      description_eng,
-    } = req.body;
-    const Connection = AppDataSource.isInitialized
-      ? AppDataSource
-      : await AppDataSource.initialize();
-    const { email: userEmail } = jwt.decode(token, {
-      json: true,
-    });
-    const user = await Connection?.getRepository(User).findOne({
-      where: {
-        email: userEmail,
-      },
-    });
-    if (user) {
-      try {
+    return new Promise(async (resolve, reject) => {
+      const {
+        id,
+        token,
+        address,
+        address_eng,
+        phone,
+        email,
+        description,
+        description_eng,
+      } = req.body;
+      const Connection = AppDataSource.isInitialized
+        ? AppDataSource
+        : await AppDataSource.initialize();
+      const { email: userEmail } = jwt.decode(token, {
+        json: true,
+      });
+      const user = await Connection?.getRepository(User).findOne({
+        where: {
+          email: userEmail,
+        },
+      });
+      if (user) {
         jwt.verify(token, process.env.JWT_SECRET);
         const contacts = await Connection.getRepository(Contacts).findOne({
           where: {
@@ -44,30 +54,38 @@ const UpdateContacts = async (req: NextApiRequest, res: NextApiResponse) => {
         contacts.description = description;
         contacts.description_eng = description_eng;
         await Connection.getRepository(Contacts).save(contacts);
-        res.status(200).json({
-          message: "Contacts updated",
-          success: true,
+        const allContacts = await Connection.getRepository(Contacts).findOne({
+          where: {
+            id,
+          },
         });
-      } catch (error) {
-        res.json({
-          message: "Token not valid",
-          success: false,
-          status: 401,
-        });
+        apiResponseData.message = "contacts updated successfully";
+        apiResponseData.status = 200;
+        apiResponseData.success = true;
+        apiResponseData.from = "contacts";
+        apiResponseData.resource = allContacts;
+        ApiHelper.successResponse(apiResponseData);
+      } else {
+        apiResponseData.message = "forbidden, permission denied";
+        apiResponseData.status = 403;
+        apiResponseData.success = false;
+        apiResponseData.from = "contacts";
+        ApiHelper.FaildResponse(apiResponseData);
       }
-    } else {
-      res.json({
-        message: "User not found",
-        success: false,
-        status: 404,
-      });
-    }
-  } else {
-    res.json({
-      message: "Method not allowed",
-      status: 405,
-      success: false,
+      Connection.isInitialized ? Connection.destroy() : null;
+    }).catch((error) => {
+      apiResponseData.message = "something went wrong";
+      apiResponseData.status = 500;
+      apiResponseData.success = false;
+      apiResponseData.from = "contacts";
+      ApiHelper.FaildResponse(apiResponseData);
     });
+  } else {
+    apiResponseData.message = "method not allowed";
+    apiResponseData.status = 405;
+    apiResponseData.success = false;
+    apiResponseData.from = "contacts";
+    ApiHelper.FaildResponse(apiResponseData);
   }
 };
 

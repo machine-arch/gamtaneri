@@ -1,12 +1,12 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import User from "../../../../src/entity/user.entity";
-import OurUsers from "../../../../src/entity/ourusers.entity";
 import AppDataSource from "../../../../src/config/ormConfig";
 import jwt from "jsonwebtoken";
+import Contacts from "./../../../../src/entity/contacts.entity";
 import { apiResponseInterface } from "../../../../config/interfaces/api.interfaces";
 import ApiHelper from "../../../../utils/api/apihelper.utils";
 
-const GetUser = async (req: NextApiRequest, res: NextApiResponse) => {
+const GetContact = async (req: NextApiRequest, res: NextApiResponse) => {
   const apiResponseData: apiResponseInterface = {
     res,
     message: "",
@@ -29,28 +29,28 @@ const GetUser = async (req: NextApiRequest, res: NextApiResponse) => {
       });
       if (user) {
         jwt.verify(token.toString(), process.env.JWT_SECRET);
-        const ourUser = await Connection.getRepository(OurUsers).findOne({
+        const contacts = await Connection.getRepository(Contacts).findOne({
           where: { id: Number(id) },
         });
-        if (ourUser) {
+        if (contacts) {
           apiResponseData.message = "";
           apiResponseData.status = 200;
           apiResponseData.success = true;
-          apiResponseData.from = "users";
-          apiResponseData.resource = ourUser;
+          apiResponseData.from = "contacts";
+          apiResponseData.resource = contacts;
           ApiHelper.successResponse(apiResponseData);
         } else {
           apiResponseData.message = "data not found";
           apiResponseData.status = 404;
           apiResponseData.success = false;
-          apiResponseData.from = "users";
+          apiResponseData.from = "contacts";
           ApiHelper.FaildResponse(apiResponseData);
         }
       } else {
         apiResponseData.message = "forbidden, permission denied";
         apiResponseData.status = 403;
         apiResponseData.success = false;
-        apiResponseData.from = "users";
+        apiResponseData.from = "contacts";
         ApiHelper.FaildResponse(apiResponseData);
       }
       Connection.isInitialized ? Connection.destroy() : null;
@@ -58,11 +58,10 @@ const GetUser = async (req: NextApiRequest, res: NextApiResponse) => {
       apiResponseData.message = "something went wrong";
       apiResponseData.status = 500;
       apiResponseData.success = false;
-      apiResponseData.from = "users";
+      apiResponseData.from = "contacts";
       ApiHelper.FaildResponse(apiResponseData);
-
       ApiHelper.AddLogs(
-        "GetUser",
+        "GetContact",
         error.message,
         req.socket.remoteAddress,
         req.socket.localAddress
@@ -72,9 +71,9 @@ const GetUser = async (req: NextApiRequest, res: NextApiResponse) => {
     apiResponseData.message = "method not allowed";
     apiResponseData.status = 405;
     apiResponseData.success = false;
-    apiResponseData.from = "users";
+    apiResponseData.from = "contacts";
     ApiHelper.FaildResponse(apiResponseData);
   }
 };
 
-export default GetUser;
+export default GetContact;

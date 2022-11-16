@@ -24,7 +24,7 @@ export interface FormProps {
 export interface FormPropsInterface {
   name?: string;
   needClose?: boolean;
-  ref?: RefObject<HTMLElement>;
+  ref?: RefObject<HTMLFormElement>;
   close?: MouseEventHandler;
   needTitle?: boolean;
   title?: object;

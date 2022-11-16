@@ -25,7 +25,6 @@ export const httpRequest = async (
   body?: any,
   headers?: any
 ) => {
-  console.log("http");
   const response = await fetch(url, {
     method: method,
     headers: headers,

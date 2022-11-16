@@ -3,24 +3,35 @@ import User from "../../../../src/entity/user.entity";
 import OurUsers from "../../../../src/entity/ourusers.entity";
 import AppDataSource from "../../../../src/config/ormConfig";
 import jwt from "jsonwebtoken";
+import { apiResponseInterface } from "../../../../config/interfaces/api.interfaces";
+import ApiHelper from "../../../../utils/api/apihelper.utils";
 
 const UpdateUser = async (req: NextApiRequest, res: NextApiResponse) => {
+  const apiResponseData: apiResponseInterface = {
+    res,
+    message: "",
+    status: 0,
+    success: true,
+    from: "",
+    resource: null,
+  };
   if (req.method === "PUT") {
-    const { id, token, title, title_eng, description, description_eng } =
-      req.body;
-    const Connection = AppDataSource.isInitialized
-      ? AppDataSource
-      : await AppDataSource.initialize();
-    const { email } = jwt.decode(token, {
-      json: true,
-    });
-    const user = await Connection.getRepository(User).findOne({
-      where: {
-        email: email,
-      },
-    });
-    if (user) {
-      if (jwt.verify(token, process.env.JWT_SECRET)) {
+    return new Promise(async (resolve, reject) => {
+      const { id, token, title, title_eng, description, description_eng } =
+        req.body;
+      const Connection = AppDataSource.isInitialized
+        ? AppDataSource
+        : await AppDataSource.initialize();
+      const { email } = jwt.decode(token, {
+        json: true,
+      });
+      const user = await Connection.getRepository(User).findOne({
+        where: {
+          email: email,
+        },
+      });
+      if (user) {
+        jwt.verify(token, process.env.JWT_SECRET);
         const ourUser = await Connection?.getRepository(OurUsers).findOne({
           where: {
             id,
@@ -37,34 +48,42 @@ const UpdateUser = async (req: NextApiRequest, res: NextApiResponse) => {
             id: "DESC",
           },
         });
-        res.status(200).json({
-          resource: ourUsers,
-          message: "User updated successfully",
-          status: 200,
-          success: true,
-          from: "users",
-        });
+        apiResponseData.message = "User updated successfully";
+        apiResponseData.status = 200;
+        apiResponseData.success = true;
+        apiResponseData.from = "users";
+        apiResponseData.resource = ourUsers;
+        ApiHelper.successResponse(apiResponseData);
       } else {
-        res.json({
-          message: "Token not valid",
-          status: 401,
-          success: false,
-        });
+        apiResponseData.message = "Forbidden, Permission denied";
+        apiResponseData.status = 403;
+        apiResponseData.success = false;
+        apiResponseData.from = "users";
+        apiResponseData.resource = null;
+        ApiHelper.FaildResponse(apiResponseData);
       }
-    } else {
-      res.json({
-        message: "User not found",
-        status: 404,
-        success: false,
-      });
-    }
-    Connection.isInitialized ? Connection.destroy() : null;
-  } else {
-    res.json({
-      message: "Method not allowed",
-      status: 405,
-      success: false,
+      Connection.isInitialized ? Connection.destroy() : null;
+    }).catch((err) => {
+      apiResponseData.message = "something went wrong";
+      apiResponseData.status = 500;
+      apiResponseData.success = false;
+      apiResponseData.from = "users";
+      apiResponseData.resource = null;
+      ApiHelper.FaildResponse(apiResponseData);
+      ApiHelper.AddLogs(
+        "UpdateUser",
+        err.message,
+        req.socket.remoteAddress,
+        req.socket.localAddress
+      );
     });
+  } else {
+    apiResponseData.message = "Method not allowed";
+    apiResponseData.status = 405;
+    apiResponseData.success = false;
+    apiResponseData.from = "users";
+    apiResponseData.resource = null;
+    ApiHelper.FaildResponse(apiResponseData);
   }
 };
 
