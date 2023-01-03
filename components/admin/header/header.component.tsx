@@ -8,6 +8,7 @@ import {
 } from "../../../context/admin/auth.context";
 import router from "next/router";
 import nookies from "nookies";
+import { imageLoaderProp } from "../../../utils/app.util";
 
 const Header = () => {
   const autContext: authContextInterface = useContext(authContext);
@@ -38,6 +39,7 @@ const Header = () => {
             alt="main logo"
             width={180}
             height={30}
+            loader={imageLoaderProp}
           />
         </div>
         <div className={styles.header_menu}>

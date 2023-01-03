@@ -6,6 +6,7 @@ import {
 } from "../../../context/scroll-context";
 import { createRef, RefObject, useContext, useEffect, useState } from "react";
 import { localeContext } from "../../../context/locale-context";
+import { imageLoaderProp } from "../../../utils/app.util";
 
 const AboutUs = (props: any) => {
   const imagesStyle = { borderRadius: "8px", overflow: "hidden" };
@@ -21,11 +22,12 @@ const AboutUs = (props: any) => {
     <div className={styles.about_us_conteiner} ref={aboutUs}>
       <div className={styles.about_us_image} style={imagesStyle}>
         <Image
-          src="/images/teqnika.jpg"
+          src={data?.image}
           alt="about-us"
           width={600}
           height={500}
           sizes="100vw"
+          loader={imageLoaderProp}
         />
       </div>
       <div className={styles.about_us_text}>

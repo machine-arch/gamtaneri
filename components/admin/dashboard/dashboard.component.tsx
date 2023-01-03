@@ -18,7 +18,6 @@ const Home = () => {
   const [opendMenuItem, setOpendMenuItem] = useState<any>(null);
   const [pageData, setPageData] = useState([]);
   const [actionType, setActionType] = useState("");
-  const [confirmQuestion, setConfirmQuestion] = useState("");
   const [httpProps, setHttpProps] = useState<any>(null);
   const [currentItemId, setCurrentItemId] = useState<any>(null);
   const [currentItem, setCurrentItem] = useState<any>(null);
@@ -151,7 +150,6 @@ const Home = () => {
         }
       }).then((res) => {
         setModalKey("CONFIRM");
-        setConfirmQuestion("Are you sure you want to create this item?");
       });
     };
 
@@ -305,7 +303,6 @@ const Home = () => {
         }
       }).then((res) => {
         setModalKey("CONFIRM");
-        setConfirmQuestion("Are you sure you want to create this item?");
       });
     };
 
@@ -319,10 +316,8 @@ const Home = () => {
       if (response.status === 200) {
         setPageData(response);
         setModalKey("MESSAGE");
-        setConfirmQuestion(response.message);
       } else {
         setModalKey("MESSAGE");
-        setConfirmQuestion(response.message);
       }
     };
     const update = async (e: any) => {
@@ -335,10 +330,8 @@ const Home = () => {
       if (response.status === 200) {
         setPageData(response);
         setModalKey("MESSAGE");
-        setConfirmQuestion(response.message);
       } else {
         setModalKey("ERROR");
-        setConfirmQuestion("Error");
       }
     };
 
@@ -360,12 +353,10 @@ const Home = () => {
       const response = await httpRequest(url, "DELETE");
       setPageData(response);
       setModalKey("MESSAGE");
-      setConfirmQuestion(response.message);
     };
 
     const denialOperation = (e: any) => {
       setModalKey("FORM");
-      setConfirmQuestion("");
     };
 
     switch (currentPage) {
@@ -449,7 +440,8 @@ const Home = () => {
             ConfirmProps = {
               acceptHendler: create,
               cancelHendler: ModalCloseHendler,
-              question: confirmQuestion,
+              question: "Are you sure you want to create item?",
+              conteinerClass: "modal_dialogs_conteiner",
               name: "our_users",
             };
             modalProps = {
@@ -539,7 +531,8 @@ const Home = () => {
             ConfirmProps = {
               acceptHendler: update,
               cancelHendler: ModalCloseHendler,
-              question: confirmQuestion,
+              question: "Are you sure you want to update this item?",
+              conteinerClass: "modal_dialogs_conteiner",
             };
 
             modalProps = {
@@ -564,7 +557,8 @@ const Home = () => {
             ConfirmProps = {
               acceptHendler: deleteItem,
               cancelHendler: ModalCloseHendler,
-              question: confirmQuestion,
+              question: "Are you sure you want to delete this item?",
+              conteinerClass: "modal_dialogs_conteiner",
               name: "our_users",
             };
             modalProps = {
@@ -663,7 +657,8 @@ const Home = () => {
             ConfirmProps = {
               acceptHendler: create,
               cancelHendler: ModalCloseHendler,
-              question: confirmQuestion,
+              question: "Are you sure you want to create item?",
+              conteinerClass: "modal_dialogs_conteiner",
               name: "our_users",
             };
             modalProps = {
@@ -765,7 +760,8 @@ const Home = () => {
             ConfirmProps = {
               acceptHendler: update,
               cancelHendler: ModalCloseHendler,
-              question: confirmQuestion,
+              question: "Are you sure you want to update this item?",
+              conteinerClass: "modal_dialogs_conteiner",
               name: "our_users",
             };
             modalProps = {
@@ -790,7 +786,8 @@ const Home = () => {
             ConfirmProps = {
               acceptHendler: deleteItem,
               cancelHendler: ModalCloseHendler,
-              question: confirmQuestion,
+              question: "Are you sure you want to delete this item?",
+              conteinerClass: "modal_dialogs_conteiner",
               name: "our_users",
             };
             modalProps = {
@@ -884,7 +881,8 @@ const Home = () => {
             ConfirmProps = {
               acceptHendler: update,
               cancelHendler: ModalCloseHendler,
-              question: confirmQuestion,
+              question: "Are you sure you want to update this item?",
+              conteinerClass: "modal_dialogs_conteiner",
               name: "about_us",
             };
             modalProps = {
@@ -993,7 +991,8 @@ const Home = () => {
             ConfirmProps = {
               acceptHendler: update,
               cancelHendler: ModalCloseHendler,
-              question: confirmQuestion,
+              question: "Are you sure you want to update this item?",
+              conteinerClass: "modal_dialogs_conteiner",
               name: "about_us",
             };
             modalProps = {

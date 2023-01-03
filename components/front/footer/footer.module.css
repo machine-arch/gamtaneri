@@ -65,3 +65,35 @@
 .contact_us {
   width: 35%;
 }
+
+@media (max-width: 900px) {
+  .footer_conteiner {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 40px 30px 30px 30px;
+  }
+  .contact_info_conteiner {
+    width: 100%;
+  }
+  .contact_info_termsAndCvonditions {
+    width: 100%;
+  }
+  .contact_info_address,
+  .contact_info_emile,
+  .contact_info_phone {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .contact_info_address p,
+  .contact_info_emile p,
+  .contact_info_phone p {
+    margin-left: 0;
+  }
+  .contact_us {
+    width: 100%;
+    padding-top: 2em;
+  }
+}

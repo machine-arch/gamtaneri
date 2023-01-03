@@ -3,6 +3,7 @@ import Button from "../../../button/button.component";
 import { useState, useContext, useEffect, Fragment } from "react";
 import { localeContext } from "../../../../context/locale-context";
 import Image from "next/image";
+import { imageLoaderProp } from "../../../../utils/app.util";
 import AES from "crypto-js/aes";
 import { enc } from "crypto-js";
 
@@ -21,6 +22,7 @@ const DashboardBody = (props: any) => {
       ? props.setIsModalOpen(true)
       : props.setIsModalOpen(false);
     const actionType = e.target.getAttribute("datatype");
+    console.log(actionType);
     const id = e.target.getAttribute("itemid");
     props.setCurrentItemID(id);
     if (actionType !== "delete") {
@@ -43,6 +45,9 @@ const DashboardBody = (props: any) => {
     update: "edit",
     delete: "delete",
   };
+  props?.data?.resource?.map((el: any) => {
+    console.log(el?.image);
+  });
   return (
     <Fragment>
       <div className={props.dashboard_body_conteiner}>
@@ -82,6 +87,7 @@ const DashboardBody = (props: any) => {
                               className={styles.edit}
                               itemID={el.id}
                               datatype={ACTION_TYPES.update}
+                              loader={imageLoaderProp}
                               onClick={openModalHendler}
                             />
                           </div>
@@ -94,6 +100,7 @@ const DashboardBody = (props: any) => {
                               width={24}
                               height={24}
                               layout="fixed"
+                              loader={imageLoaderProp}
                             />
                             <p>
                               {localeKey === "en"
@@ -108,6 +115,7 @@ const DashboardBody = (props: any) => {
                               width={24}
                               height={24}
                               layout="fixed"
+                              loader={imageLoaderProp}
                             />
                             <p>{el.email}</p>
                           </div>
@@ -118,6 +126,7 @@ const DashboardBody = (props: any) => {
                               width={24}
                               height={24}
                               layout="fixed"
+                              loader={imageLoaderProp}
                             />
                             <p>{el?.phone}</p>
                           </div>
@@ -150,6 +159,7 @@ const DashboardBody = (props: any) => {
                               className={styles.edit}
                               itemID={el.id}
                               datatype={ACTION_TYPES.update}
+                              loader={imageLoaderProp}
                               onClick={openModalHendler}
                             />
                           </div>
@@ -162,6 +172,7 @@ const DashboardBody = (props: any) => {
                             height={200}
                             layout="fixed"
                             className={styles.about_image}
+                            loader={imageLoaderProp}
                           />
                         </div>
                         <div className={styles.about_text}>
@@ -192,6 +203,7 @@ const DashboardBody = (props: any) => {
                               className={styles.edit}
                               itemID={el.id}
                               datatype={ACTION_TYPES.update}
+                              loader={imageLoaderProp}
                               onClick={openModalHendler}
                             />
                             <Image
@@ -202,6 +214,7 @@ const DashboardBody = (props: any) => {
                               className={styles.delete}
                               itemID={el.id}
                               datatype={ACTION_TYPES.delete}
+                              loader={imageLoaderProp}
                               onClick={openModalHendler}
                             />
                           </div>
@@ -219,6 +232,7 @@ const DashboardBody = (props: any) => {
                             alt="about_us"
                             layout="fill"
                             className={styles.project_image}
+                            loader={imageLoaderProp}
                           />
                         </div>
                       </div>
@@ -242,6 +256,7 @@ const DashboardBody = (props: any) => {
                               className={styles.edit}
                               itemID={el.id}
                               datatype={ACTION_TYPES.update}
+                              loader={imageLoaderProp}
                               onClick={openModalHendler}
                             />
                             <Image
@@ -252,6 +267,7 @@ const DashboardBody = (props: any) => {
                               className={styles.delete}
                               itemID={el.id}
                               datatype={ACTION_TYPES.delete}
+                              loader={imageLoaderProp}
                               onClick={openModalHendler}
                             />
                           </div>

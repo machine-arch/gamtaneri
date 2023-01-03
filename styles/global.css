@@ -113,6 +113,18 @@ html {
   box-sizing: border-box;
   padding: 20px 30px 20px 30px;
 }
+.modal_dialogs_conteiner {
+  width: max-content;
+  height: max-content;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  box-sizing: border-box;
+  padding: 20px 30px 20px 30px;
+}
 
 .dashboard_modal_header {
   display: flex;

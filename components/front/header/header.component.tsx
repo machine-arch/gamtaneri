@@ -8,7 +8,7 @@ import {
 import { useContext, useEffect, useState } from "react";
 import { localeContext } from "../../../context/locale-context";
 import { FC } from "react";
-import { switchLanguage } from "../../../utils/app.util";
+import { imageLoaderProp, switchLanguage } from "../../../utils/app.util";
 import { headerProps } from "../../../config/interfaces/app.interfaces";
 
 const Header: FC<headerProps> = (props) => {
@@ -45,7 +45,13 @@ const Header: FC<headerProps> = (props) => {
           scrollTo(scrollRefs.mainSection);
         }}
       >
-        <Image src="/images/logo.svg" alt="main logo" width={180} height={30} />
+        <Image
+          src="/images/logo.svg"
+          alt="main logo"
+          width={180}
+          height={30}
+          loader={imageLoaderProp}
+        />
       </div>
       <div className={styles.header_menu}>
         <ul className={styles.header_menu_list}>

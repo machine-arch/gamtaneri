@@ -8,6 +8,7 @@ import {
   scrollContextInterface,
 } from "../../../context/scroll-context";
 import { localeContext } from "../../../context/locale-context";
+import { imageLoaderProp } from "../../../utils/app.util";
 
 const Mainsection = (props: any) => {
   const [localeKey, setLocaleKey] = useState("");
@@ -47,8 +48,12 @@ const Mainsection = (props: any) => {
         <Image
           src="/images/main-grid.png"
           alt="mainsection-grid"
-          width={700}
-          height={550}
+          width={100}
+          height={100}
+          layout="responsive"
+          objectFit="contain"
+          sizes="100vw"
+          loader={imageLoaderProp}
         />
       </div>
     </div>

@@ -8,6 +8,7 @@ import path from "path";
 import slugify from "slugify";
 import { apiResponseInterface } from "../../../../config/interfaces/api.interfaces";
 import ApiHelper from "../../../../utils/api/apihelper.utils";
+import { createHash, randomUUID } from "crypto";
 
 export const config = {
   api: {
@@ -35,9 +36,10 @@ const CreateAboutUs = async (req: NextApiRequest, res: NextApiResponse) => {
     let ImagePath = null;
 
     form.on("fileBegin", (name, file) => {
-      file.path = path.join(form.uploadDir, slugify(file.name));
+      const NAME = createHash("md5").update(file.name).digest("hex");
+      var fileType = file.type.split("/").pop();
       const filePath = path
-        .relative(process.cwd(), file.path)
+        .relative(process.cwd(), `${NAME}${randomUUID()}.${fileType}`)
         .replace("public", "");
       ImagePath = filePath.replace(/\\/g, "/");
     });

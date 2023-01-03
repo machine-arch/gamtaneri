@@ -25,3 +25,27 @@
   padding-bottom: 15px;
   color: var(--grey);
 }
+
+@media (max-width: 900px) {
+  .mainsection_conteiner {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 40px 30px 15px 30px;
+    justify-content: center;
+    gap: 2em;
+  }
+  .mainsection_contact_conteiner {
+    width: 100%;
+  }
+  .mainsection_contact_text {
+    text-align: justify;
+  }
+  .mainsection_contact_title {
+    text-align: center;
+  }
+  .mainsection_contact_conteiner,
+  .mainsection_image_conteiner {
+    width: 100%;
+  }
+}

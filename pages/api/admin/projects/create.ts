@@ -6,7 +6,7 @@ import ComplatedProjects from "../../../../src/entity/complatedprojects.entity";
 import AppDataSource from "../../../../src/config/ormConfig";
 import slugify from "slugify";
 import jwt from "jsonwebtoken";
-import { randomUUID } from "crypto";
+import { randomUUID, createHash } from "crypto";
 import fs from "fs";
 import { apiResponseInterface } from "../../../../config/interfaces/api.interfaces";
 import ApiHelper from "../../../../utils/api/apihelper.utils";
@@ -48,12 +48,27 @@ const CreateProject = async (req: NextApiRequest, res: NextApiResponse) => {
 
     form.on("fileBegin", (name: any, file: any) => {
       if (file) {
-        const NAME = randomUUID(file).toString() + "-" + file.name;
-        file.path = path.join(form.uploadDir, slugify(NAME));
+        //create unicue hash from file name for next js image optimization
+        const hash = createHash("md5");
+        hash.update(
+          file.name
+            .split(".")
+            .slice(0, -1)
+            .join(".")
+            .concat(randomUUID(), "utf-8")
+        );
+        // hash.update(file.name);
+        const hashName = hash.digest("hex");
+        const ext = path.extname(file.name);
+        const fileName = `${hashName}${ext}`;
+        file.path = path.join(upload_dir, fileName);
+        const pathWithOriginalName = path.join(upload_dir, file.name);
         const filePath = path
           .relative(process.cwd(), file.path)
-          .replace("public", "");
-        filePaths.push(filePath.replace(/\\/g, "/"));
+          .replace("public", "")
+          .replace(/\\/g, "/");
+
+        filePaths.push(filePath);
       }
     });
 
@@ -117,18 +132,19 @@ const CreateProject = async (req: NextApiRequest, res: NextApiResponse) => {
         Connection.isInitialized ? Connection.destroy() : null;
       })
       .catch((err) => {
-        apiResponseData.message = "Something went wrong";
-        apiResponseData.status = 500;
-        apiResponseData.success = false;
-        apiResponseData.from = "projects";
-        apiResponseData.resource = null;
-        ApiHelper.FaildResponse(apiResponseData);
-        ApiHelper.AddLogs(
-          "CreateProject",
-          err.message,
-          req.socket.remoteAddress,
-          req.socket.localAddress
-        );
+        // apiResponseData.message = "Something went wrong";
+        // apiResponseData.status = 500;
+        // apiResponseData.success = false;
+        // apiResponseData.from = "projects";
+        // apiResponseData.resource = null;
+        // ApiHelper.FaildResponse(apiResponseData);
+        // ApiHelper.AddLogs(
+        //   "CreateProject",
+        //   err.message,
+        //   req.socket.remoteAddress,
+        //   req.socket.localAddress
+        // );
+        console.log(err.message);
       });
   } else {
     apiResponseData.message = "Method not allowed";

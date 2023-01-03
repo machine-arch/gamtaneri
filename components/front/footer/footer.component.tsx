@@ -5,6 +5,7 @@ import { FC, SyntheticEvent, useContext, useEffect, useState } from "react";
 import { FooterProps } from "../../../config/interfaces/app.interfaces";
 import { FormPropsInterface } from "../../../config/interfaces/app.interfaces";
 import { localeContext } from "../../../context/locale-context";
+import { imageLoaderProp } from "../../../utils/app.util";
 
 const Footer: FC<FooterProps> = (props: any) => {
   const formInputs = [
@@ -86,6 +87,7 @@ const Footer: FC<FooterProps> = (props: any) => {
               width={24}
               height={24}
               layout="fixed"
+              loader={imageLoaderProp}
             />
             <p>
               {localeKey === "en" ? contacts?.address_eng : contacts?.address}
@@ -98,6 +100,7 @@ const Footer: FC<FooterProps> = (props: any) => {
               width={24}
               height={24}
               layout="fixed"
+              loader={imageLoaderProp}
             />
             <p>{contacts?.email}</p>
           </div>
@@ -108,6 +111,7 @@ const Footer: FC<FooterProps> = (props: any) => {
               width={24}
               height={24}
               layout="fixed"
+              loader={imageLoaderProp}
             />
             <p>{contacts?.phone}</p>
           </div>

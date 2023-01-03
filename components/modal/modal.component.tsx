@@ -6,6 +6,7 @@ import Gallery from "../front/gallery/gallery.component";
 import Image from "next/image";
 import Confirm from "../confirm/confirm.component";
 import Message from "../message/message.component";
+import { imageLoaderProp } from "../../utils/app.util";
 
 const Modal: FC<modalProps> = (props) => {
   return (
@@ -14,7 +15,14 @@ const Modal: FC<modalProps> = (props) => {
         <div className={styles.modal_conteiner}>
           <div className={styles.modal_background}></div>
           <div className={styles.modal}>
-            <div className={props?.modalprops.modal_item_conteiner_class}>
+            <div
+              className={
+                props?.modalprops?.key === "CONFIRM" ||
+                props?.modalprops?.key === "MESSAGE"
+                  ? props?.modalprops?.confirmProps?.conteinerClass
+                  : props?.modalprops?.modal_item_conteiner_class
+              }
+            >
               {props?.modalprops?.needHeader ? (
                 <div
                   className={props?.modalprops?.headerClassname}
@@ -30,6 +38,7 @@ const Modal: FC<modalProps> = (props) => {
                     alt="modal close svg"
                     width={20}
                     height={20}
+                    loader={imageLoaderProp}
                   />
                 </div>
               ) : null}

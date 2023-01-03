@@ -15,3 +15,9 @@
 .main_button:active {
   border: none;
 }
+
+@media (max-width: 900px) {
+  .main_button {
+    width: 100%;
+  }
+}

@@ -6,7 +6,7 @@ import jwt from "jsonwebtoken";
 import formidable from "formidable-serverless";
 import path from "path";
 import slugify from "slugify";
-import { randomUUID } from "crypto";
+import { createHash, randomUUID } from "crypto";
 import { apiResponseInterface } from "../../../../config/interfaces/api.interfaces";
 import ApiHelper from "../../../../utils/api/apihelper.utils";
 
@@ -37,8 +37,12 @@ const UpdateAboutUs = async (req: NextApiRequest, res: NextApiResponse) => {
 
     form.on("fileBegin", (name: any, file: any) => {
       if (file) {
-        const NAME = randomUUID(file).toString() + "-" + file.name;
-        file.path = path.join(form.uploadDir, slugify(NAME));
+        const NAME = createHash("md5").update(file.name).digest("hex");
+        var fileType = file.type.split("/").pop();
+        file.path = path.join(
+          form.uploadDir,
+          `${NAME}${randomUUID()}.${fileType}`
+        );
         const filePath = path
           .relative(process.cwd(), file.path)
           .replace("public", "");

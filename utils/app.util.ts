@@ -34,3 +34,7 @@ export const httpRequest = async (
     .then((data) => data);
   return response;
 };
+
+export const imageLoaderProp = ({ src, width, quality }) => {
+  return `${src}?w=${width}&q=${quality || 75}`;
+};

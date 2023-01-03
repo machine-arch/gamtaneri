@@ -19,10 +19,21 @@ const UsersSection = (props: any) => {
   const scrollContext: scrollContextInterface = useContext(ScrollContext);
   scrollContext.userSection = userSection;
   const [users, setUsers] = useState(null);
+  const [sliedToShow, setSlideToShow] = useState(3);
   const { localeKey } = useContext<any>(localeContext);
   useEffect(() => {
     setUsers(props.users);
+    slideToshow();
   }, [props.users]);
+
+  const slideToshow = () => {
+    if (window.outerWidth < 900) {
+      console.log("rame");
+      setSlideToShow(1);
+    } else {
+      setSlideToShow(3);
+    }
+  };
 
   return (
     <div
@@ -34,7 +45,7 @@ const UsersSection = (props: any) => {
         <p>ჩვენი მომხმარებლები</p>
       </div>
       <Carousel
-        slidesToShow={3}
+        slidesToShow={sliedToShow}
         adaptiveHeight={true}
         defaultControlsConfig={CaruselConfig}
         renderCenterLeftControls={({}) => null}

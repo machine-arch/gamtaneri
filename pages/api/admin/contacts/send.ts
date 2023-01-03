@@ -2,6 +2,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 
 const sendContactEmail = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === "POST") {
+    console.log(process.env.EMAIL_USER, process.env.EMAIL_PASS);
     return new Promise((resolve, reject) => {
       const { name, email, message } = req.body;
       const nodemailer = require("nodemailer");
@@ -10,13 +11,13 @@ const sendContactEmail = async (req: NextApiRequest, res: NextApiResponse) => {
         port: process.env.EMAIL_PORT,
         secure: true,
         auth: {
-          user: process.env.EMAIL_USER,
-          pass: process.env.EMAIL_PASS,
+          user: "info@gamtaneri.ge",
+          pass: "Gamtaneri123",
         },
       });
       const mailOptions = {
         from: email,
-        to: process.env.EMAIL_USER,
+        to: email,
         subject: "constact to gamtaneri",
         text: message,
       };

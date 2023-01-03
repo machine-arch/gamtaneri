@@ -6,7 +6,7 @@ import ComplatedProjects from "../../../../src/entity/complatedprojects.entity";
 import AppDataSource from "../../../../src/config/ormConfig";
 import slugify from "slugify";
 import jwt from "jsonwebtoken";
-import { randomUUID } from "crypto";
+import { createHash, randomUUID } from "crypto";
 import { apiResponseInterface } from "../../../../config/interfaces/api.interfaces";
 import ApiHelper from "../../../../utils/api/apihelper.utils";
 
@@ -35,8 +35,9 @@ const UpdateProject = async (req: NextApiRequest, res: NextApiResponse) => {
     let filePaths = [];
     form.on("fileBegin", (name, file) => {
       if (file) {
-        const NAME = randomUUID(file).toString() + "-" + file.name;
-        file.path = path.join(form.uploadDir, slugify(NAME));
+        const NAME = createHash("md5").update(file.name).digest("hex");
+        var fileType = file.type.split("/").pop();
+        file.path = path.join(form.uploadDir, file.name);
         const filePath = path
           .relative(process.cwd(), file.path)
           .replace("public", "");

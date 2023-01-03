@@ -40,3 +40,13 @@
 .current_user > span {
   color: var(--grey);
 }
+
+@media (max-width: 900px) {
+  .userssection_conteiner {
+    box-sizing: border-box;
+    padding: 50px 30px 80px 30px;
+  }
+  .current_user > p {
+    text-align: justify;
+  }
+}

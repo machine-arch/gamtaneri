@@ -42,3 +42,15 @@
   font-size: 24px;
   padding-bottom: 30px;
 }
+
+@media (max-width: 900px) {
+  .completed_projects_conteiner {
+    padding: 40px 30px 80px 30px;
+  }
+  .copleted_projects_items {
+    flex-direction: column;
+  }
+  .copleted_project {
+    width: 100%;
+  }
+}

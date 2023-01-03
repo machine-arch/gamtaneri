@@ -1,6 +1,7 @@
 import { Fragment, useEffect, useState } from "react";
 import styles from "./gallery.module.css";
 import Image from "next/image";
+import { imageLoaderProp } from "../../../utils/app.util";
 
 const Gallery = (props: any) => {
   const [mainImage, setMainImage] = useState("");
@@ -29,6 +30,7 @@ const Gallery = (props: any) => {
             objectFit="cover"
             layout="fill"
             priority={true}
+            loader={imageLoaderProp}
             className={styles.gallery_main_image}
           />
         </div>
@@ -53,6 +55,7 @@ const Gallery = (props: any) => {
                             width={60}
                             height={60}
                             objectFit="fill"
+                            loader={imageLoaderProp}
                             className={styles.gallery_image}
                           />
                         </div>
@@ -68,6 +71,7 @@ const Gallery = (props: any) => {
                             width={60}
                             height={60}
                             objectFit="fill"
+                            loader={imageLoaderProp}
                             className={styles.gallery_image}
                           />
                         </div>

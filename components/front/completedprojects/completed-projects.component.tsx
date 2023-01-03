@@ -8,6 +8,7 @@ import {
   scrollContextInterface,
 } from "../../../context/scroll-context";
 import { localeContext } from "../../../context/locale-context";
+import { imageLoaderProp } from "../../../utils/app.util";
 
 const CompletedProjects = (props: any) => {
   const imagesStyle = { borderRadius: "8px", overflow: "hidden" };
@@ -16,8 +17,10 @@ const CompletedProjects = (props: any) => {
   scrollContext.projectsSection = projectsSection;
   const { localeKey } = useContext<any>(localeContext);
   const [projects, setProjects] = useState(null);
+  const [sliedToShow, setSlideToShow] = useState(3);
   useEffect(() => {
     setProjects(props.projects);
+    slideToshow();
   }, [props.projects]);
 
   const openProjectHendler = (e: any) => {
@@ -27,6 +30,23 @@ const CompletedProjects = (props: any) => {
     const current_el = projects.find((el: any) => el.id == current_el_id);
     props.setcurrentproject(current_el);
     props?.setModalTitle(current_el.project_name);
+  };
+  const slideToshow = () => {
+    if (window.outerWidth < 900) {
+      setSlideToShow(1);
+    } else {
+      setSlideToShow(3);
+    }
+  };
+  const loadOnleyImages: any = async () => {
+    const images = await Promise.all(
+      projects.map((project: any) => {
+        return JSON.parse(project?.images).map((image: any) => {
+          return imageLoaderProp({ src: image, width: 30, quality: 75 });
+        });
+      })
+    );
+    return images;
   };
   return (
     <div
@@ -40,7 +60,7 @@ const CompletedProjects = (props: any) => {
       <Carousel
         adaptiveHeight={true}
         defaultControlsConfig={CaruselConfig}
-        slidesToShow={3}
+        slidesToShow={sliedToShow}
         renderCenterLeftControls={() => null}
         renderCenterRightControls={() => null}
         dragging={true}
@@ -54,17 +74,18 @@ const CompletedProjects = (props: any) => {
                     style={imagesStyle}
                   >
                     <Image
-                      src={JSON.parse(project.images)[0]}
+                      src={JSON.parse(project?.images)[0]}
                       alt={
                         localeKey === "en"
                           ? project.project_name_eng
                           : project.project_name
                       }
-                      width={300}
-                      height={150}
+                      width={30}
+                      height={20}
                       sizes="100vw"
-                      layout="responsive"
                       priority={true}
+                      unoptimized={true}
+                      loader={loadOnleyImages}
                       className={styles.completed_project_image}
                     />
                     <h2 onClick={openProjectHendler} itemID={project.id}>
