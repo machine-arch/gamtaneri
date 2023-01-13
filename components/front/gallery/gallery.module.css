@@ -33,7 +33,7 @@
 }
 
 .active_galery_item {
-  border: 2px solid #000;
+  border: 2px solid var(--readeble-text-color);
   border-radius: 2px;
   box-sizing: content-box;
   height: max-content;

@@ -43,7 +43,11 @@ const Modal: FC<modalProps> = (props) => {
                 </div>
               ) : null}
               {props?.modalprops?.key === "FORM" ? (
-                <Form FormProps={props?.modalprops?.FormProps} />
+                <Form
+                  FormProps={props?.modalprops?.FormProps}
+                  Loader={props?.modalprops?.FormProps?.loader}
+                  loadrConteinerClassname={"form_loader_conteiner"}
+                />
               ) : null}
               {props?.modalprops?.key === "GALLERY" ? (
                 <Gallery
@@ -52,7 +56,7 @@ const Modal: FC<modalProps> = (props) => {
                 />
               ) : null}
               {props?.modalprops?.key === "CONFIRM" ? (
-                <Confirm confirmProps={props.modalprops.confirmProps} />
+                <Confirm confirmProps={props?.modalprops.confirmProps} />
               ) : null}
               {props?.modalprops?.key === "MESSAGE" ? (
                 <Message confirmProps={props.modalprops.confirmProps} />

@@ -70,7 +70,7 @@
 }
 .project_name {
   padding-bottom: 20px;
-  font-variant-caps: all-small-caps;
+  font-variant-caps: all-petite-caps;
   font-weight: 600;
   font-size: 18px;
 }
@@ -81,14 +81,14 @@
 
 .users_title {
   padding-bottom: 20px;
-  font-variant-caps: all-small-caps;
+  font-variant-caps: all-petite-caps;
   font-weight: 600;
   font-size: 18px;
 }
 
 .users_date {
   padding-bottom: 20px;
-  font-variant-caps: all-small-caps;
+  font-variant-caps: all-petite-caps;
   font-weight: 600;
   font-size: 18px;
 }

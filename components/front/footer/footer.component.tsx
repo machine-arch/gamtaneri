@@ -61,10 +61,8 @@ const Footer: FC<FooterProps> = (props: any) => {
     buttonText: props.dictionary
       ? props.dictionary[props.localeKey]["send"]
       : "გაგზავნა",
-    ButtoncallBack: (e: SyntheticEvent) => {
-      e.preventDefault();
-      console.log("clicked");
-    },
+    ButtoncallBack: null,
+    submit: props?.sendMail,
   };
   const [contacts, setContacts] = useState(null);
   const { localeKey } = useContext<any>(localeContext);
@@ -137,7 +135,11 @@ const Footer: FC<FooterProps> = (props: any) => {
         </div>
       </div>
       <div className={styles.contact_us}>
-        <Form FormProps={formProps} />
+        <Form
+          FormProps={formProps}
+          Loader={props?.formLoader}
+          loadrConteinerClassname={"form_loader_conteiner"}
+        />
       </div>
     </footer>
   );

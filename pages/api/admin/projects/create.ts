@@ -132,19 +132,18 @@ const CreateProject = async (req: NextApiRequest, res: NextApiResponse) => {
         Connection.isInitialized ? Connection.destroy() : null;
       })
       .catch((err) => {
-        // apiResponseData.message = "Something went wrong";
-        // apiResponseData.status = 500;
-        // apiResponseData.success = false;
-        // apiResponseData.from = "projects";
-        // apiResponseData.resource = null;
-        // ApiHelper.FaildResponse(apiResponseData);
-        // ApiHelper.AddLogs(
-        //   "CreateProject",
-        //   err.message,
-        //   req.socket.remoteAddress,
-        //   req.socket.localAddress
-        // );
-        console.log(err.message);
+        apiResponseData.message = "Something went wrong";
+        apiResponseData.status = 500;
+        apiResponseData.success = false;
+        apiResponseData.from = "projects";
+        apiResponseData.resource = null;
+        ApiHelper.FaildResponse(apiResponseData);
+        ApiHelper.AddLogs(
+          "CreateProject",
+          err.message,
+          req.socket.remoteAddress,
+          req.socket.localAddress
+        );
       });
   } else {
     apiResponseData.message = "Method not allowed";

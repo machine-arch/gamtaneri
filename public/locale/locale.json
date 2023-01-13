@@ -14,7 +14,9 @@
     "contactUs": "დაგვიკავშირდით",
     "password": "პაროლი",
     "login": "შესვლა",
-    "add": "დამატება"
+    "add": "დამატება",
+    "successfully_sent": "თქვენი შეტყობინება წარმატებით გაიგზავნა",
+    "failed_to_send": "შეტყობინების გაგზავნა ვერ მოხერხდა"
   },
   "en": {
     "aourUsers": "Our users",
@@ -31,6 +33,8 @@
     "contactUs": "Contact us",
     "password": "Password",
     "login": "Login",
-    "add": "Add"
+    "add": "Add",
+    "successfully_sent": "Your message has been sent successfully",
+    "failed_to_send": "Message could not be sent"
   }
 }

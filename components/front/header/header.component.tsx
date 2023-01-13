@@ -97,6 +97,11 @@ const Header: FC<headerProps> = (props) => {
           hendler={openModalHeader}
         />
       </div>
+      <div className={styles.toggle_menu}>
+        <div className={`${styles.line} ${styles.line1}`}></div>
+        <div className={`${styles.line} ${styles.line2}`}></div>
+        <div className={`${styles.line} ${styles.line3}`}></div>
+      </div>
     </div>
   );
 };

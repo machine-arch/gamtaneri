@@ -25,6 +25,8 @@ const Home: NextPage = (props: any) => {
   const [localeKey, setLocaleKey] = useState("");
   const [dictionary, setDictionary] = useState(null);
   const [currentProject, setCurrentProject] = useState(null);
+  const [loader, setLoader] = useState(false);
+  const [sendContactResponse, setSendContactResponse] = useState("");
   const localeContextObject: any = useContext(localeContext);
   const modalContextObject: any = useContext(modalContext);
   const {
@@ -42,36 +44,95 @@ const Home: NextPage = (props: any) => {
 
   const ModalCloseHendler = () => {
     setIsModalOpen(false);
+    setModalTitle("");
   };
   const footerProps = {
     dyctionary: dictionary,
     key: localeKey,
   };
 
+  /**
+   * @description send mail to admin
+   * @param e
+   */
   const sendMail = async (e: SyntheticEvent) => {
     e.preventDefault();
     const form = e.target as HTMLFormElement;
     const formData = new FormData(form);
     const { fullname, phone, email, message } = Object.fromEntries(formData);
-    const data = {
-        fullname,
-        phone,
-        email,
-        message,
-      },
-      url = "/api/admin/contacts/send",
-      method = "POST",
-      headers = {
-        "Content-Type": "application/json",
-      };
+    const { validate_message } = form.elements as any;
+    const fildNames = ["fullname", "phone", "email", "message"];
+    let isValidForm = false;
 
-    const response = await httpRequest(
-      url,
-      method,
-      JSON.stringify(data),
-      headers
-    );
-    console.log(response);
+    fildNames.map((fildName) => {
+      form.elements[fildName].addEventListener("keydown", (e) => {
+        e.target.classList.remove("required");
+        validate_message.value = "";
+      });
+
+      if (form.elements[fildName].value === "") {
+        form.elements[fildName].classList.add("required");
+        validate_message.value = "გთხოვთ შეავსოთ ყველა ველი";
+        isValidForm = false;
+        return false;
+      }
+
+      if (
+        form.elements["email"].value !== "" &&
+        !form.elements["email"].value.includes("@") &&
+        !form.elements["email"].value.includes(".")
+      ) {
+        form.elements["email"].classList.add("required");
+        validate_message.value = "გთხოვთ შეიყვანოთ სწორი ელ.ფოსტა";
+        isValidForm = false;
+        return false;
+      }
+
+      if (
+        form.elements["phone"].value !== "" &&
+        form.elements["phone"].value.length < 9
+      ) {
+        form.elements["phone"].classList.add("required");
+        validate_message.value = "ტელეფონის ნომერი შედგება 9 ციფრისგან";
+        isValidForm = false;
+        return false;
+      }
+      form.elements[fildName].classList.remove("required");
+      isValidForm = true;
+    });
+
+    if (isValidForm) {
+      const data = {
+          fullname,
+          phone,
+          email,
+          message,
+        },
+        url = "/api/admin/contacts/send",
+        method = "POST",
+        headers = {
+          "Content-Type": "application/json",
+        };
+
+      setLoader(true);
+      const response = await httpRequest(
+        url,
+        method,
+        JSON.stringify(data),
+        headers
+      );
+      if (response.status === 200) {
+        setLoader(false);
+        setSendContactResponse("successfully_sent");
+        !isModalOpen ? setIsModalOpen(true) : null;
+        setModalKey("MESSAGE");
+      } else {
+        setLoader(false);
+        setSendContactResponse("failed_to_send");
+        !isModalOpen ? setIsModalOpen(true) : null;
+        setModalKey("MESSAGE");
+      }
+    }
   };
 
   const formInputs = [
@@ -126,14 +187,26 @@ const Home: NextPage = (props: any) => {
     needTextareas: true,
     textareas: formTextareas,
     needButton: true,
+    loader: loader,
     buttonClass: "form_button",
     buttonText: dictionary ? dictionary[localeKey]["send"] : "გაგზავნა",
     ButtoncallBack: null,
     submit: sendMail,
   };
+
+  const confirmProps = {
+    acceptHendler: null,
+    cancelHendler: ModalCloseHendler,
+    question: dictionary
+      ? dictionary[localeKey][sendContactResponse]
+      : "თქვენი შეტყობინება წარმატებით გაიგზავნა",
+    conteinerClass: "modal_dialogs_conteiner",
+    name: "send mail",
+  };
   const modalProps = {
     modal_title: modalTitle,
     FormProps: formProps,
+    confirmProps: confirmProps,
     isOpen: isModalOpen,
     key: modalKey,
     currentproject: currentProject,
@@ -147,6 +220,7 @@ const Home: NextPage = (props: any) => {
         ? "modal_item_conteiner"
         : "modal_item_conteiner",
   };
+
   return (
     <div className="conteiner">
       <Modal modalprops={modalProps} />
@@ -166,11 +240,6 @@ const Home: NextPage = (props: any) => {
         />
       </section>
       <section className={styles.users_section}>
-        <div>
-          <UsersSection users={props.ourUsers} />
-        </div>
-      </section>
-      <section className={styles.projects_section}>
         <CompletedProjects
           setismodalopen={setIsModalOpen}
           setModalKey={setModalKey}
@@ -178,6 +247,11 @@ const Home: NextPage = (props: any) => {
           setModalTitle={setModalTitle}
           projects={props.projects}
         />
+      </section>
+      <section className={styles.projects_section}>
+        <div>
+          <UsersSection users={props.ourUsers} />
+        </div>
       </section>
       <section className={styles.about_us_section}>
         <AboutUs data={props.aboutus} />
@@ -187,6 +261,8 @@ const Home: NextPage = (props: any) => {
           dictionary={footerProps.dyctionary}
           localeKey={footerProps.key}
           contacts={props.contacts}
+          sendMail={sendMail}
+          formLoader={loader}
         />
       </section>
     </div>

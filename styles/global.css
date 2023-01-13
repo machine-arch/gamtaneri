@@ -17,6 +17,9 @@
   --grey: #666666;
   --light-grey: #f8f8f8;
   --lightgrey: #dbd9d9;
+  --background-color: #ffffff;
+  --readeble-text-color: #666666;
+  --headers-color: #000000;
 }
 
 body {
@@ -24,6 +27,21 @@ body {
   max-width: 1500px;
   margin: 0 auto;
   height: 100%;
+  background-color: var(--background-color);
+}
+
+body::-webkit-scrollbar {
+  width: 6px;
+  background-color: var(--lightgrey);
+}
+/* Track */
+body::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+body::-webkit-scrollbar-thumb {
+  border-radius: 50px;
+  background-color: var(--grey);
 }
 html {
   scroll-behavior: smooth;
@@ -89,6 +107,15 @@ html {
   text-align: center;
   padding-bottom: 20px;
 }
+
+.form_loader_conteiner {
+  width: 100%;
+  height: max-content;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 20px;
+}
 /* ===============================================end_footer_form========================================= */
 
 /* ===============================================start_modal============================================ */
@@ -112,6 +139,7 @@ html {
   justify-content: center;
   box-sizing: border-box;
   padding: 20px 30px 20px 30px;
+  background-color: var(--background-color);
 }
 .modal_dialogs_conteiner {
   width: max-content;
@@ -124,6 +152,7 @@ html {
   justify-content: center;
   box-sizing: border-box;
   padding: 20px 30px 20px 30px;
+  background-color: var(--background-color);
 }
 
 .dashboard_modal_header {
@@ -144,6 +173,20 @@ html {
   justify-content: center;
   box-sizing: border-box;
   padding: 20px 30px 20px 30px;
+  background-color: var(--background-color);
 }
 
 /* ===============================================end_modal============================================ */
+
+/* ===============================================validate============================================ */
+.required {
+  border: 2px solid red;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background-color: #000;
+    --readeble-text-color: #fff;
+    --headers-color: #fff;
+  }
+}

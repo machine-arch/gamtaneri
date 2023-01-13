@@ -24,11 +24,11 @@ const CompletedProjects = (props: any) => {
   }, [props.projects]);
 
   const openProjectHendler = (e: any) => {
-    props.setismodalopen(true);
-    props.setModalKey("GALLERY");
+    props?.setismodalopen(true);
+    props?.setModalKey("GALLERY");
     const current_el_id = e.currentTarget.getAttribute("itemID");
     const current_el = projects.find((el: any) => el.id == current_el_id);
-    props.setcurrentproject(current_el);
+    props?.setcurrentproject(current_el);
     props?.setModalTitle(current_el.project_name);
   };
   const slideToshow = () => {
@@ -63,6 +63,7 @@ const CompletedProjects = (props: any) => {
         slidesToShow={sliedToShow}
         renderCenterLeftControls={() => null}
         renderCenterRightControls={() => null}
+        // autoplay={true}
         dragging={true}
       >
         {projects

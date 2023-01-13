@@ -1,8 +1,10 @@
 import { FC, useEffect, useState } from "react";
 import { FormProps } from "../../config/interfaces/app.interfaces";
 import { Oval } from "react-loader-spinner";
+import styles from "./form.module.css";
 
 const Form: FC<FormProps> = (props: any) => {
+  console.log(props);
   const withCommonParent: Array<any> = props?.FormProps?.inputs.filter(
     (i: any) => i.needCommonParent
   );
@@ -83,7 +85,7 @@ const Form: FC<FormProps> = (props: any) => {
           {props?.FormProps?.buttonText}
         </button>
       ) : null}
-      <div className={props.loadrConteinerClassname}>
+      <div className={props?.loadrConteinerClassname}>
         <Oval
           height={30}
           width={30}
@@ -95,6 +97,14 @@ const Form: FC<FormProps> = (props: any) => {
           secondaryColor="#4fa94d"
           strokeWidth={2}
           strokeWidthSecondary={2}
+        />
+      </div>
+      <div className={styles.validate_message_conteiner}>
+        <input
+          type="text"
+          name="validate_message"
+          readOnly
+          className={styles.form_validate_message}
         />
       </div>
     </form>

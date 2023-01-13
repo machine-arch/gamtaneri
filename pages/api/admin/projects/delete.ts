@@ -36,7 +36,6 @@ const DeleteProject = async (req: NextApiRequest, res: NextApiResponse) => {
         if (project) {
           const images = JSON.parse(project.images);
           images.forEach((image: string) => {
-            console.log(image);
             fs.unlinkSync(`./public${image}`);
           });
           await Connection?.manager?.remove(project);

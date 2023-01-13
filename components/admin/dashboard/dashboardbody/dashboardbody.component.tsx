@@ -17,12 +17,14 @@ const DashboardBody = (props: any) => {
     setDictionary(localeContextObject.dictionary);
   }, [localeContextObject]);
 
+  /**
+   * @description open modal when click on create,update,delete button
+   */
   const openModalHendler = async (e: any) => {
     props.opendMenuItem
       ? props.setIsModalOpen(true)
       : props.setIsModalOpen(false);
     const actionType = e.target.getAttribute("datatype");
-    console.log(actionType);
     const id = e.target.getAttribute("itemid");
     props.setCurrentItemID(id);
     if (actionType !== "delete") {
@@ -50,11 +52,11 @@ const DashboardBody = (props: any) => {
   });
   return (
     <Fragment>
-      <div className={props.dashboard_body_conteiner}>
-        <div className={props.dashboard_body_title_conteiner}>
-          <h1 className={props.dashboard_body_title}>{props.title}</h1>
+      <div className={props?.dashboard_body_conteiner}>
+        <div className={props?.dashboard_body_title_conteiner}>
+          <h1 className={props?.dashboard_body_title}>{props.title}</h1>
         </div>
-        <div className={props.dashboard_body_head_conteiner}>
+        <div className={props?.dashboard_body_head_conteiner}>
           {props?.opendMenuItem &&
           props.data &&
           (props?.data?.from === PAGE_KEYS.projects ||
@@ -66,16 +68,16 @@ const DashboardBody = (props: any) => {
             />
           ) : null}
         </div>
-        <div className={props.dashboard_body_content_conteiner}>
+        <div className={props?.dashboard_body_content_conteiner}>
           <div className={props.dashboard_body_content}>
             <div className={styles.content_conteiner}>
               {props?.data && props?.data?.from === PAGE_KEYS.contacts
                 ? props?.data?.resource?.map((el: any) => {
                     return (
                       <div
-                        key={el.id}
+                        key={el?.id}
                         className={styles.content_card}
-                        itemID={el.id}
+                        itemID={el?.id}
                       >
                         <div className={styles.card_header_conteiner}>
                           <div className={styles.tools_conteiner}>

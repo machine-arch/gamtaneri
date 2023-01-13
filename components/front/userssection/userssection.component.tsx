@@ -28,7 +28,6 @@ const UsersSection = (props: any) => {
 
   const slideToshow = () => {
     if (window.outerWidth < 900) {
-      console.log("rame");
       setSlideToShow(1);
     } else {
       setSlideToShow(3);
@@ -50,6 +49,7 @@ const UsersSection = (props: any) => {
         defaultControlsConfig={CaruselConfig}
         renderCenterLeftControls={({}) => null}
         renderCenterRightControls={({}) => null}
+        // autoplay={true}
       >
         {users
           ? users.map((user: any) => {

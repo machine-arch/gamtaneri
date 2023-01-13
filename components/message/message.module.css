@@ -17,3 +17,9 @@
   display: flex;
   justify-content: center;
 }
+.message_body {
+  font-family: notosans;
+  font-variant-caps: all-petite-caps;
+  font-size: 18px;
+  color: var(--readeble-text-color);
+}

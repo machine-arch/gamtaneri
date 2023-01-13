@@ -1,8 +1,17 @@
 import { NextApiRequest, NextApiResponse } from "next";
+import { apiResponseInterface } from "../../../../config/interfaces/api.interfaces";
+import ApiHelper from "../../../../utils/api/apihelper.utils";
 
 const sendContactEmail = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === "POST") {
-    console.log(process.env.EMAIL_USER, process.env.EMAIL_PASS);
+    const apiResponseData: apiResponseInterface = {
+      res,
+      message: "",
+      status: 0,
+      success: true,
+      from: "",
+      resource: null,
+    };
     return new Promise((resolve, reject) => {
       const { name, email, message } = req.body;
       const nodemailer = require("nodemailer");
@@ -23,7 +32,6 @@ const sendContactEmail = async (req: NextApiRequest, res: NextApiResponse) => {
       };
       transporter.sendMail(mailOptions, (error: any, info: any) => {
         if (error) {
-          console.log(error);
           reject(error);
         } else {
           resolve(info.response);
@@ -31,10 +39,19 @@ const sendContactEmail = async (req: NextApiRequest, res: NextApiResponse) => {
       });
     })
       .then((response) => {
-        res.status(200).json({ response });
+        apiResponseData.message = "";
+        apiResponseData.status = 200;
+        apiResponseData.success = true;
+        apiResponseData.from = "send_contact_email";
+        apiResponseData.resource = null;
+        ApiHelper.successResponse(apiResponseData);
       })
       .catch((error) => {
-        res.status(400).json({ error });
+        apiResponseData.message = "";
+        apiResponseData.status = 400;
+        apiResponseData.success = false;
+        apiResponseData.from = "send_contact_email";
+        ApiHelper.FaildResponse(apiResponseData);
       });
   } else {
     res.status(404).json({ message: "Not Found" });

@@ -63,7 +63,7 @@ const UpdateContacts = async (req: NextApiRequest, res: NextApiResponse) => {
         apiResponseData.status = 200;
         apiResponseData.success = true;
         apiResponseData.from = "contacts";
-        apiResponseData.resource = allContacts;
+        apiResponseData.resource = [allContacts];
         ApiHelper.successResponse(apiResponseData);
       } else {
         apiResponseData.message = "forbidden, permission denied";

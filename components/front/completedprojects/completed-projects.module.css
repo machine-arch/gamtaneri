@@ -38,9 +38,10 @@
 
 .projects_title > p {
   font-family: notosans-Medium;
-  font-variant-caps: all-small-caps;
+  font-variant-caps: all-petite-caps;
   font-size: 24px;
   padding-bottom: 30px;
+  color: var(--headers-color);
 }
 
 @media (max-width: 900px) {

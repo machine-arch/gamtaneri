@@ -189,7 +189,7 @@ const Login: FC = () => {
               <Form
                 FormProps={FomrProps}
                 Loader={needLoader}
-                loadrConteinerClassname={styles.form_loader_conteiner}
+                loadrConteinerClassname={"form_loader_conteiner"}
               />
             </div>
           </div>

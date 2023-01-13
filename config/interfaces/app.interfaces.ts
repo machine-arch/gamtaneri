@@ -13,6 +13,8 @@ export interface FooterProps {
   dictionary: Object;
   localeKey: string;
   contacts: Object;
+  sendMail: Function;
+  formLoader: any;
 }
 
 export interface FormProps {
@@ -39,6 +41,7 @@ export interface FormPropsInterface {
   checkbox?: any;
   needFileUploader?: boolean;
   fileUploader?: any;
+  loader?: boolean;
   ButtoncallBack: EventHandler<SyntheticEvent>;
   submit?: any;
   textareas?: object[];

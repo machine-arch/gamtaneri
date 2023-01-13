@@ -15,7 +15,7 @@
 
 .contact_info_conteiner h3 {
   font-family: notosans-Medium;
-  font-variant-caps: all-small-caps;
+  font-variant-caps: all-petite-caps;
   font-size: 18px;
   color: var(--dark-green);
   padding-bottom: 10px;
@@ -34,7 +34,7 @@
 .contac_info_text p {
   line-height: 1.4;
   font-size: 14px;
-  color: var(--grey);
+  color: var(--readeble-text-color);
 }
 
 .contact_info_termsAndCvonditions {
@@ -45,7 +45,7 @@
 }
 .contact_info_termsAndConditions {
   font-size: 13px;
-  color: var(--grey);
+  color: var(--readeble-text-color);
 }
 
 .contact_info_address,
@@ -59,7 +59,7 @@
 .contact_info_emile p,
 .contact_info_phone p {
   margin-left: 10px;
-  color: var(--grey);
+  color: var(--readeble-text-color);
   font-size: 14px;
 }
 .contact_us {

@@ -23,7 +23,7 @@ const Home = () => {
   const [currentItem, setCurrentItem] = useState<any>(null);
   const isVeriyfied = useRef(false);
   const modalContextObject: any = useContext(modalContext);
-  const { isModalOpen, modalKey, setIsModalOpen, setModalKey } =
+  const { isModalOpen, modalKey, setIsModalOpen, setModalKey, setModalTitle } =
     modalContextObject;
   useEffect(() => {
     (async () => {
@@ -92,10 +92,19 @@ const Home = () => {
       props = {},
       response = null;
 
+    /**
+     * @description This function is used to close modal if user click on close button
+     */
     const ModalCloseHendler = () => {
       setIsModalOpen(false);
+      setModalTitle("");
     };
 
+    /**
+     *@description this function is used to init create action for page witch is currently opened, ant then if user clickc  okey button in modal send request to server
+     * @param e
+     * @returns void
+     */
     const initCreate = async (e: any) => {
       e.preventDefault();
       return new Promise((resolve, reject) => {
@@ -153,6 +162,9 @@ const Home = () => {
       });
     };
 
+    /**
+     * @description this function is used to get current item from server, and then open modal with current item data for update
+     */
     const getItem = async (id: any) => {
       switch (currentPage) {
         case "our_users":
@@ -194,6 +206,9 @@ const Home = () => {
       }
     };
 
+    /**
+     * @description this function is used to init update action for page witch is currently opened, create params witch is required for update request, and then if user clickc  okey button in modal send request to server
+     */
     const initUpdate = async (e: any) => {
       e.preventDefault();
       return new Promise((resolve, reject) => {
@@ -306,6 +321,9 @@ const Home = () => {
       });
     };
 
+    /**
+     * @description this function is used to sent request to server for create action with params witch is created in initCreate function
+     */
     const create = async (e: any) => {
       const response = await httpRequest(
         httpProps.url,
@@ -320,6 +338,10 @@ const Home = () => {
         setModalKey("MESSAGE");
       }
     };
+
+    /**
+     * @description this function is used to sent request to server for update action with params witch is created in initUpdate function
+     */
     const update = async (e: any) => {
       const response = await httpRequest(
         httpProps.url,
@@ -335,6 +357,9 @@ const Home = () => {
       }
     };
 
+    /**
+     * @description this function is used to sent request to server for delete action.
+     */
     const deleteItem = async (e: any) => {
       switch (currentPage) {
         case "our_users":
