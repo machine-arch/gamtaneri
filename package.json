@@ -9,7 +9,7 @@
     "start": "SET APP_ENV=production && pm2 start app.js",
     "lint": "next lint",
     "orm:build": "tsc --build  src",
-    "migrations:generate": "typeorm migration:generate  -d src/dist/src/config/ormConfig.js",
+    "migrations:generate": "npm run orm:build && typeorm migration:generate  -d src/dist/src/config/ormConfig.js",
     "migration:create": "typeorm migration:create src/migrations/user",
     "migration:run": "npm run orm:build && typeorm migration:run -d src/dist/src/config/ormConfig.js"
   },

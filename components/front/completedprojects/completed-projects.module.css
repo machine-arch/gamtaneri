@@ -36,6 +36,19 @@
   background-color: red;
 }
 
+.projects_title {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.projects_title > span {
+  font-family: notosans-Medium;
+  padding-bottom: 30px;
+  color: var(--headers-color);
+  cursor: pointer;
+}
+
 .projects_title > p {
   font-family: notosans-Medium;
   font-variant-caps: all-petite-caps;

@@ -47,9 +47,7 @@ const DashboardBody = (props: any) => {
     update: "edit",
     delete: "delete",
   };
-  props?.data?.resource?.map((el: any) => {
-    console.log(el?.image);
-  });
+
   return (
     <Fragment>
       <div className={props?.dashboard_body_conteiner}>

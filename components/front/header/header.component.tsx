@@ -10,6 +10,7 @@ import { localeContext } from "../../../context/locale-context";
 import { FC } from "react";
 import { imageLoaderProp, switchLanguage } from "../../../utils/app.util";
 import { headerProps } from "../../../config/interfaces/app.interfaces";
+import Router from "next/router";
 
 const Header: FC<headerProps> = (props) => {
   const [scrollRefs, setScrollRefs] = useState(null);
@@ -26,7 +27,7 @@ const Header: FC<headerProps> = (props) => {
   const scrollTo = (ref: any | undefined) => {
     return ref
       ? window.scrollTo({
-          top: ref.current?.offsetTop - 100,
+          top: ref?.current?.offsetTop - 100,
           behavior: "smooth",
         })
       : null;
@@ -41,8 +42,9 @@ const Header: FC<headerProps> = (props) => {
     <div className={styles.header_conteiner}>
       <div
         className={styles.header_logo_conteiner}
-        onClick={() => {
-          scrollTo(scrollRefs.mainSection);
+        onClick={async () => {
+          if (window.location.pathname !== "/") await Router.push("/");
+          scrollTo(scrollRefs?.mainSection);
         }}
       >
         <Image
@@ -57,7 +59,8 @@ const Header: FC<headerProps> = (props) => {
         <ul className={styles.header_menu_list}>
           <li
             className={styles.header_menu_item}
-            onClick={() => {
+            onClick={async () => {
+              if (window.location.pathname !== "/") await Router.push("/");
               scrollTo(scrollRefs.userSection);
             }}
           >
@@ -65,7 +68,8 @@ const Header: FC<headerProps> = (props) => {
           </li>
           <li
             className={styles.header_menu_item}
-            onClick={() => {
+            onClick={async () => {
+              if (window.location.pathname !== "/") await Router.push("/");
               scrollTo(scrollRefs.projectsSection);
             }}
           >
@@ -73,7 +77,8 @@ const Header: FC<headerProps> = (props) => {
           </li>
           <li
             className={styles.header_menu_item}
-            onClick={() => {
+            onClick={async () => {
+              if (window.location.pathname !== "/") await Router.push("/");
               scrollTo(scrollRefs.aboutUs);
             }}
           >
@@ -83,7 +88,8 @@ const Header: FC<headerProps> = (props) => {
         <div className={styles.header_menu_switch_language}>
           <span
             className={styles.switch_language_button}
-            onClick={() => {
+            onClick={async () => {
+              if (window.location.pathname !== "/") await Router.push("/");
               switchLanguage(localeContextObject.setLocaleKey);
             }}
           >

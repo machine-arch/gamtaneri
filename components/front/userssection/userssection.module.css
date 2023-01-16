@@ -2,6 +2,19 @@
   box-sizing: border-box;
   padding: 50px 70px 80px 70px;
 }
+.userssection_title {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.userssection_title > span {
+  font-family: notosans-Medium;
+  padding-bottom: 30px;
+  color: var(--headers-color);
+  cursor: pointer;
+}
 
 .userssection_title > p {
   font-family: notosans-Medium;

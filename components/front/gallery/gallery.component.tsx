@@ -39,44 +39,42 @@ const Gallery = (props: any) => {
             {props?.currentproject?.images
               ? JSON.parse(props?.currentproject?.images).map(
                   (image: any, index: number) => {
-                    if (index > 0) {
-                      return index === 1 ? (
-                        <div
-                          key={index}
-                          className={
-                            (styles.gallery_images_item,
-                            styles.active_galery_item)
-                          }
-                          onClick={(e) => changeMainImage(image, e)}
-                        >
-                          <Image
-                            src={image}
-                            alt="gallery_image"
-                            width={60}
-                            height={60}
-                            objectFit="fill"
-                            loader={imageLoaderProp}
-                            className={styles.gallery_image}
-                          />
-                        </div>
-                      ) : (
-                        <div
-                          key={index}
-                          className={styles.gallery_images_item}
-                          onClick={(e) => changeMainImage(image, e)}
-                        >
-                          <Image
-                            src={image}
-                            alt="gallery_image"
-                            width={60}
-                            height={60}
-                            objectFit="fill"
-                            loader={imageLoaderProp}
-                            className={styles.gallery_image}
-                          />
-                        </div>
-                      );
-                    }
+                    return index === 0 ? (
+                      <div
+                        key={index}
+                        className={
+                          (styles.gallery_images_item,
+                          styles.active_galery_item)
+                        }
+                        onClick={(e) => changeMainImage(image, e)}
+                      >
+                        <Image
+                          src={image}
+                          alt="gallery_image"
+                          width={60}
+                          height={60}
+                          objectFit="fill"
+                          loader={imageLoaderProp}
+                          className={styles.gallery_image}
+                        />
+                      </div>
+                    ) : (
+                      <div
+                        key={index}
+                        className={styles.gallery_images_item}
+                        onClick={(e) => changeMainImage(image, e)}
+                      >
+                        <Image
+                          src={image}
+                          alt="gallery_image"
+                          width={60}
+                          height={60}
+                          objectFit="fill"
+                          loader={imageLoaderProp}
+                          className={styles.gallery_image}
+                        />
+                      </div>
+                    );
                   }
                 )
               : null}

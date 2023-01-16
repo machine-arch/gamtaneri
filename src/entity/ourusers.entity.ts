@@ -6,10 +6,10 @@ class OurUsers {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column("text", { nullable: true })
+  @Column("varchar", { nullable: true,length: 100})
   title: string;
 
-  @Column("text", { nullable: true })
+  @Column("varchar", { nullable: true, length: 100 })
   title_eng: string;
 
   @Column("text", { nullable: true })
@@ -23,6 +23,16 @@ class OurUsers {
 
   @Column("timestamp", { nullable: true })
   updatedAt: Date;
+
+  @Column("timestamp", { nullable: true })
+  cooperation_start_date: Date;
+
+  @Column("integer",{ nullable: true})
+  position: number;
+  
+  @Column("varchar",{ nullable: true,length: 200})
+  profile_link: string;
+
 }
 
 export default OurUsers;

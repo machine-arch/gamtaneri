@@ -34,14 +34,26 @@ const UpdateProject = async (req: NextApiRequest, res: NextApiResponse) => {
     });
     let filePaths = [];
     form.on("fileBegin", (name, file) => {
-      if (file) {
-        const NAME = createHash("md5").update(file.name).digest("hex");
-        var fileType = file.type.split("/").pop();
-        file.path = path.join(form.uploadDir, file.name);
+      const upload_dir = path.join(process.cwd(), "public", "uploads");
+      if (file && file.name && file.type) {
+        //create unicue hash from file name for next js image optimization
+        const hash = createHash("md5");
+        hash.update(
+          file.name
+            .split(".")
+            .slice(0, -1)
+            .join(".")
+            .concat(randomUUID(), "utf-8")
+        );
+        const hashName = hash.digest("hex");
+        const ext = path.extname(file.name);
+        const fileName = `${hashName}${ext}`;
+        file.path = path.join(upload_dir, fileName);
         const filePath = path
           .relative(process.cwd(), file.path)
-          .replace("public", "");
-        filePaths.push(filePath.replace(/\\/g, "/"));
+          .replace("public", "")
+          .replace(/\\/g, "/");
+        filePaths.push(filePath);
       }
     });
     return new Promise((resolve, reject) => {

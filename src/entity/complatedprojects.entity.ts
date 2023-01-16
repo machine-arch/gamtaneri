@@ -6,10 +6,10 @@ class ComplatedProjects {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column("text", { nullable: false })
+  @Column("varchar", { nullable: false,length: 100 })
   project_name: string;
 
-  @Column("text", { nullable: false })
+  @Column("varchar", { nullable: false, length: 100 })
   project_name_eng: string;
 
   @Column("text", { nullable: true })
@@ -24,8 +24,12 @@ class ComplatedProjects {
   @Column("timestamp", { nullable: true })
   updatedAt: Date;
 
-  @Column("text", { nullable: true })
+  @Column("varchar", { nullable: true,length: 300 })
   images: string;
+
+  @Column("integer", { nullable: true })
+  position: number;
+
 }
 
 export default ComplatedProjects;

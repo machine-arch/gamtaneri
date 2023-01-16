@@ -13,11 +13,11 @@
   background-color: var(--light-grey);
 }
 
-@media (prefers-color-scheme: dark) {
+/* @media (prefers-color-scheme: dark) {
   .footer_section {
     background-color: #000;
   }
-}
+} */
 
 @media (max-width: 900px) {
   .footer_section {

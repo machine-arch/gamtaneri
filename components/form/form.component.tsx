@@ -4,7 +4,6 @@ import { Oval } from "react-loader-spinner";
 import styles from "./form.module.css";
 
 const Form: FC<FormProps> = (props: any) => {
-  console.log(props);
   const withCommonParent: Array<any> = props?.FormProps?.inputs.filter(
     (i: any) => i.needCommonParent
   );

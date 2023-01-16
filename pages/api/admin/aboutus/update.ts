@@ -36,7 +36,7 @@ const UpdateAboutUs = async (req: NextApiRequest, res: NextApiResponse) => {
     let ImagePath = null;
 
     form.on("fileBegin", (name: any, file: any) => {
-      if (file) {
+      if (file && file.name && file.type) {
         const NAME = createHash("md5").update(file.name).digest("hex");
         var fileType = file.type.split("/").pop();
         file.path = path.join(

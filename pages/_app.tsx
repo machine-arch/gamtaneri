@@ -5,6 +5,7 @@ import { ScrollProvider } from "./../context/scroll-context";
 import { LocaleProvider } from "./../context/locale-context";
 import { AuthProvider } from "../context/admin/auth.context";
 import { ModalProvaider } from "./../context/modal-context";
+import { PagesProvaider } from "./../context/pages-context";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
@@ -12,7 +13,9 @@ function MyApp({ Component, pageProps }: AppProps) {
       <AuthProvider>
         <LocaleProvider>
           <ScrollProvider>
-            <Component {...pageProps} />
+            <PagesProvaider>
+              <Component {...pageProps} />
+            </PagesProvaider>
           </ScrollProvider>
         </LocaleProvider>
       </AuthProvider>

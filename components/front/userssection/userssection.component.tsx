@@ -34,6 +34,15 @@ const UsersSection = (props: any) => {
     }
   };
 
+  const createDate = (date: string) => {
+    const newDate = new Date(date);
+    return `${newDate.getDate().toString().padStart(2, "0")}.${(
+      newDate.getUTCMonth() + 1
+    )
+      .toString()
+      .padStart(2, "0")}.${newDate.getFullYear()}`;
+  };
+
   return (
     <div
       className={styles.userssection_conteiner}
@@ -42,6 +51,7 @@ const UsersSection = (props: any) => {
     >
       <div className={styles.userssection_title}>
         <p>ჩვენი მომხმარებლები</p>
+        <span>იხილეთ ყველა</span>
       </div>
       <Carousel
         slidesToShow={sliedToShow}
@@ -56,7 +66,7 @@ const UsersSection = (props: any) => {
               return (
                 <div key={user.id} className={styles.current_user}>
                   <h1>{localeKey === "en" ? user.title_eng : user.title}</h1>
-                  <span>{user.createdAt}</span>
+                  <span>{createDate(user.createdAt)}</span>
                   <p>
                     {localeKey === "en"
                       ? user.description_eng

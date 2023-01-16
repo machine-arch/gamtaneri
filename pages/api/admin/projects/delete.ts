@@ -36,7 +36,9 @@ const DeleteProject = async (req: NextApiRequest, res: NextApiResponse) => {
         if (project) {
           const images = JSON.parse(project.images);
           images.forEach((image: string) => {
-            fs.unlinkSync(`./public${image}`);
+            if (fs.existsSync(`./public${image}`)) {
+              fs.unlinkSync(`./public${image}`);
+            }
           });
           await Connection?.manager?.remove(project);
           const projects = await Connection?.manager?.find(ComplatedProjects);

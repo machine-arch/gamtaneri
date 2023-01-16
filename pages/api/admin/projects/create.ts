@@ -47,7 +47,7 @@ const CreateProject = async (req: NextApiRequest, res: NextApiResponse) => {
     let filePaths = [];
 
     form.on("fileBegin", (name: any, file: any) => {
-      if (file) {
+      if (file && file.name && file.type) {
         //create unicue hash from file name for next js image optimization
         const hash = createHash("md5");
         hash.update(
@@ -57,12 +57,10 @@ const CreateProject = async (req: NextApiRequest, res: NextApiResponse) => {
             .join(".")
             .concat(randomUUID(), "utf-8")
         );
-        // hash.update(file.name);
         const hashName = hash.digest("hex");
         const ext = path.extname(file.name);
         const fileName = `${hashName}${ext}`;
         file.path = path.join(upload_dir, fileName);
-        const pathWithOriginalName = path.join(upload_dir, file.name);
         const filePath = path
           .relative(process.cwd(), file.path)
           .replace("public", "")

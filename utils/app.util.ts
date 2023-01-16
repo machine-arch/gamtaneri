@@ -1,4 +1,5 @@
 import nookies from "nookies";
+import { SyntheticEvent } from "react";
 
 export const switchLanguage = (setLocale: any) => {
   const locale = nookies.get({}).locale;

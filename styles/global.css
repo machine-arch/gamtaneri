@@ -183,10 +183,10 @@ html {
   border: 2px solid red;
 }
 
-@media (prefers-color-scheme: dark) {
+/* @media (prefers-color-scheme: dark) {
   :root {
     --background-color: #000;
     --readeble-text-color: #fff;
     --headers-color: #fff;
   }
-}
+} */

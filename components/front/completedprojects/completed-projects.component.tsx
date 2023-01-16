@@ -9,6 +9,7 @@ import {
 } from "../../../context/scroll-context";
 import { localeContext } from "../../../context/locale-context";
 import { imageLoaderProp } from "../../../utils/app.util";
+import Link from "next/link";
 
 const CompletedProjects = (props: any) => {
   const imagesStyle = { borderRadius: "8px", overflow: "hidden" };
@@ -56,6 +57,9 @@ const CompletedProjects = (props: any) => {
     >
       <div className={styles.projects_title}>
         <p>დასრულებული პროექტები</p>
+        <Link href="/projects" passHref>
+          <span>იხილეთ ყველა</span>
+        </Link>
       </div>
       <Carousel
         adaptiveHeight={true}
