@@ -61,19 +61,21 @@ const Header: FC<headerProps> = (props) => {
             className={styles.header_menu_item}
             onClick={async () => {
               if (window.location.pathname !== "/") await Router.push("/");
-              scrollTo(scrollRefs.userSection);
+              scrollTo(scrollRefs.projectsSection);
             }}
           >
-            {dictionary ? dictionary[localeKey]["aourUsers"] : null}
+            {dictionary ? dictionary[localeKey]["galery"] : "პროექტები"}
           </li>
           <li
             className={styles.header_menu_item}
             onClick={async () => {
               if (window.location.pathname !== "/") await Router.push("/");
-              scrollTo(scrollRefs.projectsSection);
+              scrollTo(scrollRefs.userSection);
             }}
           >
-            {dictionary ? dictionary[localeKey]["galery"] : null}
+            {dictionary
+              ? dictionary[localeKey]["aourUsers"]
+              : "ჩვენი მომხმარებლები"}
           </li>
           <li
             className={styles.header_menu_item}

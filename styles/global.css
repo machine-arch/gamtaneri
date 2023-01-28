@@ -20,6 +20,7 @@
   --background-color: #ffffff;
   --readeble-text-color: #666666;
   --headers-color: #000000;
+  --cards-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 
 body {
@@ -183,10 +184,21 @@ html {
   border: 2px solid red;
 }
 
-/* @media (prefers-color-scheme: dark) {
+/* ================================================start project detal page================================ */
+
+.project_detal_conteiner {
+  width: 100%;
+  height: 100vh;
+}
+
+/* =================================================end project detal page================================= */
+
+/* 
+@media (prefers-color-scheme: dark) {
   :root {
     --background-color: #000;
     --readeble-text-color: #fff;
     --headers-color: #fff;
+    --cards-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
   }
 } */

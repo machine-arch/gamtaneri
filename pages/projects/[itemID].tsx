@@ -1,14 +1,17 @@
-import Header from "../../components/front/header/header.component";
-import { modalContext } from "../../context/modal-context";
-import { useContext, useState, useEffect } from "react";
-import AllProjects from "../../components/front/completedprojects/all-projects.component";
-import { localeContext } from "../../context/locale-context";
 import { NextPage } from "next";
-import Modal from "../../components/modal/modal.component";
-import { FormPropsInterface } from "../../config/interfaces/app.interfaces";
+import { useContext, useEffect, useState } from "react";
+import { httpRequest } from "../../utils/app.util";
+import ProjectDetal from "../../components/front/completedprojects/project-detal.component";
+import { modalContext } from "../../context/modal-context";
+import { localeContext } from "../../context/locale-context";
 import { pagesContext } from "../../context/pages-context";
+import { FormPropsInterface } from "../../config/interfaces/app.interfaces";
+import Header from "../../components/front/header/header.component";
+import Modal from "../../components/modal/modal.component";
+import Footer from "../../components/front/footer/footer.component";
 
-const Projects: NextPage = (props: any) => {
+const ProjectDetalPage: NextPage = (props: any) => {
+  const [project, setProject] = useState(null);
   const modalContextObject: any = useContext(modalContext);
   const localeContextObject: any = useContext(localeContext);
   const pagesContextObject: any = useContext(pagesContext);
@@ -19,10 +22,19 @@ const Projects: NextPage = (props: any) => {
   const [localeKey, setLocaleKey] = useState("");
   const [dictionary, setDictionary] = useState(null);
   useEffect(() => {
+    setProject(props.project);
     setLocaleKey(localeContextObject.localeKey);
     setDictionary(localeContextObject.dictionary);
-  }, [localeContextObject]);
+  }, [
+    props.project,
+    localeContextObject.localeKey,
+    localeContextObject.dictionary,
+  ]);
 
+  const footerProps = {
+    dyctionary: dictionary,
+    key: localeKey,
+  };
   const formInputs = [
     {
       id: "001",
@@ -105,47 +117,40 @@ const Projects: NextPage = (props: any) => {
         ? "modal_item_conteiner"
         : "modal_item_conteiner",
   };
+
   return (
-    <div>
-      <Modal modalprops={modalProps} />
-      <section className="allProjects_header_section">
-        <Header setismodalopen={setIsModalOpen} setModalKey={setModalKey} />
-      </section>
-      <section className="allProjects_section">
-        <AllProjects />
-      </section>
-    </div>
+    <>
+      <div className="project_detal_conteiner">
+        <Modal modalprops={modalProps} />
+        <section className="allProjects_header_section">
+          <Header setismodalopen={setIsModalOpen} setModalKey={setModalKey} />
+        </section>
+        <ProjectDetal project={project} />
+
+        <section>
+          <Footer
+            dictionary={footerProps.dyctionary}
+            localeKey={footerProps.key}
+            contacts={props.contacts}
+            sendMail={sendMail}
+            formLoader={loader}
+          />
+        </section>
+      </div>
+    </>
   );
 };
 
-export async function getServerSideProps({ req }) {
-  const projects = await fetch(
-    "http://gamtaneri.ge/api/client/projects/getall",
-    {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    }
-  )
-    .then((response) => response.json())
-    .then((data) => data);
-
-  const contacts = await fetch("http://gamtaneri.ge//api/client/contacts/get", {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  })
-    .then((response) => response.json())
-    .then((data) => data);
-
+export async function getServerSideProps({ params }) {
+  const project = await httpRequest(
+    `http://localhost:3000//api/client/projects/${params.itemID}`,
+    "GET"
+  );
   return {
     props: {
-      projects: projects.resource,
-      contacts: contacts.resource,
+      project: project.resource,
     },
   };
 }
 
-export default Projects;
+export default ProjectDetalPage;

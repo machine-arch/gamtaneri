@@ -11,13 +11,23 @@ const Gallery = (props: any) => {
   }, [props.currentproject.images]);
 
   const changeMainImage = (image: string, e: any) => {
-    setMainImage(image);
     e.currentTarget.classList.add(styles.active_galery_item);
     e.currentTarget.parentElement.childNodes.forEach((item: any) => {
       if (item !== e.currentTarget) {
         item.classList.remove(styles.active_galery_item);
       }
     });
+
+    /* swipe effect */
+    const galleryImageMain = document.querySelector(
+      `.${styles.gallery_main_image}`
+    ) as HTMLElement;
+
+    galleryImageMain.classList.add(styles.gallery_main_image_swipe);
+    setTimeout(() => {
+      setMainImage(image);
+      galleryImageMain.classList.remove(styles.gallery_main_image_swipe);
+    }, 500);
   };
 
   return (

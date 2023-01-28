@@ -1,7 +1,7 @@
 import styles from "./header.module.css";
 import Image from "next/image";
 import Button from "../../button/button.component";
-import { useContext } from "react";
+import { FC, useContext } from "react";
 import {
   authContext,
   authContextInterface,
@@ -10,7 +10,7 @@ import router from "next/router";
 import nookies from "nookies";
 import { imageLoaderProp } from "../../../utils/app.util";
 
-const Header = () => {
+const Header: FC<any> = () => {
   const autContext: authContextInterface = useContext(authContext);
   const { user, setUser } = autContext;
   const logOutHendler = () => {
