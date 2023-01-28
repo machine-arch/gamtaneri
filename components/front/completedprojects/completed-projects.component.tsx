@@ -2,7 +2,14 @@ import styles from "./completed-projects.module.css";
 import Carousel from "nuka-carousel/lib/carousel";
 import { CaruselConfig } from "../../../config/global.config";
 import Image from "next/image";
-import { RefObject, useContext, createRef, useState, useEffect } from "react";
+import {
+  RefObject,
+  useContext,
+  createRef,
+  useState,
+  useEffect,
+  FC,
+} from "react";
 import {
   ScrollContext,
   scrollContextInterface,
@@ -11,7 +18,7 @@ import { localeContext } from "../../../context/locale-context";
 import { imageLoaderProp } from "../../../utils/app.util";
 import Link from "next/link";
 
-const CompletedProjects = (props: any) => {
+const CompletedProjects: FC<any> = (props: any) => {
   const imagesStyle = { borderRadius: "8px", overflow: "hidden" };
   const projectsSection: RefObject<HTMLDivElement> = createRef();
   const scrollContext: scrollContextInterface = useContext(ScrollContext);
@@ -58,7 +65,7 @@ const CompletedProjects = (props: any) => {
       <div className={styles.projects_title}>
         <p>დასრულებული პროექტები</p>
         <Link href="/projects" passHref>
-          <span>იხილეთ ყველა</span>
+          <span className={styles.see_all}>ყველა</span>
         </Link>
       </div>
       <Carousel
@@ -95,8 +102,8 @@ const CompletedProjects = (props: any) => {
                     />
                     <h2 onClick={openProjectHendler} itemID={project.id}>
                       {localeKey === "en"
-                        ? project.description_eng
-                        : project.description}
+                        ? project.project_name_eng
+                        : project.project_name}
                     </h2>
                   </div>
                 </div>

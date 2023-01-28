@@ -10,11 +10,11 @@ import ComplatedProjects from "./../entity/complatedprojects.entity";
 
 const AppDataSource: DataSource = new DataSource({
   type: "mariadb",
-  host: "195.54.178.4", //195.54.178.4 //localhost
+  host: "localhost", //195.54.178.4 //localhost
   port: 3306,
-  username: "gamtaner_gamtaneri", //gamtaner_gamtaneri //root
-  password: "Gamtaneri123", //Gamtaneri123
-  database: "gamtaner_gamtaneri", //gamtaner_gamtaneri //gamtaneri
+  username: "root", //gamtaner_gamtaneri //root
+  password: "", //Gamtaneri123
+  database: "gamtaneri", //gamtaner_gamtaneri //gamtaneri
   synchronize: false,
   logging: false,
   entities: [User, Logs, Contacts, AboutUs, OurUsers, ComplatedProjects],

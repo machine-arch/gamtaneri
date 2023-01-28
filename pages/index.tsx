@@ -181,7 +181,7 @@ const Home: NextPage = (props: any) => {
 
 export async function getServerSideProps({ req }) {
   const projects = await fetch(
-    "http://gamtaneri.ge/api/client/projects/getall",
+    "http://localhost:3000/api/client/projects/getall",
     {
       method: "GET",
       headers: {
@@ -191,25 +191,31 @@ export async function getServerSideProps({ req }) {
   )
     .then((response) => response.json())
     .then((data) => data);
-  const ourUsers = await fetch("http://gamtaneri.ge/api/client/users/getall", {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  })
+  const ourUsers = await fetch(
+    "http://localhost:3000/api/client/users/getall",
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  )
     .then((response) => response.json())
     .then((data) => data);
 
-  const contacts = await fetch("http://gamtaneri.ge//api/client/contacts/get", {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  })
+  const contacts = await fetch(
+    "http://localhost:3000/api/client/contacts/get",
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  )
     .then((response) => response.json())
     .then((data) => data);
 
-  const aboutus = await fetch("http://gamtaneri.ge/api/client/aboutus/get", {
+  const aboutus = await fetch("http://localhost:3000/api/client/aboutus/get", {
     method: "GET",
     headers: {
       "Content-Type": "application/json",

@@ -28,6 +28,7 @@
   bottom: 0;
   padding: 0px 0px 25px 15px;
   color: white;
+  max-width: 400px;
 }
 
 .carousel-paging-dots {
@@ -56,6 +57,17 @@
   padding-bottom: 30px;
   color: var(--headers-color);
 }
+
+.see_all {
+  font-family: notosans-Medium;
+  font-size: 14px;
+  padding-bottom: 30px;
+  cursor: pointer;
+}
+
+/*start projects detal page*/
+
+/*start projects detal page*/
 
 @media (max-width: 900px) {
   .completed_projects_conteiner {

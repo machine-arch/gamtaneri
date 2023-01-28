@@ -6,10 +6,10 @@ class ComplatedProjects {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column("varchar", { nullable: false,length: 100 })
+  @Column("varchar", { nullable: false,length: 150 })
   project_name: string;
 
-  @Column("varchar", { nullable: false, length: 100 })
+  @Column("varchar", { nullable: false, length: 150 })
   project_name_eng: string;
 
   @Column("text", { nullable: true })
