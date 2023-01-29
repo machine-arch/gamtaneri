@@ -76,6 +76,7 @@ const Home = () => {
       : null;
     let inputs = [];
     let textareas = [{}];
+    let editors = [];
     let formProps: FormPropsInterface;
     let fileUploader = {};
     let title = {};
@@ -638,6 +639,24 @@ const Home = () => {
                 name: "description_eng",
               },
             ];
+            editors = [
+              {
+                id:
+                  Date.now().toString(36) + Math.random().toString(36).slice(2),
+                editorClass: "form_editor",
+                editorName: "editor",
+                editorPlaceholder: "აღწერა",
+                name: "editor",
+              },
+              {
+                id:
+                  Date.now().toString(36) + Math.random().toString(36).slice(2),
+                editorClass: "form_editor",
+                editorName: "editor_eng",
+                editorPlaceholder: "description",
+                name: "editor_eng",
+              },
+            ];
             title = {
               titleClassname: "form_title",
               title:
@@ -667,10 +686,12 @@ const Home = () => {
               formClassName: "form",
               inputs: inputs,
               inputsCommonParentClass: "inputs_common_parent",
-              needTextareas: true,
+              needTextareas: false,
               textareas: textareas,
               needFileUploader: true,
               ...fileUploader,
+              needEditors: true,
+              editors: editors,
               needButton: true,
               buttonClass: "form_button",
               buttonText: "დამატება",
@@ -740,6 +761,26 @@ const Home = () => {
                 value: currentItem?.description_eng,
               },
             ];
+            editors = [
+              {
+                id:
+                  Date.now().toString(36) + Math.random().toString(36).slice(2),
+                editorClass: "form_editor",
+                editorName: "editor",
+                editorPlaceholder: "აღწერა",
+                name: "editor",
+                value: currentItem?.description,
+              },
+              {
+                id:
+                  Date.now().toString(36) + Math.random().toString(36).slice(2),
+                editorClass: "form_editor",
+                editorName: "editor_eng",
+                editorPlaceholder: "description",
+                name: "editor_eng",
+                value: currentItem?.description_eng,
+              },
+            ];
             title = {
               titleClassname: "form_title",
               title:
@@ -774,6 +815,8 @@ const Home = () => {
               textareas: textareas,
               needFileUploader: true,
               ...fileUploader,
+              needEditors: true,
+              editors: editors,
               needButton: true,
               buttonClass: "form_button",
               buttonText: "დამატება",

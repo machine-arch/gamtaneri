@@ -1,2 +1,5 @@
 .next
 src
+lib/**
+lib
+lib/cka

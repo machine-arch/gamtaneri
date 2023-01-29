@@ -1,6 +1,7 @@
 import { FC, useEffect, useState } from "react";
 import { FormProps } from "../../config/interfaces/app.interfaces";
 import { Oval } from "react-loader-spinner";
+import dynamic from "next/dynamic";
 import styles from "./form.module.css";
 
 const Form: FC<FormProps> = (props: any) => {
@@ -9,6 +10,13 @@ const Form: FC<FormProps> = (props: any) => {
   );
   const withoutCommonParent: Array<any> = props?.FormProps?.inputs.filter(
     (i: any) => !i.needCommonParent
+  );
+
+  const CkaEditor = dynamic<{}>(
+    () => import("../editor/Editor.component").then((mod) => mod.default),
+    {
+      ssr: false,
+    }
   );
 
   return (
@@ -84,6 +92,11 @@ const Form: FC<FormProps> = (props: any) => {
           {props?.FormProps?.buttonText}
         </button>
       ) : null}
+      {props?.FormProps?.needEditors
+        ? props.FormProps.editors.map((editor: any) => {
+            return <CkaEditor key={editor.id} />;
+          })
+        : null}
       <div className={props?.loadrConteinerClassname}>
         <Oval
           height={30}

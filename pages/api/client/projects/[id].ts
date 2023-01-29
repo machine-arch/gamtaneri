@@ -9,11 +9,14 @@ const getOne = async (req: NextApiRequest, res: NextApiResponse) => {
       : await AppDataSource.initialize();
     const id = req.query.id;
     try {
-      const complatedProject = await Connection?.getRepository(
-        ComplatedProjects
-      ).findOne({
-        where: { id: Number(id) },
-      });
+      //find by id use manager
+      const complatedProject = await Connection?.manager?.findOne(
+        ComplatedProjects,
+        {
+          where: { id: Number(id) },
+        }
+      );
+
       if (complatedProject) {
         res.status(200).json({
           resource: complatedProject,

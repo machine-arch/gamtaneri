@@ -9,9 +9,9 @@ import { FormPropsInterface } from "../../config/interfaces/app.interfaces";
 import Header from "../../components/front/header/header.component";
 import Modal from "../../components/modal/modal.component";
 import Footer from "../../components/front/footer/footer.component";
+import styles from "../../styles/Index.module.css";
 
 const ProjectDetalPage: NextPage = (props: any) => {
-  const [project, setProject] = useState(null);
   const modalContextObject: any = useContext(modalContext);
   const localeContextObject: any = useContext(localeContext);
   const pagesContextObject: any = useContext(pagesContext);
@@ -22,14 +22,9 @@ const ProjectDetalPage: NextPage = (props: any) => {
   const [localeKey, setLocaleKey] = useState("");
   const [dictionary, setDictionary] = useState(null);
   useEffect(() => {
-    setProject(props.project);
     setLocaleKey(localeContextObject.localeKey);
     setDictionary(localeContextObject.dictionary);
-  }, [
-    props.project,
-    localeContextObject.localeKey,
-    localeContextObject.dictionary,
-  ]);
+  }, [localeContextObject.localeKey, localeContextObject.dictionary]);
 
   const footerProps = {
     dyctionary: dictionary,
@@ -122,11 +117,10 @@ const ProjectDetalPage: NextPage = (props: any) => {
     <>
       <div className="project_detal_conteiner">
         <Modal modalprops={modalProps} />
-        <section className="allProjects_header_section">
+        <div className={styles.header}>
           <Header setismodalopen={setIsModalOpen} setModalKey={setModalKey} />
-        </section>
-        <ProjectDetal project={project} />
-
+        </div>
+        <ProjectDetal project={props.project} localeKey={localeKey} />
         <section>
           <Footer
             dictionary={footerProps.dyctionary}
