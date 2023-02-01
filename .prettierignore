@@ -1,5 +1,5 @@
 .next
 src
 lib/**
-lib
-lib/cka
+node_modules
+node_modules/**

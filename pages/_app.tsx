@@ -6,6 +6,7 @@ import { LocaleProvider } from "./../context/locale-context";
 import { AuthProvider } from "../context/admin/auth.context";
 import { ModalProvaider } from "./../context/modal-context";
 import { PagesProvaider } from "./../context/pages-context";
+import { EditorProvaider } from "../context/admin/editor.context";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
@@ -14,7 +15,9 @@ function MyApp({ Component, pageProps }: AppProps) {
         <LocaleProvider>
           <ScrollProvider>
             <PagesProvaider>
-              <Component {...pageProps} />
+              <EditorProvaider>
+                <Component {...pageProps} />
+              </EditorProvaider>
             </PagesProvaider>
           </ScrollProvider>
         </LocaleProvider>

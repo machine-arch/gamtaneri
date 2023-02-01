@@ -1,22 +1,43 @@
-import {CKEditor} from "@ckeditor/ckeditor5-react";
-import Editor from "ckeditor5-custom-build/build/ckeditor";
+import { CKEditor } from "@ckeditor/ckeditor5-react";
+import Editor from "@mkhatiashvili/gamtaneri-ckeditor5-custom-build/build/ckeditor";
+import { useState, useContext, FC, useEffect, useRef } from "react";
+import {
+  editorContext,
+  editorContextInterface,
+} from "../../context/admin/editor.context";
 
-const CkaEditor = () => {
-  console.log("rame")
+/**
+ *
+ * @param props
+ * @returns
+ */
+
+const CkaEditor: FC<any> = (props) => {
+  const editorObject: editorContextInterface = useContext(editorContext);
+  const editorConfig = {
+    language: props?.editorLocale,
+    placeholder: props?.editorPlaceholder,
+  };
+
   return (
     <div>
-    <CKEditor
-      editor={Editor}
-      data="<p>Hello from CKEditor 5!</p>"
-      onInit={(editor) => {
-        // You can store the "editor" and use when it is needed.
-        console.log("Editor is ready to use!", editor);
-      }}
-      onChange={(event, editor) => {
-        const data = editor.getData();
-        console.log({ event, editor, data });
-      }}
-    ></CKEditor>
+      <CKEditor
+        editor={Editor}
+        data={
+          props?.editorLocale === "ka"
+            ? editorObject.editorRefgeo
+            : editorObject.editorRefeng
+        }
+        config={editorConfig}
+        onChange={(event, editor) => {
+          const editorData = editor.getData();
+          if (props?.editorLocale === "ka") {
+            editorObject.editorRefgeo = editorData;
+          } else if (props?.editorLocale === "en") {
+            editorObject.editorRefeng = editorData;
+          }
+        }}
+      ></CKEditor>
     </div>
   );
 };
