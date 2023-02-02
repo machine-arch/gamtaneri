@@ -1,0 +1,25 @@
+.message_conteiner {
+  width: 100%;
+  height: 150px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.message_body_conteiner {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.message_button_conteiner {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+.message_body {
+  font-family: notosans;
+  font-variant-caps: all-petite-caps;
+  font-size: 18px;
+  color: var(--readeble-text-color);
+}

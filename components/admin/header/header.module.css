@@ -1,0 +1,13 @@
+.header_conteiner {
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: space-between;
+  padding: 20px 30px 20px 30px;
+  box-shadow: 0 0 10px rgb(0 0 0 / 50%);
+}
+.header_logo,
+.header_menu {
+  display: flex;
+  align-items: center;
+}

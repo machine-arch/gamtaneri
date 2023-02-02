@@ -14,8 +14,199 @@
 :root {
   --dark-green: #206f52;
   --white: #ffffff;
+  --grey: #666666;
+  --light-grey: #f8f8f8;
+  --lightgrey: #dbd9d9;
+  --background-color: #ffffff;
+  --readeble-text-color: #666666;
+  --headers-color: #000000;
+  --cards-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 
 body {
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: notosans;
+  max-width: 1500px;
+  margin: 0 auto;
+  height: 100%;
+  background-color: var(--background-color);
 }
+
+body::-webkit-scrollbar {
+  width: 6px;
+  background-color: var(--lightgrey);
+}
+/* Track */
+body::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+body::-webkit-scrollbar-thumb {
+  border-radius: 50px;
+  background-color: var(--grey);
+}
+html {
+  scroll-behavior: smooth;
+}
+
+.conteiner {
+  width: 100%;
+  height: 100%;
+}
+
+/* ===============================================start_footer_form======================================== */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.form-input {
+  width: 100%;
+  height: 50px;
+  border: 1px solid rgba(145, 158, 171, 0.32);
+  border-radius: 8px;
+  box-sizing: border-box;
+  padding: 18px 0px 18px 15px;
+  outline: none;
+}
+.inputs_common_parent {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+
+.form_button {
+  background-color: var(--dark-green);
+  height: 40px;
+  width: 100%;
+  border-radius: 8px;
+  text-align: center;
+  line-height: 22px;
+  color: var(--white);
+  box-sizing: border-box;
+}
+.form_textarea {
+  height: 108px;
+  border: 1px solid rgba(145, 158, 171, 0.32);
+  border-radius: 8px;
+  resize: none;
+  padding: 20px 0px 20px 15px;
+  outline: none;
+}
+
+.form_close {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  cursor: pointer;
+}
+.form_title {
+  font-size: 20px;
+  line-height: 24px;
+  color: var(--dark-green);
+  font-weight: 500;
+  text-align: center;
+  padding-bottom: 20px;
+}
+
+.form_loader_conteiner {
+  width: 100%;
+  height: max-content;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 20px;
+}
+/* ===============================================end_footer_form========================================= */
+
+/* ===============================================start_modal============================================ */
+
+.modal_header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 20px;
+  cursor: pointer;
+}
+
+.modal_item_conteiner {
+  width: 50%;
+  height: max-content;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  box-sizing: border-box;
+  padding: 20px 30px 20px 30px;
+  background-color: var(--background-color);
+}
+.modal_dialogs_conteiner {
+  width: max-content;
+  height: max-content;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  box-sizing: border-box;
+  padding: 20px 30px 20px 30px;
+  background-color: var(--background-color);
+}
+
+.dashboard_modal_header {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding-bottom: 20px;
+  cursor: pointer;
+}
+.contact_modal_item_conteiner {
+  width: 35%;
+  height: max-content;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  box-sizing: border-box;
+  padding: 20px 30px 20px 30px;
+  background-color: var(--background-color);
+}
+
+/* ===============================================end_modal============================================ */
+
+/* ===============================================validate============================================ */
+.required {
+  border: 2px solid red;
+}
+
+/* ================================================start project detal page================================ */
+
+.project_detal_conteiner {
+  width: 100%;
+  height: 100vh;
+}
+
+/* =================================================end project detal page================================= */
+
+/* ==================================================start editor========================================== */
+
+.ck-editor__editable {
+  min-height: 200px;
+}
+
+/* ==================================================end editor========================================== */
+
+/* 
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background-color: #000;
+    --readeble-text-color: #fff;
+    --headers-color: #fff;
+    --cards-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+  }
+} */

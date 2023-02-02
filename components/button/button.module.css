@@ -2,7 +2,7 @@
   background-color: var(--dark-green);
   color: var(--white);
   font-family: notosans;
-  font-variant-caps: all-small-caps;
+  font-variant-caps: all-petite-caps;
   font-size: 18px;
   text-align: center;
   padding: 10px 25px 10px 25px;
@@ -14,4 +14,10 @@
 }
 .main_button:active {
   border: none;
+}
+
+@media (max-width: 900px) {
+  .main_button {
+    width: 100%;
+  }
 }

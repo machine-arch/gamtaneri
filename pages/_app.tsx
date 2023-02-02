@@ -2,12 +2,27 @@ import "../styles/reset.css";
 import "../styles/global.css";
 import type { AppProps } from "next/app";
 import { ScrollProvider } from "./../context/scroll-context";
+import { LocaleProvider } from "./../context/locale-context";
+import { AuthProvider } from "../context/admin/auth.context";
+import { ModalProvaider } from "./../context/modal-context";
+import { PagesProvaider } from "./../context/pages-context";
+import { EditorProvaider } from "../context/admin/editor.context";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <ScrollProvider>
-      <Component {...pageProps} />;
-    </ScrollProvider>
+    <ModalProvaider>
+      <AuthProvider>
+        <LocaleProvider>
+          <ScrollProvider>
+            <PagesProvaider>
+              <EditorProvaider>
+                <Component {...pageProps} />
+              </EditorProvaider>
+            </PagesProvaider>
+          </ScrollProvider>
+        </LocaleProvider>
+      </AuthProvider>
+    </ModalProvaider>
   );
 }
 

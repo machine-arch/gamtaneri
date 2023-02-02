@@ -2,6 +2,9 @@
 const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
-}
-
-module.exports = nextConfig
+  images: {
+    loader: "custom",
+    domains: ["gamtaneri.ge"],
+  },
+};
+module.exports = nextConfig;

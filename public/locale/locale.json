@@ -1,0 +1,40 @@
+{
+  "ka": {
+    "aourUsers": "ჩვენი მომხმარებლები",
+    "galery": "პროექტები",
+    "aboutUs": "ჩვენს შესახებ",
+    "contact": "საკონტაქტო",
+    "fullName": "სახელი და გვარი",
+    "email": "ელ.ფოსტა",
+    "message": "შეტყობინება",
+    "phone": "ტელეფონი",
+    "send": "გაგზავნა",
+    "termsAndConditions": "წესები და პირობები",
+    "allRightsRecevd": "ყველა უფლება დაცულია",
+    "contactUs": "დაგვიკავშირდით",
+    "password": "პაროლი",
+    "login": "შესვლა",
+    "add": "დამატება",
+    "successfully_sent": "თქვენი შეტყობინება წარმატებით გაიგზავნა",
+    "failed_to_send": "შეტყობინების გაგზავნა ვერ მოხერხდა"
+  },
+  "en": {
+    "aourUsers": "Our users",
+    "galery": "Projects",
+    "aboutUs": "About us",
+    "contact": "Contact",
+    "fullName": "Full name",
+    "email": "Email",
+    "message": "Message",
+    "send": "Send",
+    "phone": "Phone",
+    "termsAndConditions": "Terms and conditions",
+    "allRightsRecevd": "All rights reserved",
+    "contactUs": "Contact us",
+    "password": "Password",
+    "login": "Login",
+    "add": "Add",
+    "successfully_sent": "Your message has been sent successfully",
+    "failed_to_send": "Message could not be sent"
+  }
+}
