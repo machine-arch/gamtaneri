@@ -11,6 +11,10 @@ import Modal from "../../modal/modal.component";
 import { FormPropsInterface } from "../../../config/interfaces/app.interfaces";
 import { httpRequest } from "../../../utils/app.util";
 import { modalContext } from "../../../context/modal-context";
+import {
+  editorContext,
+  editorContextInterface,
+} from "../../../context/admin/editor.context";
 
 const Home = () => {
   const authContextObject: any = useContext(authContext);
@@ -22,7 +26,10 @@ const Home = () => {
   const [currentItemId, setCurrentItemId] = useState<any>(null);
   const [currentItem, setCurrentItem] = useState<any>(null);
   const isVeriyfied = useRef(false);
+  const [editorLocale, setEditorLocale] = useState("ka");
+
   const modalContextObject: any = useContext(modalContext);
+  const editorObject: editorContextInterface = useContext(editorContext);
   const { isModalOpen, modalKey, setIsModalOpen, setModalKey, setModalTitle } =
     modalContextObject;
   useEffect(() => {
@@ -76,6 +83,7 @@ const Home = () => {
       : null;
     let inputs = [];
     let textareas = [{}];
+    let editors = [];
     let formProps: FormPropsInterface;
     let fileUploader = {};
     let title = {};
@@ -139,6 +147,9 @@ const Home = () => {
             url = "/api/admin/projects/create";
             ref = ProductsRef;
             formdata = new FormData(ref?.current);
+            console.log(editorObject?.editorRefeng);
+            formdata.append("description", editorObject?.editorRefgeo);
+            formdata.append("description_eng", editorObject?.editorRefeng);
             formdata.append(
               "token",
               AES.decrypt(
@@ -638,6 +649,26 @@ const Home = () => {
                 name: "description_eng",
               },
             ];
+            editors = [
+              {
+                id:
+                  Date.now().toString(36) + Math.random().toString(36).slice(2),
+                editorClass: "form_editor",
+                editorName: "editor",
+                editorPlaceholder: "პროქტის აღწერა",
+                name: "editor",
+                locale: "ka",
+              },
+              {
+                id:
+                  Date.now().toString(36) + Math.random().toString(36).slice(2),
+                editorClass: "form_editor",
+                editorName: "editor_eng",
+                editorPlaceholder: "project description",
+                name: "editor_eng",
+                locale: "en",
+              },
+            ];
             title = {
               titleClassname: "form_title",
               title:
@@ -667,10 +698,16 @@ const Home = () => {
               formClassName: "form",
               inputs: inputs,
               inputsCommonParentClass: "inputs_common_parent",
-              needTextareas: true,
+              needTextareas: false,
               textareas: textareas,
               needFileUploader: true,
               ...fileUploader,
+              needEditors: true,
+              editors: editors,
+              editorLocale: editorLocale,
+              setEditorLocale: setEditorLocale,
+              editorConteiner: styles.editorConteiner,
+              editorSwitchersConteiner: styles.editorSwitchersConteiner,
               needButton: true,
               buttonClass: "form_button",
               buttonText: "დამატება",
@@ -740,6 +777,28 @@ const Home = () => {
                 value: currentItem?.description_eng,
               },
             ];
+            editors = [
+              {
+                id:
+                  Date.now().toString(36) + Math.random().toString(36).slice(2),
+                editorClass: "form_editor",
+                editorName: "editor",
+                editorPlaceholder: "აღწერა",
+                name: "editor",
+                value: currentItem?.description,
+                locale: "ka",
+              },
+              {
+                id:
+                  Date.now().toString(36) + Math.random().toString(36).slice(2),
+                editorClass: "form_editor",
+                editorName: "editor_eng",
+                editorPlaceholder: "description",
+                name: "editor_eng",
+                value: currentItem?.description_eng,
+                locale: "en",
+              },
+            ];
             title = {
               titleClassname: "form_title",
               title:
@@ -774,6 +833,9 @@ const Home = () => {
               textareas: textareas,
               needFileUploader: true,
               ...fileUploader,
+              needEditors: true,
+              editors: editors,
+              editorLocale: editorLocale,
               needButton: true,
               buttonClass: "form_button",
               buttonText: "დამატება",

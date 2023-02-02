@@ -33,3 +33,20 @@
 .dashboard_body {
   padding: 30px;
 }
+
+/* ================================================editor====================================== */
+
+.editorSwitchersConteiner {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 10px 0px;
+  gap: 20px;
+}
+
+.editorSwitchersConteiner input {
+  transform: scale(1.5);
+}
+
+/* =============================================end editor=================================== */

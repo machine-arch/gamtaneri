@@ -8,10 +8,13 @@
   top: 0;
   z-index: 2;
 }
+
 .footer_section {
   padding-bottom: 150px;
   background-color: var(--light-grey);
 }
+
+
 
 /* @media (prefers-color-scheme: dark) {
   .footer_section {

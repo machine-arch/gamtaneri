@@ -34,6 +34,16 @@ export interface FormPropsInterface {
   inputs: InputInterface[];
   inputsCommonParentClass: string;
   needTextareas?: boolean;
+  needEditors?: boolean;
+  editorLocale?: string;
+  setEditorLocale?: Function;
+  setProjectDescription?: Function;
+  setProjectDescriptionEn?: Function;
+  projectDescription?: String;
+  projectDescriptionEn?: string;
+  editorConteiner?: string;
+  editorSwitchersConteiner?: string;
+  editors?: Object[];
   needButton: boolean;
   buttonClass: string;
   buttonText: string;
