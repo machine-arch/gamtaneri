@@ -53,7 +53,7 @@
   border-radius: 10px;
 }
 
-.project_card_description p {
+.project_card_description_text {
   display: -webkit-box;
   -webkit-line-clamp: 3; /* number of lines */
   -webkit-box-orient: vertical;

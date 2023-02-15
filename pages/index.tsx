@@ -180,8 +180,10 @@ const Home: NextPage = (props: any) => {
 };
 
 export async function getServerSideProps({ req }) {
+  const from = 0,
+    count = 10;
   const projects = await fetch(
-    "http://localhost:3000/api/client/projects/getall",
+    `http://localhost:3000/api/client/projects/getall?from=${from}&count=${count}`,
     {
       method: "GET",
       headers: {

@@ -7,6 +7,8 @@ import { AuthProvider } from "../context/admin/auth.context";
 import { ModalProvaider } from "./../context/modal-context";
 import { PagesProvaider } from "./../context/pages-context";
 import { EditorProvaider } from "../context/admin/editor.context";
+import { ProjectsProvaider } from "../context/admin/projects.context";
+import { DataProvaider } from "../context/data.context";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
@@ -16,7 +18,11 @@ function MyApp({ Component, pageProps }: AppProps) {
           <ScrollProvider>
             <PagesProvaider>
               <EditorProvaider>
-                <Component {...pageProps} />
+                <ProjectsProvaider>
+                  <DataProvaider>
+                    <Component {...pageProps} />
+                  </DataProvaider>
+                </ProjectsProvaider>
               </EditorProvaider>
             </PagesProvaider>
           </ScrollProvider>

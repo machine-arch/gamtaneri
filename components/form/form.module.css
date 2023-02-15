@@ -18,3 +18,23 @@
   font-variant-caps: all-petite-caps;
   color: red;
 }
+
+/* ======================================form images=================================== */
+.form_images_conteiner {
+  width: 100%;
+  display: flex;
+  gap: 1.125rem;
+  padding: 0.625rem 0px;
+}
+.form_images {
+  position: relative;
+}
+
+.form_image_delete {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: black;
+  cursor: pointer;
+}
+/* ====================================== end form images=================================== */

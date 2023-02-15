@@ -76,6 +76,7 @@ const UpdateProject = async (req: NextApiRequest, res: NextApiResponse) => {
           project_name_eng,
           description,
           description_eng,
+          images,
           token,
         } = fields;
         const { email } = jwt.decode(token, {
@@ -90,7 +91,7 @@ const UpdateProject = async (req: NextApiRequest, res: NextApiResponse) => {
               where: { id },
             }
           );
-          const oldImages = JSON.parse(project.images);
+          const oldImages = JSON.parse(images);
           filePaths.push(...oldImages);
           project.project_name = project_name;
           project.project_name_eng = project_name_eng;

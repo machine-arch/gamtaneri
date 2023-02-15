@@ -4,6 +4,7 @@ import { CaruselConfig } from "../../../config/global.config";
 import Image from "next/image";
 import { imageLoaderProp } from "../../../utils/app.util";
 import styles from "./projects-detal.module.css";
+import parse from "html-react-parser";
 
 const ProjectDetal: FC<any> = (props: any) => {
   const [project, setProject] = useState(null);
@@ -12,6 +13,9 @@ const ProjectDetal: FC<any> = (props: any) => {
     setProject(props.project ? props.project : {});
     setImages(JSON.parse(props?.project?.images));
   }, [props.project]);
+
+  const description: string =
+    props.localeKey === "en" ? project?.description_eng : project?.description;
 
   return (
     <Fragment>
@@ -48,11 +52,10 @@ const ProjectDetal: FC<any> = (props: any) => {
       <section className={styles.project_detal_description_section}>
         <div className={styles.project_detal_description_card_conteiner}>
           <div className={styles.project_detal_description_card}>
-            <p className={styles.project_detal_description}>
-              {props.localeKey === "en"
-                ? project?.description_eng
-                : project?.description}
-            </p>
+            <div
+              className={styles.project_detal_description}
+              dangerouslySetInnerHTML={{ __html: description }}
+            ></div>
           </div>
         </div>
       </section>

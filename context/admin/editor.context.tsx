@@ -1,8 +1,8 @@
-import { Context, createContext, FC, PropsWithChildren, useState } from "react";
+import { Context, createContext, FC, PropsWithChildren } from "react";
 
 export interface editorContextInterface {
-  editorRefgeo: any;
-  editorRefeng: any;
+  editorDateGeo: String;
+  editorDataEng: string;
 }
 
 export const editorContext: Context<any> =

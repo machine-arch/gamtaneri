@@ -1,12 +1,13 @@
 import Header from "../../components/front/header/header.component";
 import { modalContext } from "../../context/modal-context";
-import { useContext, useState, useEffect } from "react";
+import { useContext, useState, useEffect, useRef } from "react";
 import AllProjects from "../../components/front/completedprojects/all-projects.component";
 import { localeContext } from "../../context/locale-context";
 import { NextPage } from "next";
 import Modal from "../../components/modal/modal.component";
 import { FormPropsInterface } from "../../config/interfaces/app.interfaces";
 import { pagesContext } from "../../context/pages-context";
+import { dataContext } from "../../context/data.context";
 
 const Projects: NextPage = (props: any) => {
   const modalContextObject: any = useContext(modalContext);
@@ -18,10 +19,19 @@ const Projects: NextPage = (props: any) => {
     pagesContextObject;
   const [localeKey, setLocaleKey] = useState("");
   const [dictionary, setDictionary] = useState(null);
+  const { state, dispatch } = useContext<any>(dataContext);
+  const wasFetched = useRef(false);
   useEffect(() => {
     setLocaleKey(localeContextObject.localeKey);
     setDictionary(localeContextObject.dictionary);
-  }, [localeContextObject]);
+  }, []);
+
+  useEffect(() => {
+    if (!wasFetched.current) {
+      wasFetched.current = true;
+      dispatch({ type: "SET_PROJECTS_ONLOAD", payload: props?.projects });
+    }
+  }, []);
 
   const formInputs = [
     {
@@ -105,6 +115,7 @@ const Projects: NextPage = (props: any) => {
         ? "modal_item_conteiner"
         : "modal_item_conteiner",
   };
+
   return (
     <div>
       <Modal modalprops={modalProps} />
@@ -119,8 +130,10 @@ const Projects: NextPage = (props: any) => {
 };
 
 export async function getServerSideProps({ req }) {
+  const from = 0,
+    count = 10;
   const projects = await fetch(
-    "http://gamtaneri.ge/api/client/projects/getall",
+    `http://localhost:3000/api/client/projects/getall?from=${from}&count=${count}`,
     {
       method: "GET",
       headers: {
@@ -131,19 +144,9 @@ export async function getServerSideProps({ req }) {
     .then((response) => response.json())
     .then((data) => data);
 
-  const contacts = await fetch("http://gamtaneri.ge//api/client/contacts/get", {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  })
-    .then((response) => response.json())
-    .then((data) => data);
-
   return {
     props: {
-      projects: projects.resource,
-      contacts: contacts.resource,
+      projects: await projects.resource,
     },
   };
 }

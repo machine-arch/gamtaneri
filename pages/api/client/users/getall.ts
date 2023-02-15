@@ -8,7 +8,12 @@ const GetAllUsers = async (req: NextApiRequest, res: NextApiResponse) => {
       ? AppDataSource
       : await AppDataSource.initialize();
     try {
-      const ourUsers = await Connection?.manager?.find(OurUsers);
+      const ourUsers = await Connection?.manager?.find(OurUsers, {
+        order: {
+          id: "DESC",
+        },
+        take: 10,
+      });
       if (ourUsers) {
         res
           .status(200)

@@ -3,7 +3,6 @@ import {
   createContext,
   FC,
   SyntheticEvent,
-  useEffect,
   useState,
   useContext,
 } from "react";

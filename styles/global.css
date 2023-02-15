@@ -32,7 +32,7 @@ body {
 }
 
 body::-webkit-scrollbar {
-  width: 6px;
+  width: 10px;
   background-color: var(--lightgrey);
 }
 /* Track */
@@ -197,6 +197,7 @@ html {
 
 .ck-editor__editable {
   min-height: 200px;
+  max-height: 200px;
 }
 
 /* ==================================================end editor========================================== */

@@ -13,6 +13,8 @@ import {
   scrollContextInterface,
 } from "../../../context/scroll-context";
 import { localeContext } from "../../../context/locale-context";
+import Link from "next/link";
+import { createDate } from "../../../utils/app.util";
 
 const UsersSection = (props: any) => {
   const userSection: RefObject<HTMLDivElement> = createRef();
@@ -34,15 +36,6 @@ const UsersSection = (props: any) => {
     }
   };
 
-  const createDate = (date: string) => {
-    const newDate = new Date(date);
-    return `${newDate.getDate().toString().padStart(2, "0")}.${(
-      newDate.getUTCMonth() + 1
-    )
-      .toString()
-      .padStart(2, "0")}.${newDate.getFullYear()}`;
-  };
-
   return (
     <div
       className={styles.userssection_conteiner}
@@ -51,7 +44,9 @@ const UsersSection = (props: any) => {
     >
       <div className={styles.userssection_title}>
         <p>ჩვენი მომხმარებლები</p>
-        <span>იხილეთ ყველა</span>
+        <Link href="/users" passHref>
+          <span className={styles.our_users_see_all}>ყველა</span>
+        </Link>
       </div>
       <Carousel
         slidesToShow={sliedToShow}

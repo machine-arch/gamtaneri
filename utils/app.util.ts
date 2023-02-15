@@ -5,14 +5,10 @@ export const switchLanguage = (setLocale: any) => {
   const locale = nookies.get({}).locale;
   if (locale === "ka") {
     setLocale("en");
-    nookies.set(null, "locale", "en", {
-      path: "/",
-    });
+    nookies.set(null, "locale", "en");
   } else {
     setLocale("ka");
-    nookies.set(null, "locale", "ka", {
-      path: "/",
-    });
+    nookies.set(null, "locale", "ka");
   }
 };
 
@@ -38,4 +34,13 @@ export const httpRequest = async (
 
 export const imageLoaderProp = ({ src, width, quality }) => {
   return `${src}?w=${width}&q=${quality || 75}`;
+};
+
+export const createDate = (date: string) => {
+  const newDate = new Date(date);
+  return `${newDate.getDate().toString().padStart(2, "0")}.${(
+    newDate.getUTCMonth() + 1
+  )
+    .toString()
+    .padStart(2, "0")}.${newDate.getFullYear()}`;
 };

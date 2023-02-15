@@ -107,6 +107,7 @@ const Login: FC = () => {
             authContextObject.setUser(data.user);
             router.push("/admin/dashboard");
           } else if (data && data.message === "Invalid Password") {
+            console.log(data.message);
           } else if (
             data &&
             data.message === "Invalid Email, or user not exit"
@@ -120,11 +121,14 @@ const Login: FC = () => {
 
     const getvalues = async (e: any) => {
       e.preventDefault();
+      console.log(e.currentTarget.value);
       if (e.currentTarget.name === "email") {
         requestBody.email = e.currentTarget.value;
+        console.log(requestBody.email);
       }
       if (e.currentTarget.name === "password") {
         requestBody.password = e.currentTarget.value;
+        console.log(requestBody.password);
       }
     };
 
@@ -137,7 +141,7 @@ const Login: FC = () => {
         placeholder: dictionary ? dictionary[localeKey]["email"] : "ელ.ფოსტა",
         needCommonParent: false,
         eventType: "onChange",
-        callBack: getvalues,
+        eventHandler: getvalues,
       },
       {
         id: Math.random().toString(),
@@ -147,7 +151,7 @@ const Login: FC = () => {
         placeholder: dictionary ? dictionary[localeKey]["password"] : "პაროლი",
         needCommonParent: false,
         eventType: "onChange",
-        callBack: getvalues,
+        eventHandler: getvalues,
       },
     ];
     const FomrProps: FormPropsInterface = {

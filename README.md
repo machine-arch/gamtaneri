@@ -38,3 +38,5 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 if you will use may orm config for next.js, first run script "npm run orm:build", than you can create, generate or run migrations.
 
 if you wont to generate migration run: "npm run migration:generate -- path to migrations/migration name"
+
+## Deploy on shared hosting and using cPanel
