@@ -1,0 +1,33 @@
+.all_users_conteiner {
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.all_users_cards_conteiner {
+  padding: 40px 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+}
+
+.user_card {
+  height: max-content;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  align-items: center;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: var(--cards-shadow);
+  transition: 0.3s;
+  cursor: pointer;
+  margin: 10px;
+  padding: 20px 20px;
+  background-color: var(--background-color);
+}
+
+.user_cooperation_date_conteiner,
+.user_name_conteiner {
+  width: 100%;
+}
