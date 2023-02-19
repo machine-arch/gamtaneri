@@ -31,3 +31,17 @@
 .user_name_conteiner {
   width: 100%;
 }
+.all_users_filter_conteiner {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 1.25rem 1.25rem 0 1.25rem;
+  box-sizing: border-box;
+  position: relative;
+}
+.search_ico_conteiner {
+  position: absolute;
+  z-index: 10;
+  margin-right: 10px;
+}

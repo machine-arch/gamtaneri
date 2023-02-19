@@ -6,6 +6,7 @@ import { pagesContext } from "../../context/pages-context";
 import Header from "../../components/front/header/header.component";
 import Modal from "../../components/modal/modal.component";
 import AllUsers from "../../components/front/userssection/all-users.component";
+import { dataContext } from "../../context/data.context";
 
 const OurUsers = (props: any) => {
   const modalContextObject: any = useContext(modalContext);
@@ -15,11 +16,13 @@ const OurUsers = (props: any) => {
     modalContextObject;
   const { loader, sendContactResponse, sendMail, ModalCloseHendler } =
     pagesContextObject;
+  const { state, dispatch } = useContext<any>(dataContext);
   const [localeKey, setLocaleKey] = useState("");
   const [dictionary, setDictionary] = useState(null);
   useEffect(() => {
     setLocaleKey(localeContextObject.localeKey);
     setDictionary(localeContextObject.dictionary);
+    dispatch({ type: "SET_USERS_ONLOAD", payload: props?.users });
   }, [localeContextObject]);
 
   const formInputs = [
@@ -111,19 +114,24 @@ const OurUsers = (props: any) => {
         <Header setismodalopen={setIsModalOpen} setModalKey={setModalKey} />
       </section>
       <section className="All_users_section">
-        <AllUsers users={props.users} />
+        <AllUsers />
       </section>
     </div>
   );
 };
 
 export async function getServerSideProps({ req }) {
-  const users = await fetch("http://localhost:3000/api/client/users/getall", {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  })
+  const from = 0,
+    count = 10;
+  const users = await fetch(
+    `http://localhost:3000/api/client/users/getall?from=${from}&count=${count}`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  )
     .then((response) => response.json())
     .then((data) => data);
 

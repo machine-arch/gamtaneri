@@ -3,6 +3,19 @@
   "version": "0.1.0",
   "private": true,
   "homepage": ".",
+  "prettier": {
+    "printWidth": 80,
+    "tabWidth": 2,
+    "singleQuote": true,
+    "trailingComma": "es5",
+    "arrowParens": "always",
+    "ignore": [
+      "node_modules/**",
+      "build/**",
+      ".next/**",
+      ".vscode/**"
+    ]
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",

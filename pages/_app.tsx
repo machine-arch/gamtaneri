@@ -9,6 +9,7 @@ import { PagesProvaider } from "./../context/pages-context";
 import { EditorProvaider } from "../context/admin/editor.context";
 import { ProjectsProvaider } from "../context/admin/projects.context";
 import { DataProvaider } from "../context/data.context";
+import { PaginationProvider } from "../context/admin/pagination.contect";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
@@ -20,7 +21,9 @@ function MyApp({ Component, pageProps }: AppProps) {
               <EditorProvaider>
                 <ProjectsProvaider>
                   <DataProvaider>
-                    <Component {...pageProps} />
+                    <PaginationProvider>
+                      <Component {...pageProps} />
+                    </PaginationProvider>
                   </DataProvaider>
                 </ProjectsProvaider>
               </EditorProvaider>

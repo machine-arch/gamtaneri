@@ -21,6 +21,8 @@ import {
 } from "../../../context/admin/projects.context";
 
 const Home = () => {
+  const from = 0,
+    count = 6;
   const authContextObject: any = useContext(authContext);
   const [needRedirect, setNeedRedirect] = useState(false);
   const [opendMenuItem, setOpendMenuItem] = useState<any>(null);
@@ -1163,6 +1165,8 @@ const Home = () => {
             setIsModalOpen={setIsModalOpen}
             data={pageData}
             setPageData={setPageData}
+            from={from}
+            count={count}
           />
           <div className={styles.dashboard_body}>
             <DashboardBody
@@ -1176,6 +1180,8 @@ const Home = () => {
               setCurrentItemID={setCurrentItemId}
               currentItem={currentItem}
               getItem={getItem}
+              from={from}
+              count={count}
             />
           </div>
         </div>

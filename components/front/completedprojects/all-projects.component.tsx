@@ -24,7 +24,7 @@ const AllProjects: FC<any> = (props: any) => {
     router.push(`/projects/${itemID}`);
   };
 
-  const removeHTMLTags = (str) => {
+  const removeHTMLTags = (str: string) => {
     return str.replace(/<[^>]*>/g, "").replace(/&nbsp;/g, " ");
   };
 
@@ -33,7 +33,6 @@ const AllProjects: FC<any> = (props: any) => {
       window.innerHeight + window.scrollY >= document.body.offsetHeight - 100 &&
       !wasFatcched.current
     ) {
-      console.log("get moore");
       wasFatcched.current = true;
       httpRequest(
         `http://localhost:3000/api/client/projects/getall?from=${from.current}&count=${count.current}`,
@@ -58,6 +57,24 @@ const AllProjects: FC<any> = (props: any) => {
 
   return (
     <Fragment>
+      <div className={styles.all_projects_filter_conteiner}>
+        <input
+          type="text"
+          name="user_filter"
+          className="projects_filter"
+          placeholder="მოძებნე სახელით ან თარიღით..."
+        />
+        <div className={styles.search_ico_conteiner}>
+          <Image
+            className={styles.search_ico}
+            src="/images/search-ico.svg"
+            alt="search icon"
+            width={15}
+            height={15}
+            loader={imageLoaderProp}
+          />
+        </div>
+      </div>
       <div className={styles.all_projects_conteiner}>
         {state.projects.map((project, index) => {
           return (

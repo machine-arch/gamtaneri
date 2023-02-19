@@ -194,7 +194,7 @@ export async function getServerSideProps({ req }) {
     .then((response) => response.json())
     .then((data) => data);
   const ourUsers = await fetch(
-    "http://localhost:3000/api/client/users/getall",
+    `http://localhost:3000/api/client/users/getall?from=${from}&count=${count}`,
     {
       method: "GET",
       headers: {

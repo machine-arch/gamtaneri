@@ -20,7 +20,7 @@ const GetAllProjects = async (req: NextApiRequest, res: NextApiResponse) => {
       const Connection = AppDataSource.isInitialized
         ? AppDataSource
         : await AppDataSource.initialize();
-      const { token } = req.query;
+      const { token, from, count } = req.query;
       const { email } = jwt.decode(token.toString(), {
         json: true,
       });
@@ -33,13 +33,17 @@ const GetAllProjects = async (req: NextApiRequest, res: NextApiResponse) => {
           ComplatedProjects
         ).find({
           order: { id: "DESC" },
+          skip: Number(from),
+          take: Number(count),
         });
+        const total = await Connection.getRepository(ComplatedProjects).count();
         if (complatedProjects) {
           apiResponseData.message = "";
           apiResponseData.status = 200;
           apiResponseData.success = true;
           apiResponseData.from = "projects";
           apiResponseData.resource = complatedProjects;
+          apiResponseData.total = total;
           ApiHelper.successResponse(apiResponseData);
         } else {
           apiResponseData.message = "data not found";

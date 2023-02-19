@@ -12,6 +12,7 @@ export const DataProvaider: FC<PropsWithChildren> = ({ children }) => {
   const initialState = {
     isDispached: false,
     projects: [],
+    users: [],
   };
 
   const reducer = (state, action) => {
@@ -27,7 +28,19 @@ export const DataProvaider: FC<PropsWithChildren> = ({ children }) => {
           ...state,
           projects: [...action.payload],
         };
-     
+
+      case "SET_USERS":
+        return {
+          ...state,
+          users: [...state.users, ...action.payload],
+          isDispached: true,
+        };
+
+      case "SET_USERS_ONLOAD":
+        return {
+          ...state,
+          users: [...action.payload],
+        };
 
       default:
         return state;
