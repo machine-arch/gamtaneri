@@ -7,18 +7,21 @@ import { imageLoaderProp } from '../../../../utils/app.util';
 import { httpRequest } from '../../../../utils/app.util';
 import AES from 'crypto-js/aes';
 import { enc } from 'crypto-js';
+import { PaginationContext } from '../../../../context/admin/pagination.contect';
 
 const DashboardBody = (props: any) => {
   const [localeKey, setLocaleKey] = useState('');
   const [dictionary, setDictionary] = useState(null);
   const localeContextObject: any = useContext(localeContext);
-  const paginationButtons = useRef(null);
-  const [activeButton, setActiveButton] = useState<HTMLElement>(null);
+  const { paginationButtons, setPaginationButtons } =
+    useContext<any>(PaginationContext);
 
   useEffect(() => {
     setLocaleKey(localeContextObject.localeKey);
     setDictionary(localeContextObject.dictionary);
-  }, [localeContextObject]);
+    drawButtons();
+    console.log('ramdenjer sruldeba efeqti');
+  }, [localeContextObject, props?.data?.total, props?.count]);
 
   const PAGE_KEYS = {
     contacts: 'contacts',
@@ -55,9 +58,11 @@ const DashboardBody = (props: any) => {
    * @description draw pagination buttons based on  formula total/props.count. max 10 buttons if formula result is more
    * than 10 count button when  user click on last button on page
    */
-  const drawButtons = () => {
+  const drawButtons = async () => {
     const buttons: any = [];
-    const count = Math.ceil(props?.data?.total / props?.count);
+    const total = await props?.data?.total;
+    const propscount = await props?.count;
+    const count = Math.ceil(total / propscount);
     for (let i = 1; i <= count; i++) {
       if (i <= 10) {
         buttons.push(
@@ -65,15 +70,14 @@ const DashboardBody = (props: any) => {
             key={i}
             className={styles.pagination_button}
             onClick={paginationHendler}
-            itemID={i.toString()}
+            itemID={i.toString() + Date.now()}
           >
             {i}
           </button>
         );
       }
     }
-    paginationButtons.current = buttons;
-    return paginationButtons.current;
+    setPaginationButtons(buttons);
   };
 
   const paginationHendler = async (e: any) => {
@@ -348,8 +352,8 @@ const DashboardBody = (props: any) => {
                   })
                 : null}
             </div>
-            {((props?.data && props?.data?.from === PAGE_KEYS.users) ||
-              (props?.data && props?.data?.from === PAGE_KEYS.projects)) &&
+            {props?.data &&
+            props?.data?.from === PAGE_KEYS.projects &&
             props?.data?.total > props?.from ? (
               <div className={styles.pagination_conteiner}>
                 <div className={styles.pagination_buttons}>
@@ -360,7 +364,33 @@ const DashboardBody = (props: any) => {
                     height={30}
                     loader={imageLoaderProp}
                   />
-                  {drawButtons().map((button: any) => {
+                  {paginationButtons.map((button: any) => {
+                    return button;
+                  })}
+                  <Image
+                    src="/images/next.svg"
+                    alt="pagination next"
+                    width={30}
+                    height={30}
+                    loader={imageLoaderProp}
+                  />
+                </div>
+              </div>
+            ) : null}
+
+            {props?.data &&
+            props?.data?.from === PAGE_KEYS.users &&
+            props?.data?.total > props?.from ? (
+              <div className={styles.pagination_conteiner}>
+                <div className={styles.pagination_buttons}>
+                  <Image
+                    src="/images/prev.svg"
+                    alt="pagination prev"
+                    width={30}
+                    height={30}
+                    loader={imageLoaderProp}
+                  />
+                  {paginationButtons.map((button: any) => {
                     return button;
                   })}
                   <Image

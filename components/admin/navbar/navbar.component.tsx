@@ -6,12 +6,6 @@ import bodyStyles from '../dashboard/dashboardbody/dashboardbody.module.css';
 import { useEffect } from 'react';
 
 const Navbar = (props: any) => {
-  useEffect(() => {
-    const pafinationbuttons = document.querySelectorAll(
-      `.${bodyStyles.pagination_button}`
-    );
-  }, [props.opendMenuItem]);
-
   const onClickHendler = (e: any) => {
     if (e.currentTarget.classList.contains(styles.active)) {
       e.currentTarget.classList.remove(styles.active);

@@ -1,16 +1,15 @@
-import { FC, PropsWithChildren } from "react";
-import { createContext, RefObject, Context } from "react";
-
-export interface paginationContextInterface {
-  pgButtonsRef: RefObject<HTMLElement>;
-}
+import { FC, PropsWithChildren } from 'react';
+import { createContext, Context, useState } from 'react';
 
 export const PaginationContext: Context<any> =
-  createContext<paginationContextInterface | null>(null);
+  createContext<Context<any>>(null);
 
 export const PaginationProvider: FC<PropsWithChildren> = ({ children }) => {
+  const [paginationButtons, setPaginationButtons] = useState<HTMLElement[]>([]);
   return (
-    <PaginationContext.Provider value={PaginationContext}>
+    <PaginationContext.Provider
+      value={{ paginationButtons, setPaginationButtons }}
+    >
       {children}
     </PaginationContext.Provider>
   );
