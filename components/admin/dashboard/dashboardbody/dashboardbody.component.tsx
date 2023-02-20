@@ -52,7 +52,8 @@ const DashboardBody = (props: any) => {
   };
 
   /**
-   * @description draw pagination buttons based on  formula total/props.count. max 10 buttons if formula result is more than 10 count button when  user click on last button on page
+   * @description draw pagination buttons based on  formula total/props.count. max 10 buttons if formula result is more
+   * than 10 count button when  user click on last button on page
    */
   const drawButtons = () => {
     const buttons: any = [];

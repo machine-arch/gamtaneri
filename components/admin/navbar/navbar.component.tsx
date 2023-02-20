@@ -10,7 +10,6 @@ const Navbar = (props: any) => {
     const pafinationbuttons = document.querySelectorAll(
       `.${bodyStyles.pagination_button}`
     );
-    console.log(pafinationbuttons);
   }, [props.opendMenuItem]);
 
   const onClickHendler = (e: any) => {
