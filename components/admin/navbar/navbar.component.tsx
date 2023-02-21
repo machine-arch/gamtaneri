@@ -1,7 +1,9 @@
-import styles from "./navbar.module.css";
-import router from "next/router";
-import AES from "crypto-js/aes";
-import { enc } from "crypto-js";
+import styles from './navbar.module.css';
+import router from 'next/router';
+import AES from 'crypto-js/aes';
+import { enc } from 'crypto-js';
+import bodyStyles from '../dashboard/dashboardbody/dashboardbody.module.css';
+import { useEffect } from 'react';
 
 const Navbar = (props: any) => {
   const onClickHendler = (e: any) => {
@@ -11,29 +13,29 @@ const Navbar = (props: any) => {
       props.setIsModalOpen(false);
     } else {
       let fetchUrl = null;
-      switch (e.currentTarget.getAttribute("datatype")) {
-        case "our_users":
+      switch (e.currentTarget.getAttribute('datatype')) {
+        case 'our_users':
           fetchUrl = `/api/admin/users/getall/?token=${AES.decrypt(
-            localStorage.getItem("_token"),
-            "secretPassphrase"
-          ).toString(enc.Utf8)}`;
+            localStorage.getItem('_token'),
+            'secretPassphrase'
+          ).toString(enc.Utf8)}&from=${props?.from}&count=${props?.count}`;
           break;
-        case "complated_projects":
+        case 'complated_projects':
           fetchUrl = `/api/admin/projects/getall/?token=${AES.decrypt(
-            localStorage.getItem("_token"),
-            "secretPassphrase"
-          ).toString(enc.Utf8)}`;
+            localStorage.getItem('_token'),
+            'secretPassphrase'
+          ).toString(enc.Utf8)}&from=${props?.from}&count=${props?.count}`;
           break;
-        case "about_us":
+        case 'about_us':
           fetchUrl = `/api/admin/aboutus/get/?token=${AES.decrypt(
-            localStorage.getItem("_token"),
-            "secretPassphrase"
+            localStorage.getItem('_token'),
+            'secretPassphrase'
           ).toString(enc.Utf8)}`;
           break;
-        case "contact":
+        case 'contact':
           fetchUrl = `/api/admin/contacts/get/?token=${AES.decrypt(
-            localStorage.getItem("_token"),
-            "secretPassphrase"
+            localStorage.getItem('_token'),
+            'secretPassphrase'
           ).toString(enc.Utf8)}`;
           break;
       }
@@ -49,10 +51,10 @@ const Navbar = (props: any) => {
               (!data.success && data.status === 401) ||
               (!data.success &&
                 data.status === 404 &&
-                data.message === "User not found")
+                data.message === 'User not found')
             ) {
-              localStorage.removeItem("_token");
-              router.push("/admin/login");
+              localStorage.removeItem('_token');
+              router.push('/admin/login');
             }
           }
         })

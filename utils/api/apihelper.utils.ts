@@ -6,12 +6,13 @@ class ApiHelper {
   constructor() {}
 
   public static successResponse(...params: apiResponseInterface[]) {
-    const { res, message, status, success, from, resource } = params[0];
+    const { res, message, status, success, from, total, resource } = params[0];
     res?.json({
       resource,
       message,
       success,
       status,
+      total,
       from,
     });
   }

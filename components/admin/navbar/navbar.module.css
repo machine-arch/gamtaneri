@@ -7,6 +7,11 @@
   box-shadow: 0 0 10px rgb(0 0 0 / 50%);
 }
 
+.navbar_conteiner ol,
+.navbar_conteiner ul {
+  list-style: none;
+}
+
 .navbar_menu_list {
   display: flex;
   flex-direction: column;

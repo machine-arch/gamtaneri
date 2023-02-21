@@ -15,8 +15,14 @@ import {
   editorContext,
   editorContextInterface,
 } from "../../../context/admin/editor.context";
+import {
+  projectsContext,
+  projectsContextInterface,
+} from "../../../context/admin/projects.context";
 
 const Home = () => {
+  const from = 0,
+    count = 6;
   const authContextObject: any = useContext(authContext);
   const [needRedirect, setNeedRedirect] = useState(false);
   const [opendMenuItem, setOpendMenuItem] = useState<any>(null);
@@ -27,9 +33,11 @@ const Home = () => {
   const [currentItem, setCurrentItem] = useState<any>(null);
   const isVeriyfied = useRef(false);
   const [editorLocale, setEditorLocale] = useState("ka");
+  const [projectFiles, setProjectFiles] = useState<Object[] | String[]>([]);
 
   const modalContextObject: any = useContext(modalContext);
   const editorObject: editorContextInterface = useContext(editorContext);
+  const projectsObject: projectsContextInterface = useContext(projectsContext);
   const { isModalOpen, modalKey, setIsModalOpen, setModalKey, setModalTitle } =
     modalContextObject;
   useEffect(() => {
@@ -91,6 +99,7 @@ const Home = () => {
     let modalProps = null;
     let ConfirmProps = null;
     let url = "",
+      oldImages = [],
       ref = null,
       headers: HeadersInit,
       formdata = null,
@@ -105,6 +114,12 @@ const Home = () => {
      */
     const ModalCloseHendler = () => {
       setIsModalOpen(false);
+      setEditorLocale("ka");
+      setProjectFiles([]);
+      editorObject.editorDateGeo = "";
+      editorObject.editorDataEng = "";
+      projectsObject.projectNameGeo = "";
+      projectsObject.projectNameEng = "";
       setModalTitle("");
     };
 
@@ -146,10 +161,11 @@ const Home = () => {
           case "complated_projects":
             url = "/api/admin/projects/create";
             ref = ProductsRef;
-            formdata = new FormData(ref?.current);
-            console.log(editorObject?.editorRefeng);
-            formdata.append("description", editorObject?.editorRefgeo);
-            formdata.append("description_eng", editorObject?.editorRefeng);
+            formdata = new FormData();
+            formdata.append("description", editorObject?.editorDateGeo);
+            formdata.append("description_eng", editorObject?.editorDataEng);
+            formdata.append("project_name", projectsObject?.projectNameGeo);
+            formdata.append("project_name_eng", projectsObject?.projectNameEng);
             formdata.append(
               "token",
               AES.decrypt(
@@ -157,6 +173,9 @@ const Home = () => {
                 "secretPassphrase"
               ).toString(enc.Utf8)
             );
+            projectFiles.forEach((file: any) => {
+              formdata.append("images", file);
+            });
             headers = {};
             props = {
               url,
@@ -195,6 +214,11 @@ const Home = () => {
           GetOneUrl = `/api/admin/projects/${id}?token=${token}`;
           response = await httpRequest(GetOneUrl, "GET");
           setCurrentItem(response.resource);
+          editorObject.editorDateGeo = response?.resource?.description;
+          editorObject.editorDataEng = response?.resource?.description_eng;
+          projectsObject.projectNameGeo = response?.resource?.project_name;
+          projectsObject.projectNameEng = response?.resource?.project_name_eng;
+          setProjectFiles(JSON.parse(response.resource.images));
           break;
         case "about_us":
           token = AES.decrypt(
@@ -255,7 +279,11 @@ const Home = () => {
           case "complated_projects":
             url = "/api/admin/projects/update";
             ref = ProductsRef;
-            formdata = new FormData(ref?.current);
+            formdata = new FormData();
+            formdata.append("description", editorObject?.editorDateGeo);
+            formdata.append("description_eng", editorObject?.editorDataEng);
+            formdata.append("project_name", projectsObject?.projectNameGeo);
+            formdata.append("project_name_eng", projectsObject?.projectNameEng);
             formdata.append(
               "token",
               AES.decrypt(
@@ -264,6 +292,12 @@ const Home = () => {
               ).toString(enc.Utf8)
             );
             formdata.append("id", currentItemId);
+            projectFiles.forEach((file: any) => {
+              oldImages.push(file);
+              typeof file === "object"
+                ? formdata.append("files", file)
+                : formdata.append("images", JSON.stringify(oldImages));
+            });
             headers = {};
             method = "PUT";
             props = {
@@ -620,6 +654,11 @@ const Home = () => {
                 className: "form-input",
                 placeholder: "პროექტის დასახელება",
                 needCommonParent: true,
+                value: projectsObject.projectNameGeo,
+                eventType: "onChange",
+                eventHandler: (e: any) => {
+                  projectsObject.projectNameGeo = e.target.value;
+                },
               },
               {
                 id:
@@ -627,8 +666,13 @@ const Home = () => {
                 name: "project_name_eng",
                 type: "text ",
                 className: "form-input",
-                placeholder: "project name",
+                placeholder: "Project Name",
                 needCommonParent: true,
+                value: projectsObject.projectNameEng,
+                eventType: "onChange",
+                eventHandler: (e: any) => {
+                  projectsObject.projectNameEng = e.target.value;
+                },
               },
             ];
             textareas = [
@@ -682,6 +726,14 @@ const Home = () => {
               fileUploaderClass: "form_file_uploader",
               multiple: true,
               fileUploaderName: "images",
+              uploadedFiles: projectFiles,
+              setProjectFiles: setProjectFiles,
+              UploaderEventHandler: (e: any) => {
+                setProjectFiles([
+                  ...projectFiles,
+                  ...Array.from(e.target.files),
+                ]);
+              },
             };
             modalHeader = {
               headerClassname: "dashboard_modal_header",
@@ -785,7 +837,6 @@ const Home = () => {
                 editorName: "editor",
                 editorPlaceholder: "აღწერა",
                 name: "editor",
-                value: currentItem?.description,
                 locale: "ka",
               },
               {
@@ -795,7 +846,6 @@ const Home = () => {
                 editorName: "editor_eng",
                 editorPlaceholder: "description",
                 name: "editor_eng",
-                value: currentItem?.description_eng,
                 locale: "en",
               },
             ];
@@ -813,6 +863,14 @@ const Home = () => {
               multiple: true,
               fileUploaderName: "images",
               paht: currentItem?.images,
+              uploadedFiles: projectFiles,
+              setProjectFiles: setProjectFiles,
+              UploaderEventHandler: (e: any) => {
+                setProjectFiles([
+                  ...projectFiles,
+                  ...Array.from(e.target.files),
+                ]);
+              },
             };
             modalHeader = {
               headerClassname: "dashboard_modal_header",
@@ -829,13 +887,16 @@ const Home = () => {
               formClassName: "form",
               inputs: inputs,
               inputsCommonParentClass: "inputs_common_parent",
-              needTextareas: true,
+              needTextareas: false,
               textareas: textareas,
               needFileUploader: true,
               ...fileUploader,
               needEditors: true,
               editors: editors,
+              setEditorLocale: setEditorLocale,
               editorLocale: editorLocale,
+              editorConteiner: styles.editorConteiner,
+              editorSwitchersConteiner: styles.editorSwitchersConteiner,
               needButton: true,
               buttonClass: "form_button",
               buttonText: "დამატება",
@@ -1104,6 +1165,8 @@ const Home = () => {
             setIsModalOpen={setIsModalOpen}
             data={pageData}
             setPageData={setPageData}
+            from={from}
+            count={count}
           />
           <div className={styles.dashboard_body}>
             <DashboardBody
@@ -1117,6 +1180,8 @@ const Home = () => {
               setCurrentItemID={setCurrentItemId}
               currentItem={currentItem}
               getItem={getItem}
+              from={from}
+              count={count}
             />
           </div>
         </div>

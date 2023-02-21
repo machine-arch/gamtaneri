@@ -101,3 +101,30 @@
 .delete {
   cursor: pointer;
 }
+.pagination_button {
+  cursor: pointer;
+  padding: 5px 10px;
+  border-radius: 4px;
+  border: 1px solid var(--white);
+  background-color: rgba(38, 38, 42, 0.821);
+  color: var(--white);
+  font-size: 14px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.pagination_buttons {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.pagination_conteiner {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.active_pagination_button {
+  background-color: var(--dark-green);
+  color: var(--white);
+}

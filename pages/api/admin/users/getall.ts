@@ -13,6 +13,7 @@ const GetAllUsers = async (req: NextApiRequest, res: NextApiResponse) => {
     status: 0,
     success: true,
     from: "",
+    total: 0,
     resource: null,
   };
   if (req.method === "GET") {
@@ -20,7 +21,7 @@ const GetAllUsers = async (req: NextApiRequest, res: NextApiResponse) => {
       const Connection = AppDataSource.isInitialized
         ? AppDataSource
         : await AppDataSource.initialize();
-      const { token } = req.query;
+      const { token, from, count } = req.query;
       const { email } = jwt.decode(token.toString(), {
         json: true,
       });
@@ -31,13 +32,17 @@ const GetAllUsers = async (req: NextApiRequest, res: NextApiResponse) => {
         jwt.verify(token.toString(), process.env.JWT_SECRET);
         const ourUsers = await Connection.getRepository(OurUsers).find({
           order: { id: "DESC" },
+          skip: Number(from),
+          take: Number(count),
         });
+        const total = await Connection.getRepository(OurUsers).count();
         if (ourUsers) {
           apiResponseData.message = "";
           apiResponseData.status = 200;
           apiResponseData.success = true;
           apiResponseData.from = "users";
           apiResponseData.resource = ourUsers;
+          apiResponseData.total = total;
           ApiHelper.successResponse(apiResponseData);
         } else {
           apiResponseData.message = "data not found";

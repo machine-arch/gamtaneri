@@ -3,6 +3,8 @@ import { FormProps } from "../../config/interfaces/app.interfaces";
 import { Oval } from "react-loader-spinner";
 import dynamic from "next/dynamic";
 import styles from "./form.module.css";
+import Image from "next/image";
+import { imageLoaderProp } from "../../utils/app.util";
 
 const Form: FC<FormProps> = (props: any) => {
   const [radioGeoChecked, setRadioGeoChecked] = useState<boolean>(true);
@@ -70,7 +72,7 @@ const Form: FC<FormProps> = (props: any) => {
               placeholder: input.placeholder,
               className: input.className,
               defaultValue: input.value,
-              [input.eventType]: input.callBack,
+              [input.eventType]: input.eventHandler,
             };
             return <input key={input.id} {...attrs} />;
           })}
@@ -85,7 +87,7 @@ const Form: FC<FormProps> = (props: any) => {
               placeholder: input.placeholder,
               className: input.className,
               defaultValue: input.value,
-              [input.eventType]: input.callBack,
+              [input.eventType]: input.eventHandler,
             };
             return <input key={input.id} {...attrs} />;
           })
@@ -132,19 +134,62 @@ const Form: FC<FormProps> = (props: any) => {
                   editorName={editor.editorName}
                   editorLocale={editor.locale}
                   editorPlaceholder={editor.editorPlaceholder}
+                  value={editor.value ? editor.value : null}
+                  valueEN={editor.valueEN ? editor.valueEN : null}
                 />
               </div>
             ) : null;
           })
         : null}
       {props?.FormProps?.needFileUploader ? (
-        <input
-          key={Math.random().toString()}
-          type="file"
-          className={props?.FormProps?.fileUploaderClass}
-          multiple={props?.FormProps?.multiple}
-          name={props?.FormProps?.fileUploaderName}
-        ></input>
+        <div>
+          <input
+            key={Math.random().toString()}
+            type="file"
+            style={{ width: "98px" }}
+            className={props?.FormProps?.fileUploaderClass}
+            multiple={props?.FormProps?.multiple}
+            name={props?.FormProps?.fileUploaderName}
+            onChange={props?.FormProps?.UploaderEventHandler}
+          ></input>
+          {props?.FormProps?.uploadedFiles?.length > 0 && (
+            <div className={styles.form_images_conteiner}>
+              {Array.from(props?.FormProps?.uploadedFiles).map(
+                (file: any, i: any) => {
+                  return (
+                    <div key={i} className={styles.form_images}>
+                      <Image
+                        src={
+                          typeof file === "object"
+                            ? URL.createObjectURL(file)
+                            : file
+                        }
+                        alt="project img"
+                        width={70}
+                        height={70}
+                        loader={imageLoaderProp}
+                      />
+                      <img
+                        alt="close"
+                        src="/images/image_delete.svg"
+                        className={styles.form_image_delete}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          //remove file from array
+                          props?.FormProps?.setProjectFiles(
+                            props?.FormProps?.uploadedFiles.filter(
+                              (f: any) => f !== file
+                            )
+                          );
+                        }}
+                      />
+                    </div>
+                  );
+                }
+              )}
+            </div>
+          )}
+        </div>
       ) : null}
       {props?.FormProps?.needButton ? (
         <button

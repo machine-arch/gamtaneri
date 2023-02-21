@@ -10,6 +10,7 @@ export interface apiResponseInterface {
   status: number;
   success: boolean;
   from: string;
+  total?: number;
   resource?:
     | AboutUs[]
     | AboutUs

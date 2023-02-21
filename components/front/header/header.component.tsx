@@ -91,7 +91,6 @@ const Header: FC<headerProps> = (props) => {
           <span
             className={styles.switch_language_button}
             onClick={async () => {
-              if (window.location.pathname !== "/") await Router.push("/");
               switchLanguage(localeContextObject.setLocaleKey);
             }}
           >

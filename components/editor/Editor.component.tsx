@@ -25,16 +25,16 @@ const CkaEditor: FC<any> = (props) => {
         editor={Editor}
         data={
           props?.editorLocale === "ka"
-            ? editorObject.editorRefgeo
-            : editorObject.editorRefeng
+            ? editorObject.editorDateGeo
+            : editorObject.editorDataEng
         }
         config={editorConfig}
         onChange={(event, editor) => {
           const editorData = editor.getData();
           if (props?.editorLocale === "ka") {
-            editorObject.editorRefgeo = editorData;
+            editorObject.editorDateGeo = editorData;
           } else if (props?.editorLocale === "en") {
-            editorObject.editorRefeng = editorData;
+            editorObject.editorDataEng = editorData;
           }
         }}
       ></CKEditor>

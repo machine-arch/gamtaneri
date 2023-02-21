@@ -1,14 +1,14 @@
 @font-face {
-  font-family: "notosans";
-  src: url("../public/fonst/NotoSansGeorgian-Regular.ttf");
+  font-family: 'notosans';
+  src: url('../public/fonst/NotoSansGeorgian-Regular.ttf');
 }
 @font-face {
-  font-family: "notosans-bold";
-  src: url("../public/fonst/NotoSansGeorgian-Bold.ttf");
+  font-family: 'notosans-bold';
+  src: url('../public/fonst/NotoSansGeorgian-Bold.ttf');
 }
 @font-face {
-  font-family: "notosans-Medium";
-  src: url("../public/fonst/NotoSansGeorgian-Medium.ttf");
+  font-family: 'notosans-Medium';
+  src: url('../public/fonst/NotoSansGeorgian-Medium.ttf');
 }
 
 :root {
@@ -32,7 +32,7 @@ body {
 }
 
 body::-webkit-scrollbar {
-  width: 6px;
+  width: 10px;
   background-color: var(--lightgrey);
 }
 /* Track */
@@ -59,7 +59,9 @@ html {
   flex-direction: column;
   gap: 10px;
 }
-.form-input {
+.form-input,
+.user_filter,
+.projects_filter {
   width: 100%;
   height: 50px;
   border: 1px solid rgba(145, 158, 171, 0.32);
@@ -67,6 +69,10 @@ html {
   box-sizing: border-box;
   padding: 18px 0px 18px 15px;
   outline: none;
+}
+.user_filter,
+.projects_filter {
+  width: 20%;
 }
 .inputs_common_parent {
   display: flex;
@@ -197,6 +203,7 @@ html {
 
 .ck-editor__editable {
   min-height: 200px;
+  max-height: 200px;
 }
 
 /* ==================================================end editor========================================== */
