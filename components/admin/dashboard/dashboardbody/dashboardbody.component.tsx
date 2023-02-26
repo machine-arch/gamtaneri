@@ -20,7 +20,6 @@ const DashboardBody = (props: any) => {
     setLocaleKey(localeContextObject.localeKey);
     setDictionary(localeContextObject.dictionary);
     drawButtons();
-    console.log('ramdenjer sruldeba efeqti');
   }, [localeContextObject, props?.data?.total, props?.count]);
 
   const PAGE_KEYS = {
@@ -64,7 +63,18 @@ const DashboardBody = (props: any) => {
     const propscount = await props?.count;
     const count = Math.ceil(total / propscount);
     for (let i = 1; i <= count; i++) {
-      if (i <= 10) {
+      if (i === 1) {
+        buttons.push(
+          <button
+            key={i}
+            className={`${styles.pagination_button} ${styles.active_pagination_button}`}
+            onClick={paginationHendler}
+            itemID={i.toString() + Date.now()}
+          >
+            {i}
+          </button>
+        );
+      } else {
         buttons.push(
           <button
             key={i}
@@ -357,23 +367,9 @@ const DashboardBody = (props: any) => {
             props?.data?.total > props?.from ? (
               <div className={styles.pagination_conteiner}>
                 <div className={styles.pagination_buttons}>
-                  <Image
-                    src="/images/prev.svg"
-                    alt="pagination prev"
-                    width={30}
-                    height={30}
-                    loader={imageLoaderProp}
-                  />
                   {paginationButtons.map((button: any) => {
                     return button;
                   })}
-                  <Image
-                    src="/images/next.svg"
-                    alt="pagination next"
-                    width={30}
-                    height={30}
-                    loader={imageLoaderProp}
-                  />
                 </div>
               </div>
             ) : null}
@@ -383,23 +379,9 @@ const DashboardBody = (props: any) => {
             props?.data?.total > props?.from ? (
               <div className={styles.pagination_conteiner}>
                 <div className={styles.pagination_buttons}>
-                  <Image
-                    src="/images/prev.svg"
-                    alt="pagination prev"
-                    width={30}
-                    height={30}
-                    loader={imageLoaderProp}
-                  />
                   {paginationButtons.map((button: any) => {
                     return button;
                   })}
-                  <Image
-                    src="/images/next.svg"
-                    alt="pagination next"
-                    width={30}
-                    height={30}
-                    loader={imageLoaderProp}
-                  />
                 </div>
               </div>
             ) : null}

@@ -86,4 +86,5 @@
   position: absolute;
   z-index: 10;
   margin-right: 10px;
+  cursor: pointer;
 }

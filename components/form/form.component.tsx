@@ -1,10 +1,10 @@
-import { FC, useEffect, useState, useMemo } from "react";
-import { FormProps } from "../../config/interfaces/app.interfaces";
-import { Oval } from "react-loader-spinner";
-import dynamic from "next/dynamic";
-import styles from "./form.module.css";
-import Image from "next/image";
-import { imageLoaderProp } from "../../utils/app.util";
+import { FC, useEffect, useState, useMemo } from 'react';
+import { FormProps } from '../../config/interfaces/app.interfaces';
+import { Oval } from 'react-loader-spinner';
+import dynamic from 'next/dynamic';
+import styles from './form.module.css';
+import Image from 'next/image';
+import { imageLoaderProp } from '../../utils/app.util';
 
 const Form: FC<FormProps> = (props: any) => {
   const [radioGeoChecked, setRadioGeoChecked] = useState<boolean>(true);
@@ -22,7 +22,7 @@ const Form: FC<FormProps> = (props: any) => {
   );
 
   const CkaEditor: any = dynamic<{}>(
-    () => import("../editor/Editor.component").then((mod) => mod.default),
+    () => import('../editor/Editor.component').then((mod) => mod.default),
     {
       ssr: false,
     }
@@ -35,13 +35,13 @@ const Form: FC<FormProps> = (props: any) => {
       ) as NodeListOf<HTMLInputElement>;
 
       radios.forEach((radio) => {
-        radio.addEventListener("click", (e: any) => {
-          if (e.currentTarget.getAttribute("name") === "geo") {
-            props?.FormProps?.setEditorLocale("ka");
+        radio.addEventListener('click', (e: any) => {
+          if (e.currentTarget.getAttribute('name') === 'geo') {
+            props?.FormProps?.setEditorLocale('ka');
             setRadioGeoChecked(true);
             setRadioEngChecked(false);
-          } else if (e.currentTarget.getAttribute("name") === "eng") {
-            props?.FormProps?.setEditorLocale("en");
+          } else if (e.currentTarget.getAttribute('name') === 'eng') {
+            props?.FormProps?.setEditorLocale('en');
             setRadioGeoChecked(false);
             setRadioEngChecked(true);
           }
@@ -146,7 +146,7 @@ const Form: FC<FormProps> = (props: any) => {
           <input
             key={Math.random().toString()}
             type="file"
-            style={{ width: "98px" }}
+            style={{ width: '98px' }}
             className={props?.FormProps?.fileUploaderClass}
             multiple={props?.FormProps?.multiple}
             name={props?.FormProps?.fileUploaderName}
@@ -160,7 +160,7 @@ const Form: FC<FormProps> = (props: any) => {
                     <div key={i} className={styles.form_images}>
                       <Image
                         src={
-                          typeof file === "object"
+                          typeof file === 'object'
                             ? URL.createObjectURL(file)
                             : file
                         }
