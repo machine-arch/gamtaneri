@@ -1,14 +1,14 @@
-import { NextApiRequest, NextApiResponse } from "next";
-import formidable from "formidable-serverless";
-import path from "path";
-import User from "../../../../src/entity/user.entity";
-import ComplatedProjects from "../../../../src/entity/complatedprojects.entity";
-import AppDataSource from "../../../../src/config/ormConfig";
-import slugify from "slugify";
-import jwt from "jsonwebtoken";
-import { createHash, randomUUID } from "crypto";
-import { apiResponseInterface } from "../../../../config/interfaces/api.interfaces";
-import ApiHelper from "../../../../utils/api/apihelper.utils";
+import { NextApiRequest, NextApiResponse } from 'next';
+import formidable from 'formidable-serverless';
+import path from 'path';
+import User from '../../../../src/entity/user.entity';
+import ComplatedProjects from '../../../../src/entity/complatedprojects.entity';
+import AppDataSource from '../../../../src/config/ormConfig';
+import slugify from 'slugify';
+import jwt from 'jsonwebtoken';
+import { createHash, randomUUID } from 'crypto';
+import { apiResponseInterface } from '../../../../config/interfaces/api.interfaces';
+import ApiHelper from '../../../../utils/api/apihelper.utils';
 
 export const config = {
   api: {
@@ -19,40 +19,39 @@ export const config = {
 const UpdateProject = async (req: NextApiRequest, res: NextApiResponse) => {
   const apiResponseData: apiResponseInterface = {
     res,
-    message: "",
+    message: '',
     status: 0,
     success: true,
-    from: "",
+    from: '',
     resource: null,
   };
-  if (req.method === "PUT") {
+  if (req.method === 'PUT') {
     const form = new formidable.IncomingForm({
       multiples: true,
-      uploadDir: path.join(process.cwd(), "public", "uploads"),
+      uploadDir: path.join(process.cwd(), 'public', 'uploads'),
       keepExtensions: true,
       keepFilenames: true,
     });
     let filePaths = [];
-    form.on("fileBegin", (name, file) => {
-      const upload_dir = path.join(process.cwd(), "public", "uploads");
+    form.on('fileBegin', (name, file) => {
+      const upload_dir = path.join(process.cwd(), 'public', 'uploads');
       if (file && file.name && file.type) {
-        //create unicue hash from file name for next js image optimization
-        const hash = createHash("md5");
+        const hash = createHash('md5');
         hash.update(
           file.name
-            .split(".")
+            .split('.')
             .slice(0, -1)
-            .join(".")
-            .concat(randomUUID(), "utf-8")
+            .join('.')
+            .concat(randomUUID(), 'utf-8')
         );
-        const hashName = hash.digest("hex");
+        const hashName = hash.digest('hex');
         const ext = path.extname(file.name);
         const fileName = `${hashName}${ext}`;
         file.path = path.join(upload_dir, fileName);
         const filePath = path
           .relative(process.cwd(), file.path)
-          .replace("public", "")
-          .replace(/\\/g, "/");
+          .replace('public', '')
+          .replace(/\\/g, '/');
         filePaths.push(filePath);
       }
     });
@@ -106,20 +105,20 @@ const UpdateProject = async (req: NextApiRequest, res: NextApiResponse) => {
           const projects = await Connection.getRepository(
             ComplatedProjects
           ).find({
-            order: { id: "DESC" },
+            order: { id: 'DESC' },
           });
           filePaths = [];
-          apiResponseData.message = "Project updated successfully";
+          apiResponseData.message = 'Project updated successfully';
           apiResponseData.status = 200;
           apiResponseData.success = true;
-          apiResponseData.from = "projects";
+          apiResponseData.from = 'projects';
           apiResponseData.resource = projects;
           ApiHelper.successResponse(apiResponseData);
         } else {
-          apiResponseData.message = "Forbidden, permission denied";
+          apiResponseData.message = 'Forbidden, permission denied';
           apiResponseData.status = 403;
           apiResponseData.success = false;
-          apiResponseData.from = "projects";
+          apiResponseData.from = 'projects';
           apiResponseData.resource = null;
           ApiHelper.FaildResponse(apiResponseData);
         }
@@ -129,22 +128,22 @@ const UpdateProject = async (req: NextApiRequest, res: NextApiResponse) => {
         apiResponseData.message = error.message;
         apiResponseData.status = 500;
         apiResponseData.success = false;
-        apiResponseData.from = "projects";
+        apiResponseData.from = 'projects';
         apiResponseData.resource = null;
         ApiHelper.FaildResponse(apiResponseData);
 
         ApiHelper.AddLogs(
-          "UpdateProject",
+          'UpdateProject',
           error.message,
           req.socket.remoteAddress,
           req.socket.localAddress
         );
       });
   } else {
-    apiResponseData.message = "Method not allowed";
+    apiResponseData.message = 'Method not allowed';
     apiResponseData.status = 405;
     apiResponseData.success = false;
-    apiResponseData.from = "UpdateProject";
+    apiResponseData.from = 'UpdateProject';
     apiResponseData.resource = null;
     ApiHelper.FaildResponse(apiResponseData);
   }

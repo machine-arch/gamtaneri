@@ -1,31 +1,32 @@
-import styles from "./all-projects.module.css";
-import Image from "next/image";
-import { imageLoaderProp } from "../../../utils/app.util";
-import { useState, useEffect, useContext, FC, useRef, Fragment } from "react";
-import { localeContext } from "../../../context/locale-context";
-import router from "next/router";
-import { httpRequest } from "../../../utils/app.util";
-import { dataContext } from "../../../context/data.context";
+import styles from './all-projects.module.css';
+import Image from 'next/image';
+import { imageLoaderProp } from '../../../utils/app.util';
+import { useState, useEffect, useContext, FC, useRef, Fragment } from 'react';
+import { localeContext } from '../../../context/locale-context';
+import router from 'next/router';
+import { httpRequest } from '../../../utils/app.util';
+import { dataContext } from '../../../context/data.context';
 
 const AllProjects: FC<any> = (props: any) => {
   const { state, dispatch } = useContext<any>(dataContext);
   const { localeKey } = useContext<any>(localeContext);
+  const [searchVal, setSearchVal] = useState<string>('');
   const from = useRef(10);
   const count = useRef(10);
   const wasFatcched = useRef(false);
 
   useEffect(() => {
-    document.addEventListener("scroll", getMooreProjects);
+    document.addEventListener('scroll', getMooreProjects);
   }, []);
 
   const seeProjectDetals = (e: any) => {
     const _this = e.currentTarget;
-    const itemID = _this.getAttribute("itemID");
+    const itemID = _this.getAttribute('itemID');
     router.push(`/projects/${itemID}`);
   };
 
   const removeHTMLTags = (str: string) => {
-    return str.replace(/<[^>]*>/g, "").replace(/&nbsp;/g, " ");
+    return str.replace(/<[^>]*>/g, '').replace(/&nbsp;/g, ' ');
   };
 
   const getMooreProjects = async () => {
@@ -36,23 +37,48 @@ const AllProjects: FC<any> = (props: any) => {
       wasFatcched.current = true;
       httpRequest(
         `http://localhost:3000/api/client/projects/getall?from=${from.current}&count=${count.current}`,
-        "GET"
+        'GET'
       )
         .then((res) => {
-          dispatch({ type: "SET_PROJECTS", payload: res?.resource });
+          dispatch({ type: 'SET_PROJECTS', payload: res?.resource });
           from.current += count.current;
           return res;
         })
         .then((res) => {
           if (res?.count > from.current) {
-            console.log("jerjerobit metia");
             wasFatcched.current = false;
           } else {
-            window.removeEventListener("scroll", () => {});
+            window.removeEventListener('scroll', () => {});
             return false;
           }
         });
     }
+  };
+
+  const controlSearchFild = (e: any) => {
+    const _this = e.currentTarget;
+    const value = _this.value;
+    setSearchVal(value);
+  };
+
+  const searchProjects = async () => {
+    if (searchVal.length < 2) return;
+    httpRequest(
+      `http://localhost:3000/api/client/projects/search?search=${searchVal}`,
+      'GET'
+    )
+      .then((res) => {
+        dispatch({ type: 'SET_PROJECTS_ONLOAD', payload: res?.resource });
+        return res;
+      })
+      .then((res) => {
+        if (res?.count > from.current) {
+          wasFatcched.current = false;
+        } else {
+          window.removeEventListener('scroll', () => {});
+          return false;
+        }
+      });
   };
 
   return (
@@ -63,8 +89,10 @@ const AllProjects: FC<any> = (props: any) => {
           name="user_filter"
           className="projects_filter"
           placeholder="მოძებნე სახელით ან თარიღით..."
+          value={searchVal}
+          onChange={controlSearchFild}
         />
-        <div className={styles.search_ico_conteiner}>
+        <div className={styles.search_ico_conteiner} onClick={searchProjects}>
           <Image
             className={styles.search_ico}
             src="/images/search-ico.svg"
@@ -81,7 +109,7 @@ const AllProjects: FC<any> = (props: any) => {
             <div className={styles.project_card} key={project.id}>
               <div className={styles.project_card_title}>
                 <h1>
-                  {localeKey === "en"
+                  {localeKey === 'en'
                     ? (project.project_name_eng as HTMLHeadingElement)
                     : project.project_name}
                 </h1>
@@ -90,7 +118,7 @@ const AllProjects: FC<any> = (props: any) => {
                 <Image
                   src={JSON.parse(project?.images)[0]}
                   alt={
-                    localeKey === "en"
+                    localeKey === 'en'
                       ? project.project_name_eng
                       : project.project_name
                   }
@@ -102,7 +130,7 @@ const AllProjects: FC<any> = (props: any) => {
               </div>
               <div className={styles.project_card_description}>
                 <p className={styles.project_card_description_text}>
-                  {localeKey === "en"
+                  {localeKey === 'en'
                     ? removeHTMLTags(project?.description_eng)
                     : removeHTMLTags(project?.description)}
                 </p>
