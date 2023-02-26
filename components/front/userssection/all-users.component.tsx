@@ -1,10 +1,10 @@
-import { FC, useContext, useEffect, useRef, useState } from "react";
-import { localeContext } from "../../../context/locale-context";
-import styles from "./all-users.module.css";
-import { createDate, httpRequest } from "../../../utils/app.util";
-import { dataContext } from "../../../context/data.context";
-import Image from "next/image";
-import { imageLoaderProp } from "../../../utils/app.util";
+import { FC, useContext, useEffect, useRef, useState } from 'react';
+import { localeContext } from '../../../context/locale-context';
+import styles from './all-users.module.css';
+import { createDate, httpRequest } from '../../../utils/app.util';
+import { dataContext } from '../../../context/data.context';
+import Image from 'next/image';
+import { imageLoaderProp } from '../../../utils/app.util';
 
 const AllUsers: FC<any> = (props: any) => {
   const { state, dispatch } = useContext<any>(dataContext);
@@ -14,7 +14,7 @@ const AllUsers: FC<any> = (props: any) => {
   const { localeKey } = useContext<any>(localeContext);
 
   useEffect(() => {
-    document.addEventListener("scroll", getMooreUsers);
+    document.addEventListener('scroll', getMooreUsers);
   }, []);
 
   const getMooreUsers = async () => {
@@ -22,14 +22,13 @@ const AllUsers: FC<any> = (props: any) => {
       window.innerHeight + window.scrollY >= document.body.offsetHeight - 100 &&
       !wasFatcched.current
     ) {
-      console.log("jerjerobit metia");
       wasFatcched.current = true;
       httpRequest(
         `http://localhost:3000/api/client/users/getall?from=${from.current}&count=${count.current}`,
-        "GET"
+        'GET'
       )
         .then((res) => {
-          dispatch({ type: "SET_USERS", payload: res?.resource });
+          dispatch({ type: 'SET_USERS', payload: res?.resource });
           from.current += count.current;
           return res;
         })
@@ -37,7 +36,7 @@ const AllUsers: FC<any> = (props: any) => {
           if (res?.total > from.current) {
             wasFatcched.current = false;
           } else {
-            window.removeEventListener("scroll", () => {});
+            window.removeEventListener('scroll', () => {});
             return false;
           }
         });
@@ -70,7 +69,7 @@ const AllUsers: FC<any> = (props: any) => {
             <div key={user.id} className={styles.user_card}>
               <div className={styles.user_name_conteiner}>
                 <h1 className={styles.user_name}>
-                  {localeKey === "en" ? user?.title_eng : user?.title}
+                  {localeKey === 'en' ? user?.title_eng : user?.title}
                 </h1>
               </div>
               <div className={styles.user_cooperation_date_conteiner}>
@@ -80,7 +79,7 @@ const AllUsers: FC<any> = (props: any) => {
               </div>
               <div className={styles.user_cooperation_description_conteiner}>
                 <span className={styles.user_cooperation_description}>
-                  {localeKey === "en"
+                  {localeKey === 'en'
                     ? user?.description
                     : user?.description_eng}
                 </span>
