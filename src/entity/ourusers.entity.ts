@@ -27,8 +27,8 @@ class OurUsers {
   @Column("timestamp", { nullable: true })
   cooperation_start_date: Date;
 
-  @Column("integer",{ nullable: true})
-  position: number;
+  @Column("boolean",{ nullable: false, default: false})
+  isTop: number;
   
   @Column("varchar",{ nullable: true,length: 200})
   profile_link: string;

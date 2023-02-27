@@ -34,7 +34,8 @@ const Home = () => {
   const isVeriyfied = useRef(false);
   const [editorLocale, setEditorLocale] = useState('ka');
   const [projectFiles, setProjectFiles] = useState<Object[] | String[]>([]);
-
+  const [isProjectTop, setIsProjectTop] = useState(false);
+  const [isUserTop, setIsUserTop] = useState(false);
   const modalContextObject: any = useContext(modalContext);
   const editorObject: editorContextInterface = useContext(editorContext);
   const projectsObject: projectsContextInterface = useContext(projectsContext);
@@ -91,7 +92,8 @@ const Home = () => {
       : null;
     let inputs = [];
     let textareas = [{}];
-    let editors = [];
+    let editors = [],
+      checkBoxss = [];
     let formProps: FormPropsInterface;
     let fileUploader = {};
     let title = {};
@@ -141,6 +143,7 @@ const Home = () => {
               title_eng: data.get('title_eng'),
               description: data.get('description'),
               description_eng: data.get('description_eng'),
+              isTop: isUserTop,
               token: AES.decrypt(
                 localStorage.getItem('_token'),
                 'secretPassphrase'
@@ -166,6 +169,7 @@ const Home = () => {
             formdata.append('description_eng', editorObject?.editorDataEng);
             formdata.append('project_name', projectsObject?.projectNameGeo);
             formdata.append('project_name_eng', projectsObject?.projectNameEng);
+            formdata.append('isTop', isProjectTop);
             formdata.append(
               'token',
               AES.decrypt(
@@ -258,6 +262,7 @@ const Home = () => {
               title_eng: data.get('title_eng'),
               description: data.get('description'),
               description_eng: data.get('description_eng'),
+              isTop: isUserTop,
               token: AES.decrypt(
                 localStorage.getItem('_token'),
                 'secretPassphrase'
@@ -277,6 +282,7 @@ const Home = () => {
             resolve(true);
             break;
           case 'complated_projects':
+            console.log(isProjectTop);
             url = '/api/admin/projects/update';
             ref = ProductsRef;
             formdata = new FormData();
@@ -284,6 +290,7 @@ const Home = () => {
             formdata.append('description_eng', editorObject?.editorDataEng);
             formdata.append('project_name', projectsObject?.projectNameGeo);
             formdata.append('project_name_eng', projectsObject?.projectNameEng);
+            formdata.append('isTop', isProjectTop);
             formdata.append(
               'token',
               AES.decrypt(
@@ -425,6 +432,15 @@ const Home = () => {
       setModalKey('MESSAGE');
     };
 
+    const setProjectPriority = (e: any) => {
+      setIsProjectTop(e.target.checked);
+    };
+
+    const setUserPriority = (e: any) => {
+      console.log(e.target.checked);
+      setIsUserTop(e.target.checked);
+    };
+
     const denialOperation = (e: any) => {
       setModalKey('FORM');
     };
@@ -451,6 +467,21 @@ const Home = () => {
                 className: 'form-input',
                 placeholder: 'title',
                 needCommonParent: true,
+              },
+            ];
+            checkBoxss = [
+              {
+                id:
+                  Date.now().toString(36) + Math.random().toString(36).slice(2),
+                name: 'is_top',
+                className: styles.checkbox,
+                type: 'checkbox',
+                eventType: 'onChange',
+                labelName: 'Top',
+                parentClass: styles.checkbox_parent,
+                eventHandler: (e: any) => {
+                  setUserPriority(e.target.checked);
+                },
               },
             ];
             textareas = [
@@ -498,6 +529,8 @@ const Home = () => {
               needTextareas: true,
               textareas,
               needButton: true,
+              needcCheckBoxss: true,
+              checkBoxss: checkBoxss,
               buttonClass: 'form_button',
               buttonText: 'დამატება',
               ButtoncallBack: (e: SyntheticEvent) => {
@@ -548,6 +581,21 @@ const Home = () => {
                 value: currentItem?.title_eng,
               },
             ];
+            checkBoxss = [
+              {
+                id:
+                  Date.now().toString(36) + Math.random().toString(36).slice(2),
+                name: 'is_top',
+                className: styles.checkbox,
+                type: 'checkbox',
+                eventType: 'onChange',
+                labelName: 'Top',
+                parentClass: styles.checkbox_parent,
+                eventHandler: (e: any) => {
+                  setUserPriority(e.target.checked);
+                },
+              },
+            ];
             textareas = [
               {
                 id:
@@ -591,6 +639,8 @@ const Home = () => {
               needTextareas: true,
               textareas,
               needButton: true,
+              needcCheckBoxss: true,
+              checkBoxss: checkBoxss,
               buttonClass: 'form_button',
               buttonText: 'დამატება',
               ButtoncallBack: initUpdate,
@@ -650,7 +700,7 @@ const Home = () => {
                 id:
                   Date.now().toString(36) + Math.random().toString(36).slice(2),
                 name: 'project_name',
-                type: 'text ',
+                type: 'text',
                 className: 'form-input',
                 placeholder: 'პროექტის დასახელება',
                 needCommonParent: true,
@@ -672,6 +722,21 @@ const Home = () => {
                 eventType: 'onChange',
                 eventHandler: (e: any) => {
                   projectsObject.projectNameEng = e.target.value;
+                },
+              },
+            ];
+            checkBoxss = [
+              {
+                id:
+                  Date.now().toString(36) + Math.random().toString(36).slice(2),
+                name: 'is_top',
+                className: styles.checkbox,
+                type: 'checkbox',
+                eventType: 'onChange',
+                labelName: 'Top',
+                parentClass: styles.checkbox_parent,
+                eventHandler: (e: any) => {
+                  setProjectPriority(e);
                 },
               },
             ];
@@ -756,6 +821,8 @@ const Home = () => {
               ...fileUploader,
               needEditors: true,
               editors: editors,
+              needcCheckBoxss: true,
+              checkBoxss: checkBoxss,
               editorLocale: editorLocale,
               setEditorLocale: setEditorLocale,
               editorConteiner: styles.editorConteiner,
@@ -814,6 +881,21 @@ const Home = () => {
                 eventType: 'onChange',
                 eventHandler: (e: any) => {
                   projectsObject.projectNameEng = e.target.value;
+                },
+              },
+            ];
+            checkBoxss = [
+              {
+                id:
+                  Date.now().toString(36) + Math.random().toString(36).slice(2),
+                name: 'is_top',
+                className: styles.checkbox,
+                type: 'checkbox',
+                eventType: 'onChange',
+                labelName: 'Top',
+                parentClass: styles.checkbox_parent,
+                eventHandler: (e: any) => {
+                  setProjectPriority(e);
                 },
               },
             ];
@@ -901,6 +983,8 @@ const Home = () => {
               ...fileUploader,
               needEditors: true,
               editors: editors,
+              needcCheckBoxss: true,
+              checkBoxss: checkBoxss,
               setEditorLocale: setEditorLocale,
               editorLocale: editorLocale,
               editorConteiner: styles.editorConteiner,

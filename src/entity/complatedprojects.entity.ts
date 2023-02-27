@@ -27,8 +27,8 @@ class ComplatedProjects {
   @Column("varchar", { nullable: true,length: 300 })
   images: string;
 
-  @Column("integer", { nullable: true })
-  position: number;
+  @Column("boolean", { nullable: false, default: false })
+  isTop: number;
 
 }
 

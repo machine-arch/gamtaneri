@@ -1,13 +1,14 @@
-import Header from "../../components/front/header/header.component";
-import { modalContext } from "../../context/modal-context";
-import { useContext, useState, useEffect, useRef } from "react";
-import AllProjects from "../../components/front/completedprojects/all-projects.component";
-import { localeContext } from "../../context/locale-context";
-import { NextPage } from "next";
-import Modal from "../../components/modal/modal.component";
-import { FormPropsInterface } from "../../config/interfaces/app.interfaces";
-import { pagesContext } from "../../context/pages-context";
-import { dataContext } from "../../context/data.context";
+import Header from '../../components/front/header/header.component';
+import styles from '../../styles/Index.module.css';
+import { modalContext } from '../../context/modal-context';
+import { useContext, useState, useEffect, useRef } from 'react';
+import AllProjects from '../../components/front/completedprojects/all-projects.component';
+import { localeContext } from '../../context/locale-context';
+import { NextPage } from 'next';
+import Modal from '../../components/modal/modal.component';
+import { FormPropsInterface } from '../../config/interfaces/app.interfaces';
+import { pagesContext } from '../../context/pages-context';
+import { dataContext } from '../../context/data.context';
 
 const Projects: NextPage = (props: any) => {
   const modalContextObject: any = useContext(modalContext);
@@ -17,7 +18,7 @@ const Projects: NextPage = (props: any) => {
     modalContextObject;
   const { loader, sendContactResponse, sendMail, ModalCloseHendler } =
     pagesContextObject;
-  const [localeKey, setLocaleKey] = useState("");
+  const [localeKey, setLocaleKey] = useState('');
   const [dictionary, setDictionary] = useState(null);
   const { state, dispatch } = useContext<any>(dataContext);
   const wasFetched = useRef(false);
@@ -29,63 +30,63 @@ const Projects: NextPage = (props: any) => {
   useEffect(() => {
     if (!wasFetched.current) {
       wasFetched.current = true;
-      dispatch({ type: "SET_PROJECTS_ONLOAD", payload: props?.projects });
+      dispatch({ type: 'SET_PROJECTS_ONLOAD', payload: props?.projects });
     }
   }, []);
 
   const formInputs = [
     {
-      id: "001",
-      type: "text",
-      name: "fullname",
-      className: "form-input",
+      id: '001',
+      type: 'text',
+      name: 'fullname',
+      className: 'form-input',
       placeholder: dictionary
-        ? dictionary[localeKey]["fullName"]
-        : "სახელი და გვარი",
+        ? dictionary[localeKey]['fullName']
+        : 'სახელი და გვარი',
       needCommonParent: true,
     },
     {
-      id: "002",
-      type: "text",
-      name: "phone",
-      className: "form-input",
-      placeholder: dictionary ? dictionary[localeKey]["phone"] : "ტელეფონი",
+      id: '002',
+      type: 'text',
+      name: 'phone',
+      className: 'form-input',
+      placeholder: dictionary ? dictionary[localeKey]['phone'] : 'ტელეფონი',
       needCommonParent: true,
     },
     {
-      id: "003",
-      type: "email",
-      name: "email",
-      className: "form-input",
-      placeholder: dictionary ? dictionary[localeKey]["email"] : "ელ.ფოსტა",
+      id: '003',
+      type: 'email',
+      name: 'email',
+      className: 'form-input',
+      placeholder: dictionary ? dictionary[localeKey]['email'] : 'ელ.ფოსტა',
       needCommonParent: false,
     },
   ];
   const formTextareas = [
     {
-      textareaClass: "form_textarea",
-      textareaName: "message",
+      textareaClass: 'form_textarea',
+      textareaName: 'message',
       textareaPlaceholder: dictionary
-        ? dictionary[localeKey]["message"]
-        : "შეტყობინება",
+        ? dictionary[localeKey]['message']
+        : 'შეტყობინება',
     },
   ];
   const modalHeader = {
-    headerClassname: "modal_header",
-    headerLogoClassname: "modal_header_logo",
-    headerCloseImageSrc: "/images/close.svg",
+    headerClassname: 'modal_header',
+    headerLogoClassname: 'modal_header_logo',
+    headerCloseImageSrc: '/images/close.svg',
     colosHendler: ModalCloseHendler,
   };
   const formProps: FormPropsInterface = {
-    formClassName: "form",
+    formClassName: 'form',
     inputs: formInputs,
-    inputsCommonParentClass: "inputs_common_parent",
+    inputsCommonParentClass: 'inputs_common_parent',
     needTextareas: true,
     textareas: formTextareas,
     needButton: true,
     loader: loader,
-    buttonClass: "form_button",
-    buttonText: dictionary ? dictionary[localeKey]["send"] : "გაგზავნა",
+    buttonClass: 'form_button',
+    buttonText: dictionary ? dictionary[localeKey]['send'] : 'გაგზავნა',
     ButtoncallBack: null,
     submit: sendMail,
   };
@@ -94,9 +95,9 @@ const Projects: NextPage = (props: any) => {
     cancelHendler: ModalCloseHendler,
     question: dictionary
       ? dictionary[localeKey][sendContactResponse]
-      : "თქვენი შეტყობინება წარმატებით გაიგზავნა",
-    conteinerClass: "modal_dialogs_conteiner",
-    name: "send mail",
+      : 'თქვენი შეტყობინება წარმატებით გაიგზავნა',
+    conteinerClass: 'modal_dialogs_conteiner',
+    name: 'send mail',
   };
   const modalProps = {
     modal_title: modalTitle,
@@ -109,19 +110,19 @@ const Projects: NextPage = (props: any) => {
     ...modalHeader,
     needHeaderTitle: true,
     modal_item_conteiner_class:
-      modalKey === "FORM"
-        ? "contact_modal_item_conteiner"
-        : modalKey === "GALLERY"
-        ? "modal_item_conteiner"
-        : "modal_item_conteiner",
+      modalKey === 'FORM'
+        ? 'contact_modal_item_conteiner'
+        : modalKey === 'GALLERY'
+        ? 'modal_item_conteiner'
+        : 'modal_item_conteiner',
   };
 
   return (
-    <div>
+    <div className="conteiner">
       <Modal modalprops={modalProps} />
-      <section className="allProjects_header_section">
+      <div className={styles.header}>
         <Header setismodalopen={setIsModalOpen} setModalKey={setModalKey} />
-      </section>
+      </div>
       <section className="allProjects_section">
         <AllProjects />
       </section>
@@ -135,9 +136,9 @@ export async function getServerSideProps({ req }) {
   const projects = await fetch(
     `http://localhost:3000/api/client/projects/getall?from=${from}&count=${count}`,
     {
-      method: "GET",
+      method: 'GET',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
     }
   )

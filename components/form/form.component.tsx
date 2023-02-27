@@ -62,6 +62,22 @@ const Form: FC<FormProps> = (props: any) => {
           {props?.FormProps?.title}
         </h1>
       ) : null}
+      {props?.FormProps?.needcCheckBoxss
+        ? props?.FormProps?.checkBoxss?.map((checkbox: any) => {
+            return (
+              <div key={checkbox.id} className={checkbox.parentClass}>
+                <input
+                  type="checkbox"
+                  name={checkbox.name}
+                  id={checkbox.id}
+                  className={checkbox.className}
+                  onChange={checkbox.eventHandler}
+                />
+                <label htmlFor={checkbox.id}>{checkbox.labelName}</label>
+              </div>
+            );
+          })
+        : null}
       {withCommonParent?.length ? (
         <div className={props?.FormProps?.inputsCommonParentClass}>
           {withCommonParent?.map((input: any) => {

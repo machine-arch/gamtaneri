@@ -14,6 +14,7 @@ const AllProjects: FC<any> = (props: any) => {
   const from = useRef(10);
   const count = useRef(10);
   const wasFatcched = useRef(false);
+  const wasSearch = useRef(false);
 
   useEffect(() => {
     document.addEventListener('scroll', getMooreProjects);
@@ -56,9 +57,7 @@ const AllProjects: FC<any> = (props: any) => {
   };
 
   const controlSearchFild = (e: any) => {
-    const _this = e.currentTarget;
-    const value = _this.value;
-    setSearchVal(value);
+    setSearchVal(e.currentTarget.value);
   };
 
   const searchProjects = async () => {
@@ -69,6 +68,30 @@ const AllProjects: FC<any> = (props: any) => {
     )
       .then((res) => {
         dispatch({ type: 'SET_PROJECTS_ONLOAD', payload: res?.resource });
+        wasSearch.current = true;
+        return res;
+      })
+      .then((res) => {
+        if (res?.count > from.current) {
+          wasFatcched.current = false;
+        } else {
+          window.removeEventListener('scroll', () => {});
+          return false;
+        }
+      });
+  };
+
+  const clearSearch = () => {
+    httpRequest(
+      `http://localhost:3000/api/client/projects/getall?from=${0}&count=${10}`,
+      'GET'
+    )
+      .then((res) => {
+        dispatch({
+          type: 'SET_PROJECTS_ONLOAD',
+          payload: res?.resource,
+        });
+        wasSearch.current = false;
         return res;
       })
       .then((res) => {
@@ -91,6 +114,22 @@ const AllProjects: FC<any> = (props: any) => {
           placeholder="მოძებნე სახელით ან თარიღით..."
           value={searchVal}
           onChange={controlSearchFild}
+          onKeyUp={(event) => {
+            if (event.key === 'Enter') {
+              searchProjects();
+            }
+            if (
+              (event.key === 'Backspace' || event.key === 'Delete') &&
+              wasSearch.current
+            ) {
+              if (searchVal.length <= 1) clearSearch();
+            }
+          }}
+          onCut={() => {
+            if (wasSearch.current) {
+              if (searchVal.length <= 1) clearSearch();
+            }
+          }}
         />
         <div className={styles.search_ico_conteiner} onClick={searchProjects}>
           <Image

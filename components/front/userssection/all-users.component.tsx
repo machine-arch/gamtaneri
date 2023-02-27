@@ -11,11 +11,61 @@ const AllUsers: FC<any> = (props: any) => {
   const from = useRef(10);
   const count = useRef(10);
   const wasFatcched = useRef(false);
+  const wasSearch = useRef(false);
   const { localeKey } = useContext<any>(localeContext);
+  const [searchVal, setSearchVal] = useState<string>('');
 
   useEffect(() => {
     document.addEventListener('scroll', getMooreUsers);
   }, []);
+
+  const controlSearchFild = (e: any) => {
+    setSearchVal(e.currentTarget.value);
+  };
+
+  const searchUsers = async () => {
+    if (searchVal.length < 2) return;
+    httpRequest(
+      `http://localhost:3000/api/client/users/search?search=${searchVal}`,
+      'GET'
+    )
+      .then((res) => {
+        dispatch({ type: 'SET_USERS_ONLOAD', payload: res?.resource });
+        wasSearch.current = true;
+        return res;
+      })
+      .then((res) => {
+        if (res?.count > from.current) {
+          wasFatcched.current = false;
+        } else {
+          window.removeEventListener('scroll', () => {});
+          return false;
+        }
+      });
+  };
+
+  const clearSearch = () => {
+    httpRequest(
+      `http://localhost:3000/api/client/users/getall?from=${0}&count=${10}`,
+      'GET'
+    )
+      .then((res) => {
+        dispatch({
+          type: 'SET_USERS_ONLOAD',
+          payload: res?.resource,
+        });
+        wasSearch.current = false;
+        return res;
+      })
+      .then((res) => {
+        if (res?.count > from.current) {
+          wasFatcched.current = false;
+        } else {
+          window.removeEventListener('scroll', () => {});
+          return false;
+        }
+      });
+  };
 
   const getMooreUsers = async () => {
     if (
@@ -51,8 +101,26 @@ const AllUsers: FC<any> = (props: any) => {
           name="user_filter"
           className="user_filter"
           placeholder="მოძებნე სახელით ან თარიღით..."
+          onChange={controlSearchFild}
+          onKeyDown={(event) => {
+            if (event.key === 'Enter') {
+              searchUsers();
+            }
+            if (
+              (event.key === 'Backspace' || event.key === 'Delete') &&
+              wasSearch.current
+            ) {
+              console.log(searchVal.length);
+              if (searchVal.length <= 1) clearSearch();
+            }
+          }}
+          onCut={() => {
+            if (wasSearch.current) {
+              if (searchVal.length <= 1) clearSearch();
+            }
+          }}
         />
-        <div className={styles.search_ico_conteiner}>
+        <div className={styles.search_ico_conteiner} onClick={searchUsers}>
           <Image
             className={styles.search_ico}
             src="/images/search-ico.svg"

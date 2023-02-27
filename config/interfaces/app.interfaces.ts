@@ -3,7 +3,7 @@ import React, {
   MouseEventHandler,
   RefObject,
   SyntheticEvent,
-} from "react";
+} from 'react';
 
 export interface HeaderProps {
   locale: string;
@@ -44,6 +44,8 @@ export interface FormPropsInterface {
   editorConteiner?: string;
   editorSwitchersConteiner?: string;
   editors?: Object[];
+  needcCheckBoxss?: boolean;
+  checkBoxss?: Object[];
   needButton: boolean;
   buttonClass: string;
   buttonText: string;
