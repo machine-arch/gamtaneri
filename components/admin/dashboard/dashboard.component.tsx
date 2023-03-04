@@ -34,13 +34,13 @@ const Home = () => {
   const isVeriyfied = useRef(false);
   const [editorLocale, setEditorLocale] = useState('ka');
   const [projectFiles, setProjectFiles] = useState<Object[] | String[]>([]);
-  const [isProjectTop, setIsProjectTop] = useState(false);
   const [isUserTop, setIsUserTop] = useState(false);
   const modalContextObject: any = useContext(modalContext);
   const editorObject: editorContextInterface = useContext(editorContext);
   const projectsObject: projectsContextInterface = useContext(projectsContext);
   const { isModalOpen, modalKey, setIsModalOpen, setModalKey, setModalTitle } =
     modalContextObject;
+  projectsObject.isTop = useRef(false);
   useEffect(() => {
     (async () => {
       if (!isVeriyfied.current) {
@@ -169,7 +169,7 @@ const Home = () => {
             formdata.append('description_eng', editorObject?.editorDataEng);
             formdata.append('project_name', projectsObject?.projectNameGeo);
             formdata.append('project_name_eng', projectsObject?.projectNameEng);
-            formdata.append('isTop', isProjectTop);
+            formdata.append('isTop', projectsObject.isTop.current);
             formdata.append(
               'token',
               AES.decrypt(
@@ -222,6 +222,8 @@ const Home = () => {
           editorObject.editorDataEng = response?.resource?.description_eng;
           projectsObject.projectNameGeo = response?.resource?.project_name;
           projectsObject.projectNameEng = response?.resource?.project_name_eng;
+          projectsObject.isTop.current = response?.resource?.isTop;
+          console.log(projectsObject.isTop.current);
           setProjectFiles(JSON.parse(response.resource.images));
           break;
         case 'about_us':
@@ -282,7 +284,6 @@ const Home = () => {
             resolve(true);
             break;
           case 'complated_projects':
-            console.log(isProjectTop);
             url = '/api/admin/projects/update';
             ref = ProductsRef;
             formdata = new FormData();
@@ -290,7 +291,7 @@ const Home = () => {
             formdata.append('description_eng', editorObject?.editorDataEng);
             formdata.append('project_name', projectsObject?.projectNameGeo);
             formdata.append('project_name_eng', projectsObject?.projectNameEng);
-            formdata.append('isTop', isProjectTop);
+            formdata.append('isTop', projectsObject.isTop.current);
             formdata.append(
               'token',
               AES.decrypt(
@@ -431,14 +432,12 @@ const Home = () => {
       setPageData(response);
       setModalKey('MESSAGE');
     };
-
     const setProjectPriority = (e: any) => {
-      setIsProjectTop(e.target.checked);
+      projectsObject.isTop.current = e.target.checked;
     };
 
     const setUserPriority = (e: any) => {
-      console.log(e.target.checked);
-      setIsUserTop(e.target.checked);
+      setIsUserTop(e?.target?.checked);
     };
 
     const denialOperation = (e: any) => {
@@ -893,6 +892,7 @@ const Home = () => {
                 type: 'checkbox',
                 eventType: 'onChange',
                 labelName: 'Top',
+                checked: projectsObject.isTop.current,
                 parentClass: styles.checkbox_parent,
                 eventHandler: (e: any) => {
                   setProjectPriority(e);

@@ -7,6 +7,7 @@ import Image from 'next/image';
 import { imageLoaderProp } from '../../utils/app.util';
 
 const Form: FC<FormProps> = (props: any) => {
+  console.log('კომპონენტი გადარენდერდა');
   const [radioGeoChecked, setRadioGeoChecked] = useState<boolean>(true);
   const [radioEngChecked, setRadioEngChecked] = useState<boolean>(false);
 
@@ -71,6 +72,7 @@ const Form: FC<FormProps> = (props: any) => {
                   name={checkbox.name}
                   id={checkbox.id}
                   className={checkbox.className}
+                  checked={checkbox.checked}
                   onChange={checkbox.eventHandler}
                 />
                 <label htmlFor={checkbox.id}>{checkbox.labelName}</label>
@@ -79,7 +81,10 @@ const Form: FC<FormProps> = (props: any) => {
           })
         : null}
       {withCommonParent?.length ? (
-        <div className={props?.FormProps?.inputsCommonParentClass}>
+        <div
+          key={Date.now().toString()}
+          className={props?.FormProps?.inputsCommonParentClass}
+        >
           {withCommonParent?.map((input: any) => {
             const attrs = {
               type: input.type,
@@ -132,6 +137,7 @@ const Form: FC<FormProps> = (props: any) => {
                       name="geo"
                       className="switchForm"
                       checked={radioGeoChecked}
+                      onChange={() => {}}
                     />
                     <label>ka</label>
                   </div>
@@ -141,6 +147,7 @@ const Form: FC<FormProps> = (props: any) => {
                       name="eng"
                       className="switchForm"
                       checked={radioEngChecked}
+                      onChange={() => {}}
                     />
                     <label>en</label>
                   </div>

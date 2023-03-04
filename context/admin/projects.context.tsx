@@ -1,8 +1,9 @@
-import { Context, createContext, FC, PropsWithChildren, useState } from "react";
+import { Context, createContext, FC, PropsWithChildren, useState } from 'react';
 
 export interface projectsContextInterface {
   projectNameGeo: string | any;
   projectNameEng: string | any;
+  isTop: boolean | any;
 }
 
 export const projectsContext: Context<any> =

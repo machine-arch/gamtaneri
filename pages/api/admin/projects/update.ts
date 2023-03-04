@@ -79,6 +79,7 @@ const UpdateProject = async (req: NextApiRequest, res: NextApiResponse) => {
           isTop,
           token,
         } = fields;
+
         const { email } = jwt.decode(token, {
           json: true,
         });
@@ -97,12 +98,14 @@ const UpdateProject = async (req: NextApiRequest, res: NextApiResponse) => {
           project.project_name_eng = project_name_eng;
           project.description = description;
           project.description_eng = description_eng;
-          project.isTop = isTop;
           project.createdAt = new Date();
           project.updatedAt = new Date();
           project.images = filePaths.length
             ? JSON.stringify(filePaths)
             : project.images;
+          project.isTop = Number(isTop === 'true');
+          //project set boolean value
+
           await Connection.manager.save(project);
           const projects = await Connection.getRepository(
             ComplatedProjects
