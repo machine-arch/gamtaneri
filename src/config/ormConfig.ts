@@ -13,7 +13,7 @@ const AppDataSource: DataSource = new DataSource({
   host: "localhost", //195.54.178.4 //localhost
   port: 3306,
   username: "root", //gamtaner_gamtaneri //root
-  password: "123456", //Gamtaneri123
+  password: "", //Gamtaneri123
   database: "gamtaneri", //gamtaner_gamtaneri //gamtaneri
   synchronize: false,
   logging: false,

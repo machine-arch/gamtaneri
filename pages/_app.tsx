@@ -1,15 +1,16 @@
-import "../styles/reset.css";
-import "../styles/global.css";
-import type { AppProps } from "next/app";
-import { ScrollProvider } from "./../context/scroll-context";
-import { LocaleProvider } from "./../context/locale-context";
-import { AuthProvider } from "../context/admin/auth.context";
-import { ModalProvaider } from "./../context/modal-context";
-import { PagesProvaider } from "./../context/pages-context";
-import { EditorProvaider } from "../context/admin/editor.context";
-import { ProjectsProvaider } from "../context/admin/projects.context";
-import { DataProvaider } from "../context/data.context";
-import { PaginationProvider } from "../context/admin/pagination.contect";
+import '../styles/reset.css';
+import '../styles/global.css';
+import type { AppProps } from 'next/app';
+import { ScrollProvider } from './../context/scroll-context';
+import { LocaleProvider } from './../context/locale-context';
+import { AuthProvider } from '../context/admin/auth.context';
+import { ModalProvaider } from './../context/modal-context';
+import { PagesProvaider } from './../context/pages-context';
+import { EditorProvaider } from '../context/admin/editor.context';
+import { ProjectsProvaider } from '../context/admin/projects.context';
+import { DataProvaider } from '../context/data.context';
+import { PaginationProvider } from '../context/admin/pagination.contect';
+import { PriorityProvider } from '../context/admin/priority.context';
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
@@ -22,7 +23,9 @@ function MyApp({ Component, pageProps }: AppProps) {
                 <ProjectsProvaider>
                   <DataProvaider>
                     <PaginationProvider>
-                      <Component {...pageProps} />
+                      <PriorityProvider>
+                        <Component {...pageProps} />
+                      </PriorityProvider>
                     </PaginationProvider>
                   </DataProvaider>
                 </ProjectsProvaider>

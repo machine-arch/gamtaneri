@@ -17,8 +17,16 @@ const CreateUser = async (req: NextApiRequest, res: NextApiResponse) => {
   };
   if (req.method === 'POST') {
     return new Promise(async (resolve, reject) => {
-      const { token, title, title_eng, description, description_eng, isTop } =
-        req.body;
+      const {
+        token,
+        title,
+        title_eng,
+        description,
+        description_eng,
+        from,
+        count,
+        isTop,
+      } = req.body;
       const Connection = AppDataSource.isInitialized
         ? AppDataSource
         : await AppDataSource.initialize();
@@ -43,12 +51,16 @@ const CreateUser = async (req: NextApiRequest, res: NextApiResponse) => {
         await Connection.getRepository(OurUsers).save(ourUser);
         const ourUsers = await Connection.getRepository(OurUsers).find({
           order: { id: 'DESC' },
+          skip: Number(from),
+          take: Number(count),
         });
+        const total = await Connection.getRepository(OurUsers).count();
         apiResponseData.message = 'User created successfully';
         apiResponseData.status = 200;
         apiResponseData.success = true;
         apiResponseData.from = 'users';
         apiResponseData.resource = ourUsers;
+        apiResponseData.total = total;
         ApiHelper.successResponse(apiResponseData);
       } else {
         apiResponseData.message = 'Forbidden, Permission denied';

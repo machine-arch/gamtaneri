@@ -10,17 +10,30 @@ import { enc } from 'crypto-js';
 import { PaginationContext } from '../../../../context/admin/pagination.contect';
 
 const DashboardBody = (props: any) => {
+  console.log('componenti darenderda');
   const [localeKey, setLocaleKey] = useState('');
   const [dictionary, setDictionary] = useState(null);
   const localeContextObject: any = useContext(localeContext);
-  const { paginationButtons, setPaginationButtons } =
-    useContext<any>(PaginationContext);
+  const [datafrom, setDataFrom] = useState<string>('');
+  const {
+    paginationButtons,
+    setPaginationButtons,
+    setPaginationFrom,
+    setPaginationCount,
+  } = useContext<any>(PaginationContext);
 
   useEffect(() => {
     setLocaleKey(localeContextObject.localeKey);
     setDictionary(localeContextObject.dictionary);
+    setDataFrom(props?.data?.from);
     drawButtons();
-  }, [localeContextObject, props?.data?.total, props?.count]);
+    console.log('useeffect ocurd');
+  }, [
+    localeContextObject,
+    props?.data?.total,
+    props?.count,
+    props?.data?.from,
+  ]);
 
   const PAGE_KEYS = {
     contacts: 'contacts',
@@ -98,6 +111,8 @@ const DashboardBody = (props: any) => {
       localStorage.getItem('_token'),
       'secretPassphrase'
     ).toString(enc.Utf8);
+    setPaginationFrom(from);
+    setPaginationCount(count);
     let url = '';
     e.currentTarget.classList.add(styles.active_pagination_button);
     const siblings = e.currentTarget.parentNode.children;
@@ -107,11 +122,11 @@ const DashboardBody = (props: any) => {
         : null;
     }
 
-    if (props?.data?.from === PAGE_KEYS.projects) {
+    if ((await props?.data?.from) === PAGE_KEYS.projects) {
       url = `/api/admin/projects/getall/?token=${token}&from=${from}&count=${count}`;
       const data = await httpRequest(url, 'GET');
       props?.setPageData(data);
-    } else if (props?.data?.from === PAGE_KEYS.users) {
+    } else if ((await props?.data?.from) === PAGE_KEYS.users) {
       url = `/api/admin/users/getall/?token=${token}&from=${from}&count=${count}`;
       const data = await httpRequest(url, 'GET');
       props?.setPageData(data);

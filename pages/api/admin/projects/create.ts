@@ -89,6 +89,8 @@ const CreateProject = async (req: NextApiRequest, res: NextApiResponse) => {
           description,
           description_eng,
           isTop,
+          from,
+          count,
           token,
         } = fields;
         const { email } = jwt.decode(token, {
@@ -113,13 +115,19 @@ const CreateProject = async (req: NextApiRequest, res: NextApiResponse) => {
             ComplatedProjects
           ).find({
             order: { id: 'DESC' },
+            skip: Number(from),
+            take: Number(count),
           });
+          const total = await Connection.getRepository(
+            ComplatedProjects
+          ).count();
           filePaths = [];
           apiResponseData.message = 'Project created successfully';
           apiResponseData.status = 200;
           apiResponseData.success = true;
           apiResponseData.from = 'projects';
           apiResponseData.resource = complatedProjects;
+          apiResponseData.total = total;
           ApiHelper.successResponse(apiResponseData);
         } else {
           apiResponseData.message = 'Forbidden, user not found';

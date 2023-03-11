@@ -19,6 +19,8 @@ import {
   projectsContext,
   projectsContextInterface,
 } from '../../../context/admin/projects.context';
+import { priorityContex } from '../../../context/admin/priority.context';
+import { PaginationContext } from '../../../context/admin/pagination.contect';
 
 const Home = () => {
   const from = 0,
@@ -34,13 +36,14 @@ const Home = () => {
   const isVeriyfied = useRef(false);
   const [editorLocale, setEditorLocale] = useState('ka');
   const [projectFiles, setProjectFiles] = useState<Object[] | String[]>([]);
-  const [isUserTop, setIsUserTop] = useState(false);
   const modalContextObject: any = useContext(modalContext);
   const editorObject: editorContextInterface = useContext(editorContext);
   const projectsObject: projectsContextInterface = useContext(projectsContext);
+  const priorityContextObject = useContext(priorityContex);
   const { isModalOpen, modalKey, setIsModalOpen, setModalKey, setModalTitle } =
     modalContextObject;
-  projectsObject.isTop = useRef(false);
+  const { paginationFrom, paginationCount } =
+    useContext<any>(PaginationContext);
   useEffect(() => {
     (async () => {
       if (!isVeriyfied.current) {
@@ -143,7 +146,9 @@ const Home = () => {
               title_eng: data.get('title_eng'),
               description: data.get('description'),
               description_eng: data.get('description_eng'),
-              isTop: isUserTop,
+              isTop: priorityContextObject?.state?.isUserTop,
+              from: paginationFrom,
+              count: paginationCount,
               token: AES.decrypt(
                 localStorage.getItem('_token'),
                 'secretPassphrase'
@@ -169,7 +174,12 @@ const Home = () => {
             formdata.append('description_eng', editorObject?.editorDataEng);
             formdata.append('project_name', projectsObject?.projectNameGeo);
             formdata.append('project_name_eng', projectsObject?.projectNameEng);
-            formdata.append('isTop', projectsObject.isTop.current);
+            formdata.append(
+              'isTop',
+              priorityContextObject?.state?.isProjectTop
+            );
+            formdata.append('from', paginationFrom);
+            formdata.append('count', paginationCount);
             formdata.append(
               'token',
               AES.decrypt(
@@ -222,8 +232,11 @@ const Home = () => {
           editorObject.editorDataEng = response?.resource?.description_eng;
           projectsObject.projectNameGeo = response?.resource?.project_name;
           projectsObject.projectNameEng = response?.resource?.project_name_eng;
-          projectsObject.isTop.current = response?.resource?.isTop;
-          console.log(projectsObject.isTop.current);
+
+          priorityContextObject?.dispatch({
+            type: 'SET_PROJECT_PRIORITY',
+            payload: response?.resource?.isTop,
+          });
           setProjectFiles(JSON.parse(response.resource.images));
           break;
         case 'about_us':
@@ -264,7 +277,9 @@ const Home = () => {
               title_eng: data.get('title_eng'),
               description: data.get('description'),
               description_eng: data.get('description_eng'),
-              isTop: isUserTop,
+              isTop: priorityContextObject?.state?.isUserTop,
+              from: paginationFrom,
+              count: paginationCount,
               token: AES.decrypt(
                 localStorage.getItem('_token'),
                 'secretPassphrase'
@@ -291,7 +306,12 @@ const Home = () => {
             formdata.append('description_eng', editorObject?.editorDataEng);
             formdata.append('project_name', projectsObject?.projectNameGeo);
             formdata.append('project_name_eng', projectsObject?.projectNameEng);
-            formdata.append('isTop', projectsObject.isTop.current);
+            formdata.append(
+              'isTop',
+              priorityContextObject?.state?.isProjectTop
+            );
+            formdata.append('from', paginationFrom);
+            formdata.append('count', paginationCount);
             formdata.append(
               'token',
               AES.decrypt(
@@ -432,12 +452,25 @@ const Home = () => {
       setPageData(response);
       setModalKey('MESSAGE');
     };
+
+    /**
+     * @description this function is used to set project priority, then will apperar on main page
+     */
     const setProjectPriority = (e: any) => {
-      projectsObject.isTop.current = e.target.checked;
+      priorityContextObject.dispatch({
+        type: 'SET_PROJECT_PRIORITY',
+        payload: e?.target?.checked,
+      });
     };
 
+    /**
+     * @description this function is used to set user priority, then will apperar on main page
+     */
     const setUserPriority = (e: any) => {
-      setIsUserTop(e?.target?.checked);
+      priorityContextObject.dispatch({
+        type: 'SET_USER_PRIORITY',
+        payload: e?.target?.checked,
+      });
     };
 
     const denialOperation = (e: any) => {
@@ -477,6 +510,7 @@ const Home = () => {
                 type: 'checkbox',
                 eventType: 'onChange',
                 labelName: 'Top',
+                checked: priorityContextObject?.state?.isProjectTop,
                 parentClass: styles.checkbox_parent,
                 eventHandler: (e: any) => {
                   setUserPriority(e.target.checked);
@@ -589,9 +623,10 @@ const Home = () => {
                 type: 'checkbox',
                 eventType: 'onChange',
                 labelName: 'Top',
+                checked: priorityContextObject?.state?.isUserTop,
                 parentClass: styles.checkbox_parent,
                 eventHandler: (e: any) => {
-                  setUserPriority(e.target.checked);
+                  setUserPriority(e);
                 },
               },
             ];
@@ -703,7 +738,7 @@ const Home = () => {
                 className: 'form-input',
                 placeholder: 'პროექტის დასახელება',
                 needCommonParent: true,
-                value: projectsObject.projectNameGeo,
+                value: projectsObject?.projectNameGeo,
                 eventType: 'onChange',
                 eventHandler: (e: any) => {
                   projectsObject.projectNameGeo = e.target.value;
@@ -717,7 +752,7 @@ const Home = () => {
                 className: 'form-input',
                 placeholder: 'Project Name',
                 needCommonParent: true,
-                value: projectsObject.projectNameEng,
+                value: projectsObject?.projectNameEng,
                 eventType: 'onChange',
                 eventHandler: (e: any) => {
                   projectsObject.projectNameEng = e.target.value;
@@ -733,6 +768,7 @@ const Home = () => {
                 type: 'checkbox',
                 eventType: 'onChange',
                 labelName: 'Top',
+                checked: priorityContextObject?.state?.isProjectTop,
                 parentClass: styles.checkbox_parent,
                 eventHandler: (e: any) => {
                   setProjectPriority(e);
@@ -892,7 +928,7 @@ const Home = () => {
                 type: 'checkbox',
                 eventType: 'onChange',
                 labelName: 'Top',
-                checked: projectsObject.isTop.current,
+                checked: priorityContextObject?.state?.isProjectTop,
                 parentClass: styles.checkbox_parent,
                 eventHandler: (e: any) => {
                   setProjectPriority(e);

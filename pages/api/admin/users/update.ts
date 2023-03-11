@@ -24,6 +24,8 @@ const UpdateUser = async (req: NextApiRequest, res: NextApiResponse) => {
         title_eng,
         description,
         description_eng,
+        from,
+        count,
         isTop,
       } = req.body;
       const Connection = AppDataSource.isInitialized
@@ -55,12 +57,16 @@ const UpdateUser = async (req: NextApiRequest, res: NextApiResponse) => {
           order: {
             id: 'DESC',
           },
+          skip: Number(from),
+          take: Number(count),
         });
+        const total = await Connection.getRepository(OurUsers).count();
         apiResponseData.message = 'User updated successfully';
         apiResponseData.status = 200;
         apiResponseData.success = true;
         apiResponseData.from = 'users';
         apiResponseData.resource = ourUsers;
+        apiResponseData.total = total;
         ApiHelper.successResponse(apiResponseData);
       } else {
         apiResponseData.message = 'Forbidden, Permission denied';
