@@ -7,7 +7,6 @@ import Image from 'next/image';
 import { imageLoaderProp } from '../../utils/app.util';
 
 const Form: FC<FormProps> = (props: any) => {
-  console.log('კომპონენტი გადარენდერდა');
   const [radioGeoChecked, setRadioGeoChecked] = useState<boolean>(true);
   const [radioEngChecked, setRadioEngChecked] = useState<boolean>(false);
 

@@ -10,7 +10,6 @@ import { enc } from 'crypto-js';
 import { PaginationContext } from '../../../../context/admin/pagination.contect';
 
 const DashboardBody = (props: any) => {
-  console.log('componenti darenderda');
   const [localeKey, setLocaleKey] = useState('');
   const [dictionary, setDictionary] = useState(null);
   const localeContextObject: any = useContext(localeContext);
@@ -27,7 +26,6 @@ const DashboardBody = (props: any) => {
     setDictionary(localeContextObject.dictionary);
     setDataFrom(props?.data?.from);
     drawButtons();
-    console.log('useeffect ocurd');
   }, [
     localeContextObject,
     props?.data?.total,

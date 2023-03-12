@@ -110,7 +110,6 @@ const AllUsers: FC<any> = (props: any) => {
               (event.key === 'Backspace' || event.key === 'Delete') &&
               wasSearch.current
             ) {
-              console.log(searchVal.length);
               if (searchVal.length <= 1) clearSearch();
             }
           }}

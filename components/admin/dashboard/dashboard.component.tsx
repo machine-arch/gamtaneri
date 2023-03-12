@@ -510,10 +510,10 @@ const Home = () => {
                 type: 'checkbox',
                 eventType: 'onChange',
                 labelName: 'Top',
-                checked: priorityContextObject?.state?.isProjectTop,
+                checked: priorityContextObject?.state?.isUserTop,
                 parentClass: styles.checkbox_parent,
                 eventHandler: (e: any) => {
-                  setUserPriority(e.target.checked);
+                  setUserPriority(e);
                 },
               },
             ];

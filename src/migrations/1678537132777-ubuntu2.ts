@@ -1,7 +1,7 @@
 import { MigrationInterface, QueryRunner } from "typeorm";
 
-export class test1677499704463 implements MigrationInterface {
-    name = 'test1677499704463'
+export class ubuntu21678537132777 implements MigrationInterface {
+    name = 'ubuntu21678537132777'
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.query(`ALTER TABLE \`our_users\` CHANGE \`position\` \`isTop\` int NULL`);
