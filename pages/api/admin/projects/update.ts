@@ -76,8 +76,12 @@ const UpdateProject = async (req: NextApiRequest, res: NextApiResponse) => {
           description,
           description_eng,
           images,
+          isTop,
+          from,
+          count,
           token,
         } = fields;
+
         const { email } = jwt.decode(token, {
           json: true,
         });
@@ -101,18 +105,26 @@ const UpdateProject = async (req: NextApiRequest, res: NextApiResponse) => {
           project.images = filePaths.length
             ? JSON.stringify(filePaths)
             : project.images;
+          project.isTop = Number(isTop === 'true');
+
           await Connection.manager.save(project);
           const projects = await Connection.getRepository(
             ComplatedProjects
           ).find({
             order: { id: 'DESC' },
+            skip: Number(from),
+            take: Number(count),
           });
+          const total = await Connection.getRepository(
+            ComplatedProjects
+          ).count();
           filePaths = [];
           apiResponseData.message = 'Project updated successfully';
           apiResponseData.status = 200;
           apiResponseData.success = true;
           apiResponseData.from = 'projects';
           apiResponseData.resource = projects;
+          apiResponseData.total = total;
           ApiHelper.successResponse(apiResponseData);
         } else {
           apiResponseData.message = 'Forbidden, permission denied';

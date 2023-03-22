@@ -1,4 +1,10 @@
-import { Context, createContext, FC, PropsWithChildren, useState } from "react";
+import {
+  Context,
+  createContext,
+  FC,
+  PropsWithChildren,
+  useReducer,
+} from 'react';
 
 export interface projectsContextInterface {
   projectNameGeo: string | any;

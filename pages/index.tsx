@@ -1,21 +1,21 @@
-import type { NextPage } from "next";
-import { SyntheticEvent, useContext, useEffect, useState } from "react";
-import Head from "next/head";
-import styles from "../styles/Index.module.css";
-import Header from "../components/front/header/header.component";
-import Mainsection from "../components/front/mainsection/mainsection.component";
-import UsersSection from "../components/front/userssection/userssection.component";
-import CompletedProjects from "../components/front/completedprojects/completed-projects.component";
-import AboutUs from "../components/front/aboutus/about-us.component";
-import Footer from "../components/front/footer/footer.component";
-import { localeContext } from "../context/locale-context";
-import { modalContext } from "../context/modal-context";
-import Modal from "../components/modal/modal.component";
-import { FormPropsInterface } from "../config/interfaces/app.interfaces";
-import { pagesContext } from "../context/pages-context";
+import type { NextPage } from 'next';
+import { SyntheticEvent, useContext, useEffect, useState } from 'react';
+import Head from 'next/head';
+import styles from '../styles/Index.module.css';
+import Header from '../components/front/header/header.component';
+import Mainsection from '../components/front/mainsection/mainsection.component';
+import UsersSection from '../components/front/userssection/userssection.component';
+import CompletedProjects from '../components/front/completedprojects/completed-projects.component';
+import AboutUs from '../components/front/aboutus/about-us.component';
+import Footer from '../components/front/footer/footer.component';
+import { localeContext } from '../context/locale-context';
+import { modalContext } from '../context/modal-context';
+import Modal from '../components/modal/modal.component';
+import { FormPropsInterface } from '../config/interfaces/app.interfaces';
+import { pagesContext } from '../context/pages-context';
 
 const Home: NextPage = (props: any) => {
-  const [localeKey, setLocaleKey] = useState("");
+  const [localeKey, setLocaleKey] = useState('');
   const [dictionary, setDictionary] = useState(null);
   const localeContextObject: any = useContext(localeContext);
   const modalContextObject: any = useContext(modalContext);
@@ -50,57 +50,57 @@ const Home: NextPage = (props: any) => {
 
   const formInputs = [
     {
-      id: "001",
-      type: "text",
-      name: "fullname",
-      className: "form-input",
+      id: '001',
+      type: 'text',
+      name: 'fullname',
+      className: 'form-input',
       placeholder: dictionary
-        ? dictionary[localeKey]["fullName"]
-        : "სახელი და გვარი",
+        ? dictionary[localeKey]['fullName']
+        : 'სახელი და გვარი',
       needCommonParent: true,
     },
     {
-      id: "002",
-      type: "text",
-      name: "phone",
-      className: "form-input",
-      placeholder: dictionary ? dictionary[localeKey]["phone"] : "ტელეფონი",
+      id: '002',
+      type: 'text',
+      name: 'phone',
+      className: 'form-input',
+      placeholder: dictionary ? dictionary[localeKey]['phone'] : 'ტელეფონი',
       needCommonParent: true,
     },
     {
-      id: "003",
-      type: "email",
-      name: "email",
-      className: "form-input",
-      placeholder: dictionary ? dictionary[localeKey]["email"] : "ელ.ფოსტა",
+      id: '003',
+      type: 'email',
+      name: 'email',
+      className: 'form-input',
+      placeholder: dictionary ? dictionary[localeKey]['email'] : 'ელ.ფოსტა',
       needCommonParent: false,
     },
   ];
   const formTextareas = [
     {
-      textareaClass: "form_textarea",
-      textareaName: "message",
+      textareaClass: 'form_textarea',
+      textareaName: 'message',
       textareaPlaceholder: dictionary
-        ? dictionary[localeKey]["message"]
-        : "შეტყობინება",
+        ? dictionary[localeKey]['message']
+        : 'შეტყობინება',
     },
   ];
   const modalHeader = {
-    headerClassname: "modal_header",
-    headerLogoClassname: "modal_header_logo",
-    headerCloseImageSrc: "/images/close.svg",
+    headerClassname: 'modal_header',
+    headerLogoClassname: 'modal_header_logo',
+    headerCloseImageSrc: '/images/close.svg',
     colosHendler: ModalCloseHendler,
   };
   const formProps: FormPropsInterface = {
-    formClassName: "form",
+    formClassName: 'form',
     inputs: formInputs,
-    inputsCommonParentClass: "inputs_common_parent",
+    inputsCommonParentClass: 'inputs_common_parent',
     needTextareas: true,
     textareas: formTextareas,
     needButton: true,
     loader: loader,
-    buttonClass: "form_button",
-    buttonText: dictionary ? dictionary[localeKey]["send"] : "გაგზავნა",
+    buttonClass: 'form_button',
+    buttonText: dictionary ? dictionary[localeKey]['send'] : 'გაგზავნა',
     ButtoncallBack: null,
     submit: sendMail,
   };
@@ -109,9 +109,9 @@ const Home: NextPage = (props: any) => {
     cancelHendler: ModalCloseHendler,
     question: dictionary
       ? dictionary[localeKey][sendContactResponse]
-      : "თქვენი შეტყობინება წარმატებით გაიგზავნა",
-    conteinerClass: "modal_dialogs_conteiner",
-    name: "send mail",
+      : 'თქვენი შეტყობინება წარმატებით გაიგზავნა',
+    conteinerClass: 'modal_dialogs_conteiner',
+    name: 'send mail',
   };
   const modalProps = {
     modal_title: modalTitle,
@@ -124,11 +124,11 @@ const Home: NextPage = (props: any) => {
     ...modalHeader,
     needHeaderTitle: true,
     modal_item_conteiner_class:
-      modalKey === "FORM"
-        ? "contact_modal_item_conteiner"
-        : modalKey === "GALLERY"
-        ? "modal_item_conteiner"
-        : "modal_item_conteiner",
+      modalKey === 'FORM'
+        ? 'contact_modal_item_conteiner'
+        : modalKey === 'GALLERY'
+        ? 'modal_item_conteiner'
+        : 'modal_item_conteiner',
   };
 
   return (
@@ -180,25 +180,24 @@ const Home: NextPage = (props: any) => {
 };
 
 export async function getServerSideProps({ req }) {
-  const from = 0,
-    count = 10;
   const projects = await fetch(
-    `http://localhost:3000/api/client/projects/getall?from=${from}&count=${count}`,
+    `http://localhost:3000/api/client/projects/gettop`,
     {
-      method: "GET",
+      method: 'GET',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
     }
   )
     .then((response) => response.json())
     .then((data) => data);
+
   const ourUsers = await fetch(
-    `http://localhost:3000/api/client/users/getall?from=${from}&count=${count}`,
+    `http://localhost:3000/api/client/users/gettop`,
     {
-      method: "GET",
+      method: 'GET',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
     }
   )
@@ -206,21 +205,21 @@ export async function getServerSideProps({ req }) {
     .then((data) => data);
 
   const contacts = await fetch(
-    "http://localhost:3000/api/client/contacts/get",
+    'http://localhost:3000/api/client/contacts/get',
     {
-      method: "GET",
+      method: 'GET',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
     }
   )
     .then((response) => response.json())
     .then((data) => data);
 
-  const aboutus = await fetch("http://localhost:3000/api/client/aboutus/get", {
-    method: "GET",
+  const aboutus = await fetch('http://localhost:3000/api/client/aboutus/get', {
+    method: 'GET',
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
     },
   })
     .then((response) => response.json())

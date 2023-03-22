@@ -55,7 +55,7 @@
 
 .project_card_description_text {
   display: -webkit-box;
-  -webkit-line-clamp: 3; /* number of lines */
+  -webkit-line-clamp: 1; /* number of lines */
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;

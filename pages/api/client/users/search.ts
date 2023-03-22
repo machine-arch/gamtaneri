@@ -1,30 +1,33 @@
-import { NextApiRequest, NextApiResponse } from 'next';
-import ComplatedProjects from '../../../../src/entity/complatedprojects.entity';
+import { Like } from 'typeorm';
 import AppDataSource from '../../../../src/config/ormConfig';
+import OurUsers from '../../../../src/entity/ourusers.entity';
+import { NextApiRequest, NextApiResponse } from 'next';
 
-const GetAllProjects = async (req: NextApiRequest, res: NextApiResponse) => {
+const SearchUsers = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'GET') {
-    const { from, count } = req.query;
+    const { search } = req.query;
     const Connection = AppDataSource.isInitialized
       ? AppDataSource
       : await AppDataSource.initialize();
 
     try {
-      const complatedProjects = await Connection?.manager?.find(
-        ComplatedProjects,
-        {
-          order: {
-            id: 'DESC',
+      const ourUsers = await Connection?.manager?.find(OurUsers, {
+        where: [
+          {
+            title: Like(`%${search}%`),
           },
-          skip: Number(from),
-          take: Number(count),
-        }
-      );
-      const countProjects = await Connection?.manager?.count(ComplatedProjects);
-      if (complatedProjects) {
+
+          {
+            title_eng: Like(`%${search}%`),
+          },
+        ],
+        order: {
+          id: 'DESC',
+        },
+      });
+      if (ourUsers) {
         res.status(200).json({
-          resource: complatedProjects,
-          count: countProjects,
+          resource: ourUsers,
           status: 200,
           success: true,
         });
@@ -39,7 +42,7 @@ const GetAllProjects = async (req: NextApiRequest, res: NextApiResponse) => {
     } catch (error) {
       res.json({
         resource: [],
-        message: 'Token not valid',
+        message: 'Something went wrong, please try again later',
         status: 401,
         success: false,
       });
@@ -55,4 +58,4 @@ const GetAllProjects = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 };
 
-export default GetAllProjects;
+export default SearchUsers;

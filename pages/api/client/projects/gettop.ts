@@ -2,9 +2,8 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import ComplatedProjects from '../../../../src/entity/complatedprojects.entity';
 import AppDataSource from '../../../../src/config/ormConfig';
 
-const GetAllProjects = async (req: NextApiRequest, res: NextApiResponse) => {
+const GetTopProjects = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'GET') {
-    const { from, count } = req.query;
     const Connection = AppDataSource.isInitialized
       ? AppDataSource
       : await AppDataSource.initialize();
@@ -13,18 +12,17 @@ const GetAllProjects = async (req: NextApiRequest, res: NextApiResponse) => {
       const complatedProjects = await Connection?.manager?.find(
         ComplatedProjects,
         {
+          where: {
+            isTop: Number(true),
+          },
           order: {
             id: 'DESC',
           },
-          skip: Number(from),
-          take: Number(count),
         }
       );
-      const countProjects = await Connection?.manager?.count(ComplatedProjects);
       if (complatedProjects) {
         res.status(200).json({
           resource: complatedProjects,
-          count: countProjects,
           status: 200,
           success: true,
         });
@@ -39,7 +37,7 @@ const GetAllProjects = async (req: NextApiRequest, res: NextApiResponse) => {
     } catch (error) {
       res.json({
         resource: [],
-        message: 'Token not valid',
+        message: error.message,
         status: 401,
         success: false,
       });
@@ -55,4 +53,4 @@ const GetAllProjects = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 };
 
-export default GetAllProjects;
+export default GetTopProjects;

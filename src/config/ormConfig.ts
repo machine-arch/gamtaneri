@@ -9,11 +9,11 @@ import OurUsers from "./../entity/ourusers.entity";
 import ComplatedProjects from "./../entity/complatedprojects.entity";
 
 const AppDataSource: DataSource = new DataSource({
-  type: "mariadb",
+  type: "mysql",
   host: "localhost", //195.54.178.4 //localhost
   port: 3306,
   username: "root", //gamtaner_gamtaneri //root
-  password: "", //Gamtaneri123
+  password: "123456", //Gamtaneri123
   database: "gamtaneri", //gamtaner_gamtaneri //gamtaneri
   synchronize: false,
   logging: false,

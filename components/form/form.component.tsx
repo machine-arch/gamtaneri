@@ -62,8 +62,28 @@ const Form: FC<FormProps> = (props: any) => {
           {props?.FormProps?.title}
         </h1>
       ) : null}
+      {props?.FormProps?.needcCheckBoxss
+        ? props?.FormProps?.checkBoxss?.map((checkbox: any) => {
+            return (
+              <div key={checkbox.id} className={checkbox.parentClass}>
+                <input
+                  type="checkbox"
+                  name={checkbox.name}
+                  id={checkbox.id}
+                  className={checkbox.className}
+                  checked={checkbox.checked}
+                  onChange={checkbox.eventHandler}
+                />
+                <label htmlFor={checkbox.id}>{checkbox.labelName}</label>
+              </div>
+            );
+          })
+        : null}
       {withCommonParent?.length ? (
-        <div className={props?.FormProps?.inputsCommonParentClass}>
+        <div
+          key={Date.now().toString()}
+          className={props?.FormProps?.inputsCommonParentClass}
+        >
           {withCommonParent?.map((input: any) => {
             const attrs = {
               type: input.type,
@@ -116,6 +136,7 @@ const Form: FC<FormProps> = (props: any) => {
                       name="geo"
                       className="switchForm"
                       checked={radioGeoChecked}
+                      onChange={() => {}}
                     />
                     <label>ka</label>
                   </div>
@@ -125,6 +146,7 @@ const Form: FC<FormProps> = (props: any) => {
                       name="eng"
                       className="switchForm"
                       checked={radioEngChecked}
+                      onChange={() => {}}
                     />
                     <label>en</label>
                   </div>
