@@ -39,6 +39,8 @@ app
     process.exit(1);
   });
 
+//ტესტ
+
 //SET NODE_ENV=production && next start
 
 // "orm:build": "tsc --build  src",
