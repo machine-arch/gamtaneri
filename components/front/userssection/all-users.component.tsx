@@ -115,7 +115,7 @@ const AllUsers: FC<any> = (props: any) => {
           type="text"
           name="user_filter"
           className="user_filter"
-          placeholder="მოძებნე სახელით ან თარიღით..."
+          placeholder={dictionary?.[localeKey]['search_with']}
           onChange={controlSearchFild}
           onKeyDown={(event) => {
             if (event.key === 'Enter') {

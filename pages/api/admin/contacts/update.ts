@@ -1,21 +1,21 @@
-import { NextApiRequest, NextApiResponse } from "next";
-import User from "../../../../src/entity/user.entity";
-import Contacts from "../../../../src/entity/contacts.entity";
-import AppDataSource from "../../../../src/config/ormConfig";
-import jwt from "jsonwebtoken";
-import { apiResponseInterface } from "../../../../config/interfaces/api.interfaces";
-import ApiHelper from "../../../../utils/api/apihelper.utils";
+import { NextApiRequest, NextApiResponse } from 'next';
+import User from '../../../../src/entity/user.entity';
+import Contacts from '../../../../src/entity/contacts.entity';
+import AppDataSource from '../../../../src/config/ormConfig';
+import jwt from 'jsonwebtoken';
+import { apiResponseInterface } from '../../../../config/interfaces/api.interfaces';
+import ApiHelper from '../../../../utils/api/apihelper.utils';
 
 const UpdateContacts = async (req: NextApiRequest, res: NextApiResponse) => {
   const apiResponseData: apiResponseInterface = {
     res,
-    message: "",
+    message: '',
     status: 0,
     success: true,
-    from: "",
+    from: '',
     resource: null,
   };
-  if (req.method === "PUT") {
+  if (req.method === 'PUT') {
     return new Promise(async (resolve, reject) => {
       const {
         id,
@@ -45,10 +45,10 @@ const UpdateContacts = async (req: NextApiRequest, res: NextApiResponse) => {
             id,
           },
         });
-        contacts.address = address;
-        contacts.address_eng = address_eng;
-        contacts.phone = phone;
-        contacts.email = email;
+        contacts.address = address ? address : contacts.address;
+        contacts.address_eng = address_eng ? address_eng : contacts.address_eng;
+        contacts.phone = phone ? phone : contacts.phone;
+        contacts.email = email ? email : contacts.email;
         contacts.updatedAt = new Date();
         contacts.createdAt = new Date();
         contacts.description = description;
@@ -59,32 +59,32 @@ const UpdateContacts = async (req: NextApiRequest, res: NextApiResponse) => {
             id,
           },
         });
-        apiResponseData.message = "contacts updated successfully";
+        apiResponseData.message = 'contacts updated successfully';
         apiResponseData.status = 200;
         apiResponseData.success = true;
-        apiResponseData.from = "contacts";
+        apiResponseData.from = 'contacts';
         apiResponseData.resource = [allContacts];
         ApiHelper.successResponse(apiResponseData);
       } else {
-        apiResponseData.message = "forbidden, permission denied";
+        apiResponseData.message = 'forbidden, permission denied';
         apiResponseData.status = 403;
         apiResponseData.success = false;
-        apiResponseData.from = "contacts";
+        apiResponseData.from = 'contacts';
         ApiHelper.FaildResponse(apiResponseData);
       }
       Connection.isInitialized ? Connection.destroy() : null;
     }).catch((error) => {
-      apiResponseData.message = "something went wrong";
+      apiResponseData.message = 'something went wrong';
       apiResponseData.status = 500;
       apiResponseData.success = false;
-      apiResponseData.from = "contacts";
+      apiResponseData.from = 'contacts';
       ApiHelper.FaildResponse(apiResponseData);
     });
   } else {
-    apiResponseData.message = "method not allowed";
+    apiResponseData.message = 'method not allowed';
     apiResponseData.status = 405;
     apiResponseData.success = false;
-    apiResponseData.from = "contacts";
+    apiResponseData.from = 'contacts';
     ApiHelper.FaildResponse(apiResponseData);
   }
 };

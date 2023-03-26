@@ -21,8 +21,8 @@ const AllProjects: FC<any> = (props: any) => {
 
   useEffect(() => {
     document.addEventListener('scroll', getMooreProjects);
-    setDictionary(localeContextObject.dictionary);
-  }, []);
+    setDictionary(localeContextObject?.dictionary);
+  }, [localeContextObject]);
 
   const seeProjectDetals = (e: any) => {
     const _this = e.currentTarget;
@@ -122,6 +122,8 @@ const AllProjects: FC<any> = (props: any) => {
       });
   };
 
+  console.log(dictionary?.[localeKey]['read_more']);
+
   return (
     <Fragment>
       <div className={styles.all_projects_filter_conteiner}>
@@ -129,7 +131,7 @@ const AllProjects: FC<any> = (props: any) => {
           type="text"
           name="user_filter"
           className="projects_filter"
-          placeholder="მოძებნე სახელით ან თარიღით..."
+          placeholder={dictionary?.[localeKey]?.['search_with']}
           value={searchVal}
           onChange={controlSearchFild}
           onKeyUp={(event) => {
@@ -205,7 +207,7 @@ const AllProjects: FC<any> = (props: any) => {
                   itemID={project.id}
                   onClick={seeProjectDetals}
                 >
-                  Read More
+                  {dictionary?.[localeKey]['read_more']}
                 </a>
               </div>
             </div>

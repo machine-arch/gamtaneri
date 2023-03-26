@@ -23,7 +23,9 @@
     "all": "ყველა",
     "our_users": "ჩვენი მომხმარებლები",
     "mainsection_text": "ნარჩენების მართვის კომპანია „გამტანერის“ მთავარი ფასეულობა უხვად დაგროვილი თეორიული ცოდნისა და პრაქტიკული გამოცდილების მარაგია.",
-    "gamtanery": "გამტანერი"
+    "gamtanery": "გამტანერი",
+    "search_with": "მოძებნე სახელით ან თარიღით...",
+    "read_more": "ნახე მეტი"
   },
   "en": {
     "aourUsers": "Our users",
@@ -49,6 +51,8 @@
     "all": "All",
     "our_users": "Our users",
     "mainsection_text": "The main value of the waste management company 'Gamtaneri' is the wealth of accumulated theoretical knowledge and practical experience.",
-    "gamtanery": "Gamtaneri"
+    "gamtanery": "Gamtaneri",
+    "search_with": "Search by name or date...",
+    "read_more": "Read more"
   }
 }
