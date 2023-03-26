@@ -4,7 +4,7 @@ import {
   FC,
   PropsWithChildren,
   useReducer,
-} from "react";
+} from 'react';
 
 export const dataContext: Context<any> = createContext<Context<any>>(null);
 
@@ -17,26 +17,26 @@ export const DataProvaider: FC<PropsWithChildren> = ({ children }) => {
 
   const reducer = (state, action) => {
     switch (action.type) {
-      case "SET_PROJECTS":
+      case 'SET_PROJECTS':
         return {
           ...state,
           projects: [...state.projects, ...action.payload],
           isDispached: true,
         };
-      case "SET_PROJECTS_ONLOAD":
+      case 'SET_PROJECTS_ONLOAD':
         return {
           ...state,
           projects: [...action.payload],
         };
 
-      case "SET_USERS":
+      case 'SET_USERS':
         return {
           ...state,
           users: [...state.users, ...action.payload],
           isDispached: true,
         };
 
-      case "SET_USERS_ONLOAD":
+      case 'SET_USERS_ONLOAD':
         return {
           ...state,
           users: [...action.payload],

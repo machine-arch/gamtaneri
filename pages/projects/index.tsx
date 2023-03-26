@@ -9,6 +9,7 @@ import Modal from '../../components/modal/modal.component';
 import { FormPropsInterface } from '../../config/interfaces/app.interfaces';
 import { pagesContext } from '../../context/pages-context';
 import { dataContext } from '../../context/data.context';
+import MobileNav from '../../components/front/mobilenav/mobilenav.component';
 
 const Projects: NextPage = (props: any) => {
   const modalContextObject: any = useContext(modalContext);
@@ -123,6 +124,7 @@ const Projects: NextPage = (props: any) => {
       <div className={styles.header}>
         <Header setismodalopen={setIsModalOpen} setModalKey={setModalKey} />
       </div>
+      <MobileNav />
       <section className="allProjects_section">
         <AllProjects />
       </section>

@@ -45,3 +45,13 @@
   z-index: 10;
   margin-right: 10px;
 }
+
+@media (max-width: 900px) {
+  .all_users_filter_conteiner {
+    position: fixed;
+    z-index: 10;
+  }
+  .all_users_cards_conteiner {
+    padding-top: 5rem;
+  }
+}

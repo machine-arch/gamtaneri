@@ -49,4 +49,9 @@
   .mainsection_image_conteiner {
     width: 100%;
   }
+
+  .mainsection_contact_text {
+    width: 100%;
+    text-align: justify;
+  }
 }

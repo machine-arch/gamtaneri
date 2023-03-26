@@ -1,41 +1,42 @@
-import Image from "next/image";
-import styles from "./header.module.css";
-import Button from "../../button/button.component";
+import Image from 'next/image';
+import styles from './header.module.css';
+import Button from '../../button/button.component';
 import {
   ScrollContext,
   scrollContextInterface,
-} from "../../../context/scroll-context";
-import { useContext, useEffect, useState } from "react";
-import { localeContext } from "../../../context/locale-context";
-import { FC } from "react";
-import { imageLoaderProp, switchLanguage } from "../../../utils/app.util";
-import { headerProps } from "../../../config/interfaces/app.interfaces";
-import Router from "next/router";
+} from '../../../context/scroll-context';
+import { useContext, useEffect, useState } from 'react';
+import { localeContext } from '../../../context/locale-context';
+import { FC } from 'react';
+import { imageLoaderProp, switchLanguage } from '../../../utils/app.util';
+import { headerProps } from '../../../config/interfaces/app.interfaces';
+import Router from 'next/router';
+import { mobileContext } from '../../../context/mobile.context';
+import { scrollTo } from '../../../utils/app.util';
 
 const Header: FC<headerProps> = (props) => {
   const [scrollRefs, setScrollRefs] = useState(null);
-  const [localeKey, setLocaleKey] = useState("");
+  const [localeKey, setLocaleKey] = useState('');
   const [dictionary, setDictionary] = useState(null);
   const scrollContext: scrollContextInterface = useContext(ScrollContext);
   const localeContextObject: any = useContext(localeContext);
+  const mobileContextObject: any = useContext(mobileContext);
   useEffect(() => {
     setScrollRefs(scrollContext);
     setLocaleKey(localeContextObject.localeKey);
     setDictionary(localeContextObject.dictionary);
   }, [scrollContext, localeContextObject]);
 
-  const scrollTo = (ref: any | undefined) => {
-    return ref
-      ? window.scrollTo({
-          top: ref?.current?.offsetTop - 100,
-          behavior: "smooth",
-        })
-      : null;
-  };
-
   const openModalHeader = () => {
     props.setismodalopen(true);
-    props.setModalKey("FORM");
+    props.setModalKey('FORM');
+  };
+
+  const openMobileNav = () => {
+    mobileContextObject.dispatch({
+      type: 'SET_IS_OPEN',
+      payload: !mobileContextObject?.state?.isOpen,
+    });
   };
 
   return (
@@ -43,7 +44,7 @@ const Header: FC<headerProps> = (props) => {
       <div
         className={styles.header_logo_conteiner}
         onClick={async () => {
-          if (window.location.pathname !== "/") await Router.push("/");
+          if (window.location.pathname !== '/') await Router.push('/');
           scrollTo(scrollRefs?.mainSection);
         }}
       >
@@ -60,31 +61,31 @@ const Header: FC<headerProps> = (props) => {
           <li
             className={styles.header_menu_item}
             onClick={async () => {
-              if (window.location.pathname !== "/") await Router.push("/");
+              if (window.location.pathname !== '/') await Router.push('/');
               scrollTo(scrollRefs.projectsSection);
             }}
           >
-            {dictionary ? dictionary[localeKey]["galery"] : "პროექტები"}
+            {dictionary ? dictionary[localeKey]['galery'] : 'პროექტები'}
           </li>
           <li
             className={styles.header_menu_item}
             onClick={async () => {
-              if (window.location.pathname !== "/") await Router.push("/");
+              if (window.location.pathname !== '/') await Router.push('/');
               scrollTo(scrollRefs.userSection);
             }}
           >
             {dictionary
-              ? dictionary[localeKey]["aourUsers"]
-              : "ჩვენი მომხმარებლები"}
+              ? dictionary[localeKey]['aourUsers']
+              : 'ჩვენი მომხმარებლები'}
           </li>
           <li
             className={styles.header_menu_item}
             onClick={async () => {
-              if (window.location.pathname !== "/") await Router.push("/");
+              if (window.location.pathname !== '/') await Router.push('/');
               scrollTo(scrollRefs.aboutUs);
             }}
           >
-            {dictionary ? dictionary[localeKey]["aboutUs"] : "ჩვენს შესახებ"}
+            {dictionary ? dictionary[localeKey]['aboutUs'] : 'ჩვენს შესახებ'}
           </li>
         </ul>
         <div className={styles.header_menu_switch_language}>
@@ -99,12 +100,12 @@ const Header: FC<headerProps> = (props) => {
         </div>
         <Button
           name={
-            dictionary ? dictionary[localeKey]["contactUs"] : "დაგვიკავშირდით"
+            dictionary ? dictionary[localeKey]['contactUs'] : 'დაგვიკავშირდით'
           }
           hendler={openModalHeader}
         />
       </div>
-      <div className={styles.toggle_menu}>
+      <div className={styles.toggle_menu} onClick={openMobileNav}>
         <div className={`${styles.line} ${styles.line1}`}></div>
         <div className={`${styles.line} ${styles.line2}`}></div>
         <div className={`${styles.line} ${styles.line3}`}></div>

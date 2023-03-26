@@ -8,6 +8,7 @@ import Header from '../../components/front/header/header.component';
 import Modal from '../../components/modal/modal.component';
 import AllUsers from '../../components/front/userssection/all-users.component';
 import { dataContext } from '../../context/data.context';
+import MobileNav from '../../components/front/mobilenav/mobilenav.component';
 
 const OurUsers = (props: any) => {
   const modalContextObject: any = useContext(modalContext);
@@ -114,6 +115,7 @@ const OurUsers = (props: any) => {
       <div className={styles.header}>
         <Header setismodalopen={setIsModalOpen} setModalKey={setModalKey} />
       </div>
+      <MobileNav />
       <section className="All_users_section">
         <AllUsers />
       </section>

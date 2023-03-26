@@ -1,14 +1,14 @@
-import nookies from "nookies";
-import { SyntheticEvent } from "react";
+import nookies from 'nookies';
+import { SyntheticEvent } from 'react';
 
 export const switchLanguage = (setLocale: any) => {
   const locale = nookies.get({}).locale;
-  if (locale === "ka") {
-    setLocale("en");
-    nookies.set(null, "locale", "en");
+  if (locale === 'ka') {
+    setLocale('en');
+    nookies.set(null, 'locale', 'en');
   } else {
-    setLocale("ka");
-    nookies.set(null, "locale", "ka");
+    setLocale('ka');
+    nookies.set(null, 'locale', 'ka');
   }
 };
 
@@ -38,9 +38,18 @@ export const imageLoaderProp = ({ src, width, quality }) => {
 
 export const createDate = (date: string) => {
   const newDate = new Date(date);
-  return `${newDate.getDate().toString().padStart(2, "0")}.${(
+  return `${newDate.getDate().toString().padStart(2, '0')}.${(
     newDate.getUTCMonth() + 1
   )
     .toString()
-    .padStart(2, "0")}.${newDate.getFullYear()}`;
+    .padStart(2, '0')}.${newDate.getFullYear()}`;
+};
+
+export const scrollTo = (ref: any | undefined) => {
+  return ref
+    ? window.scrollTo({
+        top: ref?.current?.offsetTop - 100,
+        behavior: 'smooth',
+      })
+    : null;
 };

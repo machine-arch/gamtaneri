@@ -13,6 +13,7 @@ import { modalContext } from '../context/modal-context';
 import Modal from '../components/modal/modal.component';
 import { FormPropsInterface } from '../config/interfaces/app.interfaces';
 import { pagesContext } from '../context/pages-context';
+import MobileNav from '../components/front/mobilenav/mobilenav.component';
 
 const Home: NextPage = (props: any) => {
   const [localeKey, setLocaleKey] = useState('');
@@ -143,6 +144,7 @@ const Home: NextPage = (props: any) => {
       <div className={styles.header}>
         <Header setismodalopen={setIsModalOpen} setModalKey={setModalKey} />
       </div>
+      <MobileNav />
       <section className={styles.main_section}>
         <Mainsection
           setismodalopen={setIsModalOpen}

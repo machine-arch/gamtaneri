@@ -11,6 +11,7 @@ import { ProjectsProvaider } from '../context/admin/projects.context';
 import { DataProvaider } from '../context/data.context';
 import { PaginationProvider } from '../context/admin/pagination.contect';
 import { PriorityProvider } from '../context/admin/priority.context';
+import { MobileProvider } from '../context/mobile.context';
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
@@ -24,7 +25,9 @@ function MyApp({ Component, pageProps }: AppProps) {
                   <DataProvaider>
                     <PaginationProvider>
                       <PriorityProvider>
-                        <Component {...pageProps} />
+                        <MobileProvider>
+                          <Component {...pageProps} />
+                        </MobileProvider>
                       </PriorityProvider>
                     </PaginationProvider>
                   </DataProvaider>

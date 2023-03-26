@@ -16,7 +16,8 @@
     "login": "შესვლა",
     "add": "დამატება",
     "successfully_sent": "თქვენი შეტყობინება წარმატებით გაიგზავნა",
-    "failed_to_send": "შეტყობინების გაგზავნა ვერ მოხერხდა"
+    "failed_to_send": "შეტყობინების გაგზავნა ვერ მოხერხდა",
+    "main": "მთავარი"
   },
   "en": {
     "aourUsers": "Our users",
@@ -35,6 +36,7 @@
     "login": "Login",
     "add": "Add",
     "successfully_sent": "Your message has been sent successfully",
-    "failed_to_send": "Message could not be sent"
+    "failed_to_send": "Message could not be sent",
+    "main": "Main"
   }
 }
