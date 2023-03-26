@@ -1,10 +1,10 @@
 import { FC, useContext, useEffect, useRef, useState } from 'react';
-import { localeContext } from '../../../context/locale-context';
 import styles from './all-users.module.css';
 import { createDate, httpRequest } from '../../../utils/app.util';
 import { dataContext } from '../../../context/data.context';
 import Image from 'next/image';
 import { imageLoaderProp } from '../../../utils/app.util';
+import { localeContext } from '../../../context/locale-context';
 
 const AllUsers: FC<any> = (props: any) => {
   const { state, dispatch } = useContext<any>(dataContext);
@@ -14,9 +14,13 @@ const AllUsers: FC<any> = (props: any) => {
   const wasSearch = useRef(false);
   const { localeKey } = useContext<any>(localeContext);
   const [searchVal, setSearchVal] = useState<string>('');
+  const [noResults, setNoResults] = useState(false);
+  const localeContextObject: any = useContext(localeContext);
+  const [dictionary, setDictionary] = useState(null);
 
   useEffect(() => {
     document.addEventListener('scroll', getMooreUsers);
+    setDictionary(localeContextObject.dictionary);
   }, []);
 
   const controlSearchFild = (e: any) => {
@@ -35,6 +39,12 @@ const AllUsers: FC<any> = (props: any) => {
         return res;
       })
       .then((res) => {
+        if (res?.resource.length === 0) {
+          setNoResults(true);
+        } else {
+          setNoResults(false);
+        }
+
         if (res?.count > from.current) {
           wasFatcched.current = false;
         } else {
@@ -58,6 +68,11 @@ const AllUsers: FC<any> = (props: any) => {
         return res;
       })
       .then((res) => {
+        if (res?.resource.length === 0) {
+          setNoResults(true);
+        } else {
+          setNoResults(false);
+        }
         if (res?.count > from.current) {
           wasFatcched.current = false;
         } else {
@@ -130,6 +145,15 @@ const AllUsers: FC<any> = (props: any) => {
           />
         </div>
       </div>
+
+      {noResults ? (
+        <div className={styles.no_result_conteiner}>
+          <h3 className={styles.no_result_text}>
+            {dictionary[localeKey]['no_results']}
+          </h3>
+        </div>
+      ) : null}
+
       <div className={styles.all_users_cards_conteiner}>
         {state.users.map((user: any) => {
           return (

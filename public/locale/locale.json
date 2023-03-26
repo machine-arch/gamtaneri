@@ -17,7 +17,13 @@
     "add": "დამატება",
     "successfully_sent": "თქვენი შეტყობინება წარმატებით გაიგზავნა",
     "failed_to_send": "შეტყობინების გაგზავნა ვერ მოხერხდა",
-    "main": "მთავარი"
+    "main": "მთავარი",
+    "no_results": "მონაცემები ვერ მოიძებნა",
+    "completed_projects": "დასრულებული პროექტები",
+    "all": "ყველა",
+    "our_users": "ჩვენი მომხმარებლები",
+    "mainsection_text": "ნარჩენების მართვის კომპანია „გამტანერის“ მთავარი ფასეულობა უხვად დაგროვილი თეორიული ცოდნისა და პრაქტიკული გამოცდილების მარაგია.",
+    "gamtanery": "გამტანერი"
   },
   "en": {
     "aourUsers": "Our users",
@@ -37,6 +43,12 @@
     "add": "Add",
     "successfully_sent": "Your message has been sent successfully",
     "failed_to_send": "Message could not be sent",
-    "main": "Main"
+    "main": "Main",
+    "no_results": "No results found",
+    "completed_projects": "Completed projects",
+    "all": "All",
+    "our_users": "Our users",
+    "mainsection_text": "The main value of the waste management company 'Gamtaneri' is the wealth of accumulated theoretical knowledge and practical experience.",
+    "gamtanery": "Gamtaneri"
   }
 }

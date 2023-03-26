@@ -10,14 +10,18 @@ import { dataContext } from '../../../context/data.context';
 const AllProjects: FC<any> = (props: any) => {
   const { state, dispatch } = useContext<any>(dataContext);
   const { localeKey } = useContext<any>(localeContext);
+  const [dictionary, setDictionary] = useState(null);
   const [searchVal, setSearchVal] = useState<string>('');
   const from = useRef(10);
   const count = useRef(10);
   const wasFatcched = useRef(false);
   const wasSearch = useRef(false);
+  const [noResults, setNoResults] = useState(false);
+  const localeContextObject: any = useContext(localeContext);
 
   useEffect(() => {
     document.addEventListener('scroll', getMooreProjects);
+    setDictionary(localeContextObject.dictionary);
   }, []);
 
   const seeProjectDetals = (e: any) => {
@@ -72,6 +76,13 @@ const AllProjects: FC<any> = (props: any) => {
         return res;
       })
       .then((res) => {
+        if (res?.resource.length === 0) {
+          setNoResults(true);
+          return;
+        } else {
+          setNoResults(false);
+        }
+
         if (res?.count > from.current) {
           wasFatcched.current = false;
         } else {
@@ -95,6 +106,13 @@ const AllProjects: FC<any> = (props: any) => {
         return res;
       })
       .then((res) => {
+        if (res?.resource.length === 0) {
+          setNoResults(true);
+          return;
+        } else {
+          setNoResults(false);
+        }
+
         if (res?.count > from.current) {
           wasFatcched.current = false;
         } else {
@@ -142,8 +160,15 @@ const AllProjects: FC<any> = (props: any) => {
           />
         </div>
       </div>
+      {noResults ? (
+        <div className={styles.no_result_conteiner}>
+          <h3 className={styles.no_result_text}>
+            {dictionary[localeKey]['no_results']}
+          </h3>
+        </div>
+      ) : null}
       <div className={styles.all_projects_conteiner}>
-        {state.projects.map((project, index) => {
+        {state.projects.map((project: any, index: any) => {
           return (
             <div className={styles.project_card} key={project.id}>
               <div className={styles.project_card_title}>
