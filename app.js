@@ -8,7 +8,6 @@ const port = 3000;
 const app = next({ dev, hostname, port });
 const handle = app.getRequestHandler();
 
-//ცომიტ
 
 app
   .prepare()
@@ -41,7 +40,6 @@ app
     process.exit(1);
   });
 
-//ტესტ
 
 //SET NODE_ENV=production && next start
 
