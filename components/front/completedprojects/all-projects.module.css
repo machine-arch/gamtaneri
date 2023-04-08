@@ -112,5 +112,8 @@
   }
   .all_projects_conteiner {
     padding-top: 5rem;
+    grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+    width: 100%;
+    justify-content: center;
   }
 }

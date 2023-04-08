@@ -137,18 +137,15 @@ const ProjectDetalPage: NextPage = (props: any) => {
 
 export async function getServerSideProps({ params }) {
   const project = await httpRequest(
-    `http://localhost:3000//api/client/projects/${params.itemID}`,
+    `https://gamtaneri.ge/api/client/projects/${params.itemID}`,
     'GET'
   );
-  const contacts = await fetch(
-    'http://localhost:3000/api/client/contacts/get',
-    {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    }
-  )
+  const contacts = await fetch('https://gamtaneri.ge/api/client/contacts/get', {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
     .then((response) => response.json())
     .then((data) => data);
   return {

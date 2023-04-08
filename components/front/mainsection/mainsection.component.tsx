@@ -21,8 +21,6 @@ const Mainsection = (props: any) => {
   const mainSection: RefObject<HTMLDivElement> = createRef();
   const scrollContext: scrollContextInterface = useContext(ScrollContext);
 
-  console.log('mainsection', dictionary);
-
   scrollContext.mainSection = mainSection;
   const openModalHeader = () => {
     props.setismodalopen(true);

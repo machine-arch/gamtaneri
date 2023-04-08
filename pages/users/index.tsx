@@ -9,6 +9,7 @@ import Modal from '../../components/modal/modal.component';
 import AllUsers from '../../components/front/userssection/all-users.component';
 import { dataContext } from '../../context/data.context';
 import MobileNav from '../../components/front/mobilenav/mobilenav.component';
+import Head from 'next/head';
 
 const OurUsers = (props: any) => {
   const modalContextObject: any = useContext(modalContext);
@@ -112,6 +113,24 @@ const OurUsers = (props: any) => {
   return (
     <div>
       <Modal modalprops={modalProps} />
+      <Head>
+        <title>ყველა შესრულებული პროექტი</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta
+          name="description"
+          content="„ნარჩენების მართვის კომპანია გამტანერი“ შეიქმნა ნარჩენების მართვის სფეროში მნიშვნელოვანი ცვლილებების განსახორციელებლად. გამტანერები ინტენსიურად იმუშავებენ ნარჩენის წარმომქმნელებთან. თანამშრომლობის მთავარი მიზანი არის არა მხოლოდ ნარჩენის გატანა, არამედ ცნობიერების ამაღლება ნარჩენების მეორადი გამოყენების შესახებ. ნარჩენების სასარგებლო რესურსად გარდაქმნა ჩვენი ქვეყნისთვის იქნება უდიდესი წინგადადგმული ნაბიჯი ეკოლოგიის და ეკონომიკის კუთხით. ასეთი მიდგომა წარმომქმნელებს შეუმცირებს ნარჩენის მოცილების ხარჯს სეპარირებული რესურსიდან მიღებული შემოსავლით. "
+        />
+        <meta charSet="UTF-8" />
+        <meta property="og:title" content="gamtaneri" />
+        <meta
+          property="og:description"
+          content="ნარჩენების მართვის კომპანია „გამტანერის“ მთავარი ფასეულობა უხვად დაგროვილი თეორიული ცოდნისა და პრაქტიკული გამოცდილების მარაგია."
+        />
+        <meta property="og:image" content="URL-to-your-image" />
+        <meta property="og:url" content="https:/gamtaneri.ge" />
+        <meta property="og:type" content="website" />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
       <div className={styles.header}>
         <Header setismodalopen={setIsModalOpen} setModalKey={setModalKey} />
       </div>
@@ -127,7 +146,7 @@ export async function getServerSideProps({ req }) {
   const from = 0,
     count = 10;
   const users = await fetch(
-    `http://localhost:3000/api/client/users/getall?from=${from}&count=${count}`,
+    `https://gamtaneri.ge/api/client/users/getall?from=${from}&count=${count}`,
     {
       method: 'GET',
       headers: {
