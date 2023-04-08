@@ -16,6 +16,7 @@ import { pagesContext } from '../context/pages-context';
 import MobileNav from '../components/front/mobilenav/mobilenav.component';
 
 const Home: NextPage = (props: any) => {
+  console.log(props);
   const [localeKey, setLocaleKey] = useState('');
   const [dictionary, setDictionary] = useState(null);
   const localeContextObject: any = useContext(localeContext);
@@ -204,7 +205,8 @@ export async function getServerSideProps({ req }) {
     }
   )
     .then((response) => response.json())
-    .then((data) => data);
+    .then((data) => data)
+    .catch((err) => console.log(err));
 
   const ourUsers = await fetch(`https://gamtaneri.ge/api/client/users/gettop`, {
     method: 'GET',
@@ -213,7 +215,8 @@ export async function getServerSideProps({ req }) {
     },
   })
     .then((response) => response.json())
-    .then((data) => data);
+    .then((data) => data)
+    .catch((err) => console.log(err));
 
   const contacts = await fetch('https://gamtaneri.ge/api/client/contacts/get', {
     method: 'GET',
@@ -222,7 +225,8 @@ export async function getServerSideProps({ req }) {
     },
   })
     .then((response) => response.json())
-    .then((data) => data);
+    .then((data) => data)
+    .catch((err) => console.log(err));
 
   const aboutus = await fetch('https://gamtaneri.ge/api/client/aboutus/get', {
     method: 'GET',
@@ -231,7 +235,8 @@ export async function getServerSideProps({ req }) {
     },
   })
     .then((response) => response.json())
-    .then((data) => data);
+    .then((data) => data)
+    .catch((err) => console.log(err));
 
   return {
     props: {
