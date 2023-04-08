@@ -171,8 +171,8 @@ const AllUsers: FC<any> = (props: any) => {
               <div className={styles.user_cooperation_description_conteiner}>
                 <span className={styles.user_cooperation_description}>
                   {localeKey === 'en'
-                    ? user?.description
-                    : user?.description_eng}
+                    ? user?.description_eng
+                    : user?.description}
                 </span>
               </div>
             </div>

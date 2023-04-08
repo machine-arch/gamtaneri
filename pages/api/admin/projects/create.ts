@@ -106,7 +106,7 @@ const CreateProject = async (req: NextApiRequest, res: NextApiResponse) => {
           project.project_name_eng = project_name_eng;
           project.description = description;
           project.description_eng = description_eng;
-          project.isTop = isTop;
+          project.isTop = Number(isTop === 'true');
           project.createdAt = new Date();
           project.updatedAt = new Date();
           project.images = JSON.stringify(filePaths);

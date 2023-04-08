@@ -85,6 +85,7 @@ const Form: FC<FormProps> = (props: any) => {
           className={props?.FormProps?.inputsCommonParentClass}
         >
           {withCommonParent?.map((input: any) => {
+            console.log(input);
             const attrs = {
               type: input.type,
               name: input.name,
@@ -100,6 +101,7 @@ const Form: FC<FormProps> = (props: any) => {
       ) : null}
       {withoutCommonParent?.length
         ? withoutCommonParent.map((input: any) => {
+            console.log(input);
             const attrs = {
               type: input.type,
               name: input.name,
