@@ -116,21 +116,17 @@ const Login: FC = () => {
             setLoginError(data.message);
           } else {
             setLoginError('Something went wrong');
-            console.log('something went wrong');
           }
         });
     };
 
     const getvalues = async (e: any) => {
       e.preventDefault();
-      console.log(e.currentTarget.value);
       if (e.currentTarget.name === 'email') {
         requestBody.email = e.currentTarget.value;
-        console.log(requestBody.email);
       }
       if (e.currentTarget.name === 'password') {
         requestBody.password = e.currentTarget.value;
-        console.log(requestBody.password);
       }
     };
 

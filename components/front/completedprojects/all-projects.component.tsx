@@ -41,7 +41,7 @@ const AllProjects: FC<any> = (props: any) => {
     ) {
       wasFatcched.current = true;
       httpRequest(
-        `http://localhost:3000/api/client/projects/getall?from=${from.current}&count=${count.current}`,
+        `/api/client/projects/getall?from=${from.current}&count=${count.current}`,
         'GET'
       )
         .then((res) => {
@@ -66,10 +66,7 @@ const AllProjects: FC<any> = (props: any) => {
 
   const searchProjects = async () => {
     if (searchVal.length < 2) return;
-    httpRequest(
-      `http://localhost:3000/api/client/projects/search?search=${searchVal}`,
-      'GET'
-    )
+    httpRequest(`/api/client/projects/search?search=${searchVal}`, 'GET')
       .then((res) => {
         dispatch({ type: 'SET_PROJECTS_ONLOAD', payload: res?.resource });
         wasSearch.current = true;
@@ -93,10 +90,7 @@ const AllProjects: FC<any> = (props: any) => {
   };
 
   const clearSearch = () => {
-    httpRequest(
-      `http://localhost:3000/api/client/projects/getall?from=${0}&count=${10}`,
-      'GET'
-    )
+    httpRequest(`/api/client/projects/getall?from=${0}&count=${10}`, 'GET')
       .then((res) => {
         dispatch({
           type: 'SET_PROJECTS_ONLOAD',
@@ -122,7 +116,6 @@ const AllProjects: FC<any> = (props: any) => {
       });
   };
 
-  console.log(dictionary?.[localeKey]['read_more']);
 
   return (
     <Fragment>
