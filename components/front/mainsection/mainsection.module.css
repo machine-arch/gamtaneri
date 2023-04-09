@@ -26,6 +26,27 @@
   padding-bottom: 15px;
   color: var(--readeble-text-color);
 }
+.link {
+  width: 100%;
+}
+
+.main_button {
+  background-color: var(--dark-green);
+  color: var(--white);
+  font-family: notosans;
+  font-variant-caps: all-petite-caps;
+  font-size: 18px;
+  text-align: center;
+  padding: 10px 25px 10px 25px;
+  border-radius: 8px;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  line-height: 22px;
+}
+.main_button:active {
+  border: none;
+}
 
 @media (max-width: 900px) {
   .mainsection_conteiner {
@@ -53,5 +74,8 @@
   .mainsection_contact_text {
     width: 100%;
     text-align: justify;
+  }
+  .main_button {
+    width: 100%;
   }
 }

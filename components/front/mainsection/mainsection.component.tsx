@@ -27,6 +27,8 @@ const Mainsection = (props: any) => {
         userAgent
       );
 
+    console.log(isMobileDevice);
+
     setIsMobile(isMobileDevice);
   }, []);
   const mainSection: RefObject<HTMLDivElement> = createRef();
@@ -51,24 +53,25 @@ const Mainsection = (props: any) => {
         <p className={styles.mainsection_contact_text}>
           {dictionary?.[localeKey]['mainsection_text']}
         </p>
-        {!isMobile ? (
+        {isMobile ? (
+          <Link
+            className={styles.link}
+            href={`tel:+995 ${props?.mobileNumber}`}
+            passHref
+          >
+            <button className={styles.main_button}>
+              {dictionary
+                ? dictionary[localeKey]['contactUs']
+                : 'დაგვიკავშირდით'}
+            </button>
+          </Link>
+        ) : (
           <Button
             name={
               dictionary ? dictionary[localeKey]['contactUs'] : 'დაგვიკავშირდით'
             }
             hendler={openModalHeader}
           />
-        ) : (
-          <Link href={`tel:+995 ${props?.mobileNumber}`} passHref>
-            <Button
-              name={
-                dictionary
-                  ? dictionary[localeKey]['contactUs']
-                  : 'დაგვიკავშირდით'
-              }
-              hendler={() => {}}
-            />
-          </Link>
         )}
       </div>
       <div className={styles.mainsection_image_conteiner}>

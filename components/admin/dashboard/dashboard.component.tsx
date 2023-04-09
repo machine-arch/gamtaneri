@@ -503,6 +503,7 @@ const Home = () => {
                 placeholder: 'დასახელება',
                 needCommonParent: true,
                 eventType: 'onChange',
+                value: usersObject?.userNameGeo,
                 eventHandler: (e: any) => {
                   usersObject.userNameGeo = e.target.value;
                 },
@@ -516,6 +517,7 @@ const Home = () => {
                 placeholder: 'title',
                 needCommonParent: true,
                 eventType: 'onChange',
+                value: usersObject?.userNameEng,
                 eventHandler: (e: any) => {
                   usersObject.userNameEng = e.target.value;
                 },
@@ -546,6 +548,7 @@ const Home = () => {
                 textareaPlaceholder: 'აღწერა',
                 type: 'textarea',
                 eventType: 'onChange',
+                value: usersObject?.userDescriptionGeo,
                 eventHandler: (e: any) => {
                   usersObject.userDescriptionGeo = e.target.value;
                 },
@@ -558,6 +561,7 @@ const Home = () => {
                 textareaPlaceholder: 'description',
                 type: 'textarea',
                 eventType: 'onChange',
+                value: usersObject?.userDescriptionEng,
                 eventHandler: (e: any) => {
                   usersObject.userDescriptionEng = e.target.value;
                 },
@@ -1354,6 +1358,7 @@ const Home = () => {
               getItem={getItem}
               from={from}
               count={count}
+              usersObject={usersObject}
             />
           </div>
         </div>
