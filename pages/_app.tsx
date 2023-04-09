@@ -12,6 +12,7 @@ import { DataProvaider } from '../context/data.context';
 import { PaginationProvider } from '../context/admin/pagination.contect';
 import { PriorityProvider } from '../context/admin/priority.context';
 import { MobileProvider } from '../context/mobile.context';
+import { UsersProvaider } from '../context/admin/users.context';
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
@@ -26,7 +27,9 @@ function MyApp({ Component, pageProps }: AppProps) {
                     <PaginationProvider>
                       <PriorityProvider>
                         <MobileProvider>
-                          <Component {...pageProps} />
+                          <UsersProvaider>
+                            <Component {...pageProps} />
+                          </UsersProvaider>
                         </MobileProvider>
                       </PriorityProvider>
                     </PaginationProvider>

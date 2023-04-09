@@ -1,4 +1,3 @@
-import { NextComponentType } from 'next';
 import styles from './mainsection.module.css';
 import Button from '../../button/button.component';
 import Image from 'next/image';
@@ -9,15 +8,27 @@ import {
 } from '../../../context/scroll-context';
 import { localeContext } from '../../../context/locale-context';
 import { imageLoaderProp } from '../../../utils/app.util';
+import Link from 'next/link';
 
 const Mainsection = (props: any) => {
   const [localeKey, setLocaleKey] = useState('');
   const [dictionary, setDictionary] = useState(null);
+  const [isMobile, setIsMobile] = useState(false);
   const localeContextObject: any = useContext(localeContext);
   useEffect(() => {
     setLocaleKey(localeContextObject?.localeKey);
     setDictionary(localeContextObject?.dictionary);
   }, [localeContextObject]);
+
+  useEffect(() => {
+    const userAgent = navigator.userAgent || navigator.vendor;
+    const isMobileDevice =
+      /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+        userAgent
+      );
+
+    setIsMobile(isMobileDevice);
+  }, []);
   const mainSection: RefObject<HTMLDivElement> = createRef();
   const scrollContext: scrollContextInterface = useContext(ScrollContext);
 
@@ -26,6 +37,7 @@ const Mainsection = (props: any) => {
     props.setismodalopen(true);
     props.setModalKey('FORM');
   };
+
   return (
     <div
       className={styles.mainsection_conteiner}
@@ -39,12 +51,25 @@ const Mainsection = (props: any) => {
         <p className={styles.mainsection_contact_text}>
           {dictionary?.[localeKey]['mainsection_text']}
         </p>
-        <Button
-          name={
-            dictionary ? dictionary[localeKey]['contactUs'] : 'დაგვიკავშირდით'
-          }
-          hendler={openModalHeader}
-        />
+        {!isMobile ? (
+          <Button
+            name={
+              dictionary ? dictionary[localeKey]['contactUs'] : 'დაგვიკავშირდით'
+            }
+            hendler={openModalHeader}
+          />
+        ) : (
+          <Link href={`tel:+995 ${props?.mobileNumber}`} passHref>
+            <Button
+              name={
+                dictionary
+                  ? dictionary[localeKey]['contactUs']
+                  : 'დაგვიკავშირდით'
+              }
+              hendler={() => {}}
+            />
+          </Link>
+        )}
       </div>
       <div className={styles.mainsection_image_conteiner}>
         <Image

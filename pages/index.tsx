@@ -16,7 +16,6 @@ import { pagesContext } from '../context/pages-context';
 import MobileNav from '../components/front/mobilenav/mobilenav.component';
 
 const Home: NextPage = (props: any) => {
-  console.log(props);
   const [localeKey, setLocaleKey] = useState('');
   const [dictionary, setDictionary] = useState(null);
   const localeContextObject: any = useContext(localeContext);
@@ -162,6 +161,7 @@ const Home: NextPage = (props: any) => {
         <Mainsection
           setismodalopen={setIsModalOpen}
           setModalKey={setModalKey}
+          mobileNumber={props?.contacts?.phone}
         />
       </section>
       <section className={styles.users_section}>

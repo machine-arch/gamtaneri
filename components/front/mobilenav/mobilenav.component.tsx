@@ -8,6 +8,7 @@ import {
 } from '../../../context/scroll-context';
 import { localeContext } from '../../../context/locale-context';
 import { scrollTo } from '../../../utils/app.util';
+import { switchLanguage } from '../../../utils/app.util';
 
 const MobileNav: FC = () => {
   const MOBILE_CONTEXT = useContext(mobileContext);
@@ -28,6 +29,16 @@ const MobileNav: FC = () => {
       {MOBILE_CONTEXT?.state?.isOpen ? (
         <div className={Styles.mobilenav_conteiner}>
           <div className={Styles.mobilenav_body}>
+            <div className={Styles.header_menu_switch_language}>
+              <span
+                className={Styles.switch_language_button}
+                onClick={async () => {
+                  switchLanguage(localeContextObject?.setLocaleKey);
+                }}
+              >
+                {localeKey}
+              </span>
+            </div>
             <ul className={Styles.header_menu_list}>
               <li
                 className={Styles.header_menu_item}

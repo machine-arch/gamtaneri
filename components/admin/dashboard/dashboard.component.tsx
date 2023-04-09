@@ -21,6 +21,10 @@ import {
 } from '../../../context/admin/projects.context';
 import { priorityContex } from '../../../context/admin/priority.context';
 import { PaginationContext } from '../../../context/admin/pagination.contect';
+import {
+  usersContext,
+  usersContextInterface,
+} from '../../../context/admin/users.context';
 
 const Home = () => {
   const from = 0,
@@ -39,6 +43,7 @@ const Home = () => {
   const modalContextObject: any = useContext(modalContext);
   const editorObject: editorContextInterface = useContext(editorContext);
   const projectsObject: projectsContextInterface = useContext(projectsContext);
+  const usersObject: usersContextInterface = useContext(usersContext);
   const priorityContextObject = useContext(priorityContex);
   const { isModalOpen, modalKey, setIsModalOpen, setModalKey, setModalTitle } =
     modalContextObject;
@@ -83,6 +88,7 @@ const Home = () => {
       }
     })();
   }, [authContextObject]);
+
   const AboutUsRef = useRef(null);
   const ProductsRef = useRef(null);
   const OurUsersRef = useRef(null);
@@ -218,7 +224,14 @@ const Home = () => {
           ).toString(enc.Utf8);
           GetOneUrl = `/api/admin/users/${id}?token=${token}`;
           response = await httpRequest(GetOneUrl, 'GET');
-          setCurrentItem(response.resource);
+          usersObject.userNameGeo = response?.resource?.title;
+          usersObject.userNameEng = response?.resource?.title_eng;
+          usersObject.userDescriptionGeo = response?.resource?.description;
+          usersObject.userDescriptionEng = response?.resource?.description_eng;
+          priorityContextObject?.dispatch({
+            type: 'SET_USER_PRIORITY',
+            payload: response?.resource?.isTop,
+          });
           break;
         case 'complated_projects':
           token = AES.decrypt(
@@ -232,7 +245,6 @@ const Home = () => {
           editorObject.editorDataEng = response?.resource?.description_eng;
           projectsObject.projectNameGeo = response?.resource?.project_name;
           projectsObject.projectNameEng = response?.resource?.project_name_eng;
-
           priorityContextObject?.dispatch({
             type: 'SET_PROJECT_PRIORITY',
             payload: response?.resource?.isTop,
@@ -490,6 +502,10 @@ const Home = () => {
                 className: 'form-input',
                 placeholder: 'დასახელება',
                 needCommonParent: true,
+                eventType: 'onChange',
+                eventHandler: (e: any) => {
+                  usersObject.userNameGeo = e.target.value;
+                },
               },
               {
                 id:
@@ -499,6 +515,10 @@ const Home = () => {
                 className: 'form-input',
                 placeholder: 'title',
                 needCommonParent: true,
+                eventType: 'onChange',
+                eventHandler: (e: any) => {
+                  usersObject.userNameEng = e.target.value;
+                },
               },
             ];
             checkBoxss = [
@@ -525,6 +545,10 @@ const Home = () => {
                 textareaName: 'description',
                 textareaPlaceholder: 'აღწერა',
                 type: 'textarea',
+                eventType: 'onChange',
+                eventHandler: (e: any) => {
+                  usersObject.userDescriptionGeo = e.target.value;
+                },
               },
               {
                 id:
@@ -533,6 +557,10 @@ const Home = () => {
                 textareaName: 'description_eng',
                 textareaPlaceholder: 'description',
                 type: 'textarea',
+                eventType: 'onChange',
+                eventHandler: (e: any) => {
+                  usersObject.userDescriptionEng = e.target.value;
+                },
               },
             ];
             title = {
@@ -601,7 +629,11 @@ const Home = () => {
                 className: 'form-input',
                 placeholder: 'დასახელება',
                 needCommonParent: true,
-                value: currentItem?.title,
+                eventType: 'onChange',
+                value: usersObject?.userNameGeo,
+                eventHandler: (e: any) => {
+                  usersObject.userNameGeo = e.target.value;
+                },
               },
               {
                 id:
@@ -611,7 +643,11 @@ const Home = () => {
                 className: 'form-input',
                 placeholder: 'title',
                 needCommonParent: true,
-                value: currentItem?.title_eng,
+                eventType: 'onChange',
+                value: usersObject?.userNameEng,
+                eventHandler: (e: any) => {
+                  usersObject.userNameEng = e.target.value;
+                },
               },
             ];
             checkBoxss = [
@@ -638,7 +674,11 @@ const Home = () => {
                 textareaName: 'description',
                 textareaPlaceholder: 'აღწერა',
                 type: 'textarea',
-                value: currentItem?.description,
+                eventType: 'onChange',
+                value: usersObject?.userDescriptionGeo,
+                eventHandler: (e: any) => {
+                  usersObject.userDescriptionGeo = e.target.value;
+                },
               },
               {
                 id:
@@ -647,7 +687,11 @@ const Home = () => {
                 textareaName: 'description_eng',
                 textareaPlaceholder: 'description',
                 type: 'textarea',
-                value: currentItem?.description_eng,
+                value: usersObject?.userDescriptionEng,
+                eventType: 'onChange',
+                eventHandler: (e: any) => {
+                  usersObject.userDescriptionEng = e.target.value;
+                },
               },
             ];
 

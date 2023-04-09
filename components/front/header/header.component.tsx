@@ -92,7 +92,7 @@ const Header: FC<headerProps> = (props) => {
           <span
             className={styles.switch_language_button}
             onClick={async () => {
-              switchLanguage(localeContextObject.setLocaleKey);
+              switchLanguage(localeContextObject?.setLocaleKey);
             }}
           >
             {localeKey}
