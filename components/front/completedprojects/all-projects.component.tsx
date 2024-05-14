@@ -37,7 +37,7 @@ const AllProjects: FC<any> = (props: any) => {
     ) {
       wasFatcched.current = true;
       httpRequest(
-        `http://localhost:3000/api/client/projects/getall?from=${from.current}&count=${count.current}`,
+        `https://gamtaneri.ge/api/client/projects/getall?from=${from.current}&count=${count.current}`,
         'GET'
       )
         .then((res) => {
@@ -63,7 +63,7 @@ const AllProjects: FC<any> = (props: any) => {
   const searchProjects = async () => {
     if (searchVal.length < 2) return;
     httpRequest(
-      `http://localhost:3000/api/client/projects/search?search=${searchVal}`,
+      `https://gamtaneri.ge/api/client/projects/search?search=${searchVal}`,
       'GET'
     )
       .then((res) => {
@@ -83,7 +83,7 @@ const AllProjects: FC<any> = (props: any) => {
 
   const clearSearch = () => {
     httpRequest(
-      `http://localhost:3000/api/client/projects/getall?from=${0}&count=${10}`,
+      `https://gamtaneri.ge/api/client/projects/getall?from=${0}&count=${10}`,
       'GET'
     )
       .then((res) => {

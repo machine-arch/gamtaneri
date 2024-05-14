@@ -127,8 +127,8 @@ const Home: NextPage = (props: any) => {
       modalKey === 'FORM'
         ? 'contact_modal_item_conteiner'
         : modalKey === 'GALLERY'
-          ? 'modal_item_conteiner'
-          : 'modal_item_conteiner',
+        ? 'modal_item_conteiner'
+        : 'modal_item_conteiner',
   };
 
   return (
@@ -137,12 +137,24 @@ const Home: NextPage = (props: any) => {
       <Head>
         <title>გამტანერი</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta name="description" content="ნარჩენები, სამშენებლო ნარჩენები, ნაგავი, სამშენებლო ნაგავი, გადაყრა, გატანა, გადაზიდვა | narchenebi, samsheneblo narchenebi, nagavi, samsheneblo nagavi, gadayra, gatana, gadazidva" />
-        <meta name="keywords" content="ნარჩენები, სამშენებლო ნარჩენები, ნაგავი, სამშენებლო ნაგავი, გადაყრა, გატანა, გადაზიდვა, narchenebi, samsheneblo narchenebi, nagavi, samsheneblo nagavi, gadayra, gatana, gadazidva" />
+        <meta
+          name="description"
+          content="ნარჩენები, სამშენებლო ნარჩენები, ნაგავი, სამშენებლო ნაგავი, გადაყრა, გატანა, გადაზიდვა | narchenebi, samsheneblo narchenebi, nagavi, samsheneblo nagavi, gadayra, gatana, gadazidva"
+        />
+        <meta
+          name="keywords"
+          content="ნარჩენები, სამშენებლო ნარჩენები, ნაგავი, სამშენებლო ნაგავი, გადაყრა, გატანა, გადაზიდვა, narchenebi, samsheneblo narchenebi, nagavi, samsheneblo nagavi, gadayra, gatana, gadazidva"
+        />
 
         <meta property="og:title" content="გამტანერი | Gamtaneri" />
-        <meta property="og:description" content="ნარჩენები, სამშენებლო ნარჩენები, ნაგავი, სამშენებლო ნაგავი, გადაყრა, გატანა, გადაზიდვა | narchenebi, samsheneblo narchenebi, nagavi, samsheneblo nagavi, gadayra, gatana, gadazidva" />
-        <meta property="og:image" content="https://gamtaneri.ge/images/logo.png" />
+        <meta
+          property="og:description"
+          content="ნარჩენები, სამშენებლო ნარჩენები, ნაგავი, სამშენებლო ნაგავი, გადაყრა, გატანა, გადაზიდვა | narchenebi, samsheneblo narchenebi, nagavi, samsheneblo nagavi, gadayra, gatana, gadazidva"
+        />
+        <meta
+          property="og:image"
+          content="https://gamtaneri.ge/images/logo.png"
+        />
         <meta property="og:url" content="https://gamtaneri.ge" />
         <meta property="og:site_name" content="Gamtaneri" />
         <meta property="og:type" content="website" />
@@ -189,7 +201,7 @@ const Home: NextPage = (props: any) => {
 
 export async function getServerSideProps({ req }) {
   const projects = await fetch(
-    `http://localhost:3000/api/client/projects/gettop`,
+    `https://gamtaneri.ge/api/client/projects/gettop`,
     {
       method: 'GET',
       headers: {
@@ -200,31 +212,25 @@ export async function getServerSideProps({ req }) {
     .then((response) => response.json())
     .then((data) => data);
 
-  const ourUsers = await fetch(
-    `http://localhost:3000/api/client/users/gettop`,
-    {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    }
-  )
+  const ourUsers = await fetch(`https://gamtaneri.ge/api/client/users/gettop`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
     .then((response) => response.json())
     .then((data) => data);
 
-  const contacts = await fetch(
-    'http://localhost:3000/api/client/contacts/get',
-    {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    }
-  )
+  const contacts = await fetch('https://gamtaneri.ge/api/client/contacts/get', {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
     .then((response) => response.json())
     .then((data) => data);
 
-  const aboutus = await fetch('http://localhost:3000/api/client/aboutus/get', {
+  const aboutus = await fetch('https://gamtaneri.ge/api/client/aboutus/get', {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',

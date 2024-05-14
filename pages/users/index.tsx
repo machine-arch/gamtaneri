@@ -125,7 +125,7 @@ export async function getServerSideProps({ req }) {
   const from = 0,
     count = 10;
   const users = await fetch(
-    `http://localhost:3000/api/client/users/getall?from=${from}&count=${count}`,
+    `https://gamtaneri.ge/api/client/users/getall?from=${from}&count=${count}`,
     {
       method: 'GET',
       headers: {

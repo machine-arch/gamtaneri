@@ -10,11 +10,11 @@ import ComplatedProjects from "./../entity/complatedprojects.entity";
 
 const AppDataSource: DataSource = new DataSource({
   type: "mysql",
-  host: "localhost", //195.54.178.4 //localhost
+  host:  process.env.DB_HOST,
   port: 3306,
-  username: "root", //gamtaner_gamtaneri //root
-  password: "123456", //Gamtaneri123
-  database: "gamtaneri", //gamtaner_gamtaneri //gamtaneri
+  username: process.env.DB_USERNAME,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME,
   synchronize: false,
   logging: false,
   entities: [User, Logs, Contacts, AboutUs, OurUsers, ComplatedProjects],

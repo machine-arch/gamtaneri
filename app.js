@@ -7,7 +7,7 @@ const hostname = 'gamtaneri.ge';
 const port = 3000;
 const app = next({ dev, hostname, port });
 const handle = app.getRequestHandler();
-
+const logger = require('./logger');
 
 app
   .prepare()
@@ -31,15 +31,17 @@ app
       return handle(req, res);
     });
     server.listen(port, (err) => {
-      if (err) throw err;
-      console.log(`> Ready on localhost:${port} - env ${process.env.NODE_ENV}`);
+      if (err) {
+        logger.error('Error starting server: ' + err.stack);
+        throw err;
+      }
+      logger.info(`> Ready on localhost:${port} - env ${process.env.NODE_ENV}`);
     });
   })
   .catch((ex) => {
-    console.error(ex.stack);
+    logger.error('An error occurred while starting the server: ' + ex.stack);
     process.exit(1);
   });
-
 
 //SET NODE_ENV=production && next start
 

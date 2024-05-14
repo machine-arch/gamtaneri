@@ -19,7 +19,8 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "SET APP_ENV=production && pm2 start app.js",
+    "start": "APP_ENV=production && pm2 start app.js",
+    "stop": "APP_ENV=production && pm2 stop app.js",
     "lint": "next lint",
     "orm:build": "tsc --build  src",
     "migrations:generate": "npm run orm:build && typeorm migration:generate  -d src/dist/src/config/ormConfig.js",
@@ -59,7 +60,8 @@
     "sharp": "^0.28.2",
     "slugify": "^1.6.5",
     "ts-node": "^10.9.1",
-    "typeorm": "^0.3.10"
+    "typeorm": "^0.3.10",
+    "winston": "^3.11.0"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.2",

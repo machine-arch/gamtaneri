@@ -26,7 +26,7 @@ const AllUsers: FC<any> = (props: any) => {
   const searchUsers = async () => {
     if (searchVal.length < 2) return;
     httpRequest(
-      `http://localhost:3000/api/client/users/search?search=${searchVal}`,
+      `https://gamtaneri.ge/api/client/users/search?search=${searchVal}`,
       'GET'
     )
       .then((res) => {
@@ -46,7 +46,7 @@ const AllUsers: FC<any> = (props: any) => {
 
   const clearSearch = () => {
     httpRequest(
-      `http://localhost:3000/api/client/users/getall?from=${0}&count=${10}`,
+      `https://gamtaneri.ge/api/client/users/getall?from=${0}&count=${10}`,
       'GET'
     )
       .then((res) => {
@@ -74,7 +74,7 @@ const AllUsers: FC<any> = (props: any) => {
     ) {
       wasFatcched.current = true;
       httpRequest(
-        `http://localhost:3000/api/client/users/getall?from=${from.current}&count=${count.current}`,
+        `https://gamtaneri.ge/api/client/users/getall?from=${from.current}&count=${count.current}`,
         'GET'
       )
         .then((res) => {
