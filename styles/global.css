@@ -208,6 +208,20 @@ html {
 
 /* ==================================================end editor========================================== */
 
+@media (max-width: 900px) {
+  .projects_filter {
+    width: 100%;
+  }
+  .user_filter {
+    width: 100%;
+  }
+
+  .modal_item_conteiner,
+  .contact_modal_item_conteiner {
+    width: 98%;
+  }
+}
+
 /* 
 @media (prefers-color-scheme: dark) {
   :root {

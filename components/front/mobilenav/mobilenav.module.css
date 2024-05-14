@@ -1,4 +1,43 @@
 .mobilenav_conteiner {
-  width: 85%;
-  height: 100vh;
+  width: 70%;
+  height: 100%;
+  position: fixed;
+  z-index: 100;
+  background-color: #fff;
+  right: 0;
+  transition: 10s;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
+  box-sizing: border-box;
+}
+
+.mobilenav_body {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-end;
+  padding: 1.25rem;
+  height: 100%;
+}
+.header_menu_list {
+  display: flex;
+  flex-direction: column;
+  height: 22%;
+  justify-content: space-between;
+  padding-top: 10px;
+}
+.header_menu_item {
+  list-style: none;
+  font-family: notosans;
+  font-variant-caps: all-petite-caps;
+  font-size: 24px;
+}
+
+.header_menu_switch_language {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px;
+  border-radius: 4px;
+  background-color: var(--lightgrey);
+  margin-right: 22px;
 }

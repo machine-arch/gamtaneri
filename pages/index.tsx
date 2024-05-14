@@ -13,6 +13,7 @@ import { modalContext } from '../context/modal-context';
 import Modal from '../components/modal/modal.component';
 import { FormPropsInterface } from '../config/interfaces/app.interfaces';
 import { pagesContext } from '../context/pages-context';
+import MobileNav from '../components/front/mobilenav/mobilenav.component';
 
 const Home: NextPage = (props: any) => {
   const [localeKey, setLocaleKey] = useState('');
@@ -163,10 +164,12 @@ const Home: NextPage = (props: any) => {
       <div className={styles.header}>
         <Header setismodalopen={setIsModalOpen} setModalKey={setModalKey} />
       </div>
+      <MobileNav />
       <section className={styles.main_section}>
         <Mainsection
           setismodalopen={setIsModalOpen}
           setModalKey={setModalKey}
+          mobileNumber={props?.contacts?.phone}
         />
       </section>
       <section className={styles.users_section}>
@@ -201,7 +204,7 @@ const Home: NextPage = (props: any) => {
 
 export async function getServerSideProps({ req }) {
   const projects = await fetch(
-    `https://gamtaneri.ge/api/client/projects/gettop`,
+    `${process.env.NEXT_PUBLIC_API_URL}client/projects/gettop`,
     {
       method: 'GET',
       headers: {
@@ -210,34 +213,47 @@ export async function getServerSideProps({ req }) {
     }
   )
     .then((response) => response.json())
-    .then((data) => data);
+    .then((data) => data)
+    .catch((err) => console.log(err));
 
-  const ourUsers = await fetch(`https://gamtaneri.ge/api/client/users/gettop`, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  })
+  const ourUsers = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}client/users/gettop`,
+    {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    }
+  )
     .then((response) => response.json())
-    .then((data) => data);
+    .then((data) => data)
+    .catch((err) => console.log(err));
 
-  const contacts = await fetch('https://gamtaneri.ge/api/client/contacts/get', {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  })
+  const contacts = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}apiclient/contacts/get`,
+    {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    }
+  )
     .then((response) => response.json())
-    .then((data) => data);
+    .then((data) => data)
+    .catch((err) => console.log(err));
 
-  const aboutus = await fetch('https://gamtaneri.ge/api/client/aboutus/get', {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  })
+  const aboutus = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}client/aboutus/get`,
+    {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    }
+  )
     .then((response) => response.json())
-    .then((data) => data);
+    .then((data) => data)
+    .catch((err) => console.log(err));
 
   return {
     props: {

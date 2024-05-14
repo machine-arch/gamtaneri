@@ -114,6 +114,9 @@ const Form: FC<FormProps> = (props: any) => {
         : null}
       {props?.FormProps?.needTextareas
         ? props.FormProps.textareas.map((textarea: any) => {
+            const attrs = {
+              [textarea.eventType]: textarea.eventHandler,
+            };
             return (
               <textarea
                 key={textarea?.id}
@@ -121,6 +124,7 @@ const Form: FC<FormProps> = (props: any) => {
                 name={textarea?.textareaName}
                 placeholder={textarea?.textareaPlaceholder}
                 defaultValue={textarea?.value}
+                {...attrs}
               ></textarea>
             );
           })

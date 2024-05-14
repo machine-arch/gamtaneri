@@ -96,4 +96,10 @@
     width: 100%;
     padding-top: 2em;
   }
+  .contact_tools {
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
+    height: 11.25rem;
+  }
 }
