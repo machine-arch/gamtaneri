@@ -128,8 +128,8 @@ const Home: NextPage = (props: any) => {
       modalKey === 'FORM'
         ? 'contact_modal_item_conteiner'
         : modalKey === 'GALLERY'
-        ? 'modal_item_conteiner'
-        : 'modal_item_conteiner',
+          ? 'modal_item_conteiner'
+          : 'modal_item_conteiner',
   };
 
   return (
@@ -138,18 +138,14 @@ const Home: NextPage = (props: any) => {
       <Head>
         <title>გამტანერი</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta
-          name="description"
-          content="„ნარჩენების მართვის კომპანია გამტანერი“ შეიქმნა ნარჩენების მართვის სფეროში მნიშვნელოვანი ცვლილებების განსახორციელებლად. გამტანერები ინტენსიურად იმუშავებენ ნარჩენის წარმომქმნელებთან. თანამშრომლობის მთავარი მიზანი არის არა მხოლოდ ნარჩენის გატანა, არამედ ცნობიერების ამაღლება ნარჩენების მეორადი გამოყენების შესახებ. ნარჩენების სასარგებლო რესურსად გარდაქმნა ჩვენი ქვეყნისთვის იქნება უდიდესი წინგადადგმული ნაბიჯი ეკოლოგიის და ეკონომიკის კუთხით. ასეთი მიდგომა წარმომქმნელებს შეუმცირებს ნარჩენის მოცილების ხარჯს სეპარირებული რესურსიდან მიღებული შემოსავლით. "
-        />
-        <meta charSet="UTF-8" />
-        <meta property="og:title" content="gamtaneri" />
-        <meta
-          property="og:description"
-          content="ნარჩენების მართვის კომპანია „გამტანერის“ მთავარი ფასეულობა უხვად დაგროვილი თეორიული ცოდნისა და პრაქტიკული გამოცდილების მარაგია."
-        />
-        <meta property="og:image" content="URL-to-your-image" />
-        <meta property="og:url" content="https:/gamtaneri.ge" />
+        <meta name="description" content="ნარჩენები, სამშენებლო ნარჩენები, ნაგავი, სამშენებლო ნაგავი, გადაყრა, გატანა, გადაზიდვა | narchenebi, samsheneblo narchenebi, nagavi, samsheneblo nagavi, gadayra, gatana, gadazidva" />
+        <meta name="keywords" content="ნარჩენები, სამშენებლო ნარჩენები, ნაგავი, სამშენებლო ნაგავი, გადაყრა, გატანა, გადაზიდვა, narchenebi, samsheneblo narchenebi, nagavi, samsheneblo nagavi, gadayra, gatana, gadazidva" />
+
+        <meta property="og:title" content="გამტანერი | Gamtaneri" />
+        <meta property="og:description" content="ნარჩენები, სამშენებლო ნარჩენები, ნაგავი, სამშენებლო ნაგავი, გადაყრა, გატანა, გადაზიდვა | narchenebi, samsheneblo narchenebi, nagavi, samsheneblo nagavi, gadayra, gatana, gadazidva" />
+        <meta property="og:image" content="https://gamtaneri.ge/images/logo.png" />
+        <meta property="og:url" content="https://gamtaneri.ge" />
+        <meta property="og:site_name" content="Gamtaneri" />
         <meta property="og:type" content="website" />
         <link rel="icon" href="/favicon.ico" />
       </Head>

@@ -8,6 +8,7 @@ const port = 3000;
 const app = next({ dev, hostname, port });
 const handle = app.getRequestHandler();
 
+
 app
   .prepare()
   .then(() => {
@@ -39,7 +40,6 @@ app
     process.exit(1);
   });
 
-//ტესტ
 
 //SET NODE_ENV=production && next start
 
