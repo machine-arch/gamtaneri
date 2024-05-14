@@ -91,7 +91,7 @@ const AllUsers: FC<any> = (props: any) => {
     ) {
       wasFatcched.current = true;
       httpRequest(
-        `${process.env.NEXT_PUBLIC_API_URL}client/users/getall?from=${from.current}&count=${count.current}`,
+        `${process.env.NEXT_PUBLIC_API_URL}vclient/users/getall?from=${from.current}&count=${count.current}`,
         'GET'
       )
         .then((res) => {

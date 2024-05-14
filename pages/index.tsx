@@ -230,7 +230,7 @@ export async function getServerSideProps({ req }) {
     .catch((err) => console.log(err));
 
   const contacts = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}apiclient/contacts/get`,
+    `${process.env.NEXT_PUBLIC_API_URL}client/contacts/get`,
     {
       method: 'GET',
       headers: {

@@ -141,7 +141,7 @@ export async function getServerSideProps({ params }) {
     'GET'
   );
   const contacts = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}client/contacts/get`,
+    `${process.env.NEXT_PUBLIC_API_URL}api/client/contacts/get`,
     {
       method: 'GET',
       headers: {

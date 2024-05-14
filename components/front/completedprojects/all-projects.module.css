@@ -10,7 +10,7 @@
 }
 
 .project_card {
-  height: max-content;
+  height: auto;
   display: flex;
   flex-direction: column;
   gap: 30px;
@@ -51,6 +51,7 @@
   /* height: 100%; */
   object-fit: cover;
   border-radius: 10px;
+  max-height: 300px;
 }
 
 .project_card_description_text {

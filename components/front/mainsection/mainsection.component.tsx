@@ -27,8 +27,6 @@ const Mainsection = (props: any) => {
         userAgent
       );
 
-    console.log(isMobileDevice);
-
     setIsMobile(isMobileDevice);
   }, []);
   const mainSection: RefObject<HTMLDivElement> = createRef();
