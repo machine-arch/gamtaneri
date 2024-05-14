@@ -1,10 +1,10 @@
 import { FC, useContext, useEffect, useRef, useState } from 'react';
-import { localeContext } from '../../../context/locale-context';
 import styles from './all-users.module.css';
 import { createDate, httpRequest } from '../../../utils/app.util';
 import { dataContext } from '../../../context/data.context';
 import Image from 'next/image';
 import { imageLoaderProp } from '../../../utils/app.util';
+import { localeContext } from '../../../context/locale-context';
 
 const AllUsers: FC<any> = (props: any) => {
   const { state, dispatch } = useContext<any>(dataContext);
@@ -14,9 +14,13 @@ const AllUsers: FC<any> = (props: any) => {
   const wasSearch = useRef(false);
   const { localeKey } = useContext<any>(localeContext);
   const [searchVal, setSearchVal] = useState<string>('');
+  const [noResults, setNoResults] = useState(false);
+  const localeContextObject: any = useContext(localeContext);
+  const [dictionary, setDictionary] = useState(null);
 
   useEffect(() => {
     document.addEventListener('scroll', getMooreUsers);
+    setDictionary(localeContextObject.dictionary);
   }, []);
 
   const controlSearchFild = (e: any) => {
@@ -25,16 +29,19 @@ const AllUsers: FC<any> = (props: any) => {
 
   const searchUsers = async () => {
     if (searchVal.length < 2) return;
-    httpRequest(
-      `http://localhost:3000/api/client/users/search?search=${searchVal}`,
-      'GET'
-    )
+    httpRequest(`/api/client/users/search?search=${searchVal}`, 'GET')
       .then((res) => {
         dispatch({ type: 'SET_USERS_ONLOAD', payload: res?.resource });
         wasSearch.current = true;
         return res;
       })
       .then((res) => {
+        if (res?.resource.length === 0) {
+          setNoResults(true);
+        } else {
+          setNoResults(false);
+        }
+
         if (res?.count > from.current) {
           wasFatcched.current = false;
         } else {
@@ -45,10 +52,7 @@ const AllUsers: FC<any> = (props: any) => {
   };
 
   const clearSearch = () => {
-    httpRequest(
-      `http://localhost:3000/api/client/users/getall?from=${0}&count=${10}`,
-      'GET'
-    )
+    httpRequest(`/api/client/users/getall?from=${0}&count=${10}`, 'GET')
       .then((res) => {
         dispatch({
           type: 'SET_USERS_ONLOAD',
@@ -58,6 +62,11 @@ const AllUsers: FC<any> = (props: any) => {
         return res;
       })
       .then((res) => {
+        if (res?.resource.length === 0) {
+          setNoResults(true);
+        } else {
+          setNoResults(false);
+        }
         if (res?.count > from.current) {
           wasFatcched.current = false;
         } else {
@@ -74,7 +83,7 @@ const AllUsers: FC<any> = (props: any) => {
     ) {
       wasFatcched.current = true;
       httpRequest(
-        `http://localhost:3000/api/client/users/getall?from=${from.current}&count=${count.current}`,
+        `/api/client/users/getall?from=${from.current}&count=${count.current}`,
         'GET'
       )
         .then((res) => {
@@ -100,7 +109,7 @@ const AllUsers: FC<any> = (props: any) => {
           type="text"
           name="user_filter"
           className="user_filter"
-          placeholder="მოძებნე სახელით ან თარიღით..."
+          placeholder={dictionary?.[localeKey]['search_with']}
           onChange={controlSearchFild}
           onKeyDown={(event) => {
             if (event.key === 'Enter') {
@@ -130,6 +139,15 @@ const AllUsers: FC<any> = (props: any) => {
           />
         </div>
       </div>
+
+      {noResults ? (
+        <div className={styles.no_result_conteiner}>
+          <h3 className={styles.no_result_text}>
+            {dictionary[localeKey]['no_results']}
+          </h3>
+        </div>
+      ) : null}
+
       <div className={styles.all_users_cards_conteiner}>
         {state.users.map((user: any) => {
           return (
@@ -147,8 +165,8 @@ const AllUsers: FC<any> = (props: any) => {
               <div className={styles.user_cooperation_description_conteiner}>
                 <span className={styles.user_cooperation_description}>
                   {localeKey === 'en'
-                    ? user?.description
-                    : user?.description_eng}
+                    ? user?.description_eng
+                    : user?.description}
                 </span>
               </div>
             </div>

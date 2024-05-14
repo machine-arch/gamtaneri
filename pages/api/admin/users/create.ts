@@ -45,7 +45,7 @@ const CreateUser = async (req: NextApiRequest, res: NextApiResponse) => {
         ourUser.title_eng = title_eng;
         ourUser.description = description;
         ourUser.description_eng = description_eng;
-        ourUser.isTop = isTop;
+        ourUser.isTop = Number(isTop === 'true');
         ourUser.createdAt = new Date();
         ourUser.updatedAt = new Date();
         await Connection.getRepository(OurUsers).save(ourUser);

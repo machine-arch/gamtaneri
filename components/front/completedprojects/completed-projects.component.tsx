@@ -1,7 +1,7 @@
-import styles from "./completed-projects.module.css";
-import Carousel from "nuka-carousel/lib/carousel";
-import { CaruselConfig } from "../../../config/global.config";
-import Image from "next/image";
+import styles from './completed-projects.module.css';
+import Carousel from 'nuka-carousel/lib/carousel';
+import { CaruselConfig } from '../../../config/global.config';
+import Image from 'next/image';
 import {
   RefObject,
   useContext,
@@ -9,32 +9,35 @@ import {
   useState,
   useEffect,
   FC,
-} from "react";
+} from 'react';
 import {
   ScrollContext,
   scrollContextInterface,
-} from "../../../context/scroll-context";
-import { localeContext } from "../../../context/locale-context";
-import { imageLoaderProp } from "../../../utils/app.util";
-import Link from "next/link";
+} from '../../../context/scroll-context';
+import { localeContext } from '../../../context/locale-context';
+import { imageLoaderProp } from '../../../utils/app.util';
+import Link from 'next/link';
 
 const CompletedProjects: FC<any> = (props: any) => {
-  const imagesStyle = { borderRadius: "8px", overflow: "hidden" };
+  const imagesStyle = { borderRadius: '8px', overflow: 'hidden' };
   const projectsSection: RefObject<HTMLDivElement> = createRef();
   const scrollContext: scrollContextInterface = useContext(ScrollContext);
   scrollContext.projectsSection = projectsSection;
   const { localeKey } = useContext<any>(localeContext);
   const [projects, setProjects] = useState(null);
   const [sliedToShow, setSlideToShow] = useState(3);
+  const [dictionary, setDictionary] = useState(null);
+  const localeContextObject: any = useContext(localeContext);
   useEffect(() => {
     setProjects(props.projects);
     slideToshow();
-  }, [props.projects]);
+    setDictionary(localeContextObject?.dictionary);
+  }, [props.projects, localeContextObject]);
 
   const openProjectHendler = (e: any) => {
     props?.setismodalopen(true);
-    props?.setModalKey("GALLERY");
-    const current_el_id = e.currentTarget.getAttribute("itemID");
+    props?.setModalKey('GALLERY');
+    const current_el_id = e.currentTarget.getAttribute('itemID');
     const current_el = projects.find((el: any) => el.id == current_el_id);
     props?.setcurrentproject(current_el);
     props?.setModalTitle(current_el.project_name);
@@ -63,9 +66,11 @@ const CompletedProjects: FC<any> = (props: any) => {
       id="completed_projects"
     >
       <div className={styles.projects_title}>
-        <p>დასრულებული პროექტები</p>
+        <p>{dictionary?.[localeKey]['completed_projects']}</p>
         <Link href="/projects" passHref>
-          <span className={styles.see_all}>ყველა</span>
+          <span className={styles.see_all}>
+            {dictionary?.[localeKey]['all']}
+          </span>
         </Link>
       </div>
       <Carousel
@@ -88,7 +93,7 @@ const CompletedProjects: FC<any> = (props: any) => {
                     <Image
                       src={JSON.parse(project?.images)[0]}
                       alt={
-                        localeKey === "en"
+                        localeKey === 'en'
                           ? project.project_name_eng
                           : project.project_name
                       }
@@ -101,7 +106,7 @@ const CompletedProjects: FC<any> = (props: any) => {
                       className={styles.completed_project_image}
                     />
                     <h2 onClick={openProjectHendler} itemID={project.id}>
-                      {localeKey === "en"
+                      {localeKey === 'en'
                         ? project.project_name_eng
                         : project.project_name}
                     </h2>

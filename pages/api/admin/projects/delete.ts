@@ -1,22 +1,22 @@
-import { NextApiRequest, NextApiResponse } from "next";
-import fs from "fs";
-import User from "../../../../src/entity/user.entity";
-import ComplatedProjects from "../../../../src/entity/complatedprojects.entity";
-import AppDataSource from "../../../../src/config/ormConfig";
-import jwt from "jsonwebtoken";
-import { apiResponseInterface } from "../../../../config/interfaces/api.interfaces";
-import ApiHelper from "../../../../utils/api/apihelper.utils";
+import { NextApiRequest, NextApiResponse } from 'next';
+import fs from 'fs';
+import User from '../../../../src/entity/user.entity';
+import ComplatedProjects from '../../../../src/entity/complatedprojects.entity';
+import AppDataSource from '../../../../src/config/ormConfig';
+import jwt from 'jsonwebtoken';
+import { apiResponseInterface } from '../../../../config/interfaces/api.interfaces';
+import ApiHelper from '../../../../utils/api/apihelper.utils';
 
 const DeleteProject = async (req: NextApiRequest, res: NextApiResponse) => {
   const apiResponseData: apiResponseInterface = {
     res,
-    message: "",
+    message: '',
     status: 0,
     success: true,
-    from: "",
+    from: '',
     resource: null,
   };
-  if (req.method === "DELETE") {
+  if (req.method === 'DELETE') {
     return new Promise(async (resolve, reject) => {
       const Connection = AppDataSource.isInitialized
         ? AppDataSource
@@ -41,47 +41,51 @@ const DeleteProject = async (req: NextApiRequest, res: NextApiResponse) => {
             }
           });
           await Connection?.manager?.remove(project);
-          const projects = await Connection?.manager?.find(ComplatedProjects);
-          apiResponseData.message = "";
+          const projects = await Connection.getRepository(
+            ComplatedProjects
+          ).find({
+            order: { id: 'DESC' },
+          });
+          apiResponseData.message = '';
           apiResponseData.status = 200;
           apiResponseData.success = true;
-          apiResponseData.from = "projects";
+          apiResponseData.from = 'projects';
           apiResponseData.resource = projects;
           ApiHelper.successResponse(apiResponseData);
         } else {
-          apiResponseData.message = "data not found";
+          apiResponseData.message = 'data not found';
           apiResponseData.status = 404;
           apiResponseData.success = false;
-          apiResponseData.from = "projects";
+          apiResponseData.from = 'projects';
           ApiHelper.FaildResponse(apiResponseData);
         }
       } else {
-        apiResponseData.message = "forbidden, permission denied";
+        apiResponseData.message = 'forbidden, permission denied';
         apiResponseData.status = 403;
         apiResponseData.success = false;
-        apiResponseData.from = "projects";
+        apiResponseData.from = 'projects';
         ApiHelper.FaildResponse(apiResponseData);
       }
       Connection.isInitialized ? Connection.destroy() : null;
     }).catch((error) => {
-      apiResponseData.message = "something went wrong";
+      apiResponseData.message = 'something went wrong';
       apiResponseData.status = 500;
       apiResponseData.success = false;
-      apiResponseData.from = "projects";
+      apiResponseData.from = 'projects';
       ApiHelper.FaildResponse(apiResponseData);
 
       ApiHelper.AddLogs(
-        "DeleteProject",
+        'DeleteProject',
         error.message,
         req.socket.remoteAddress,
         req.socket.localAddress
       );
     });
   } else {
-    apiResponseData.message = "method not allowed";
+    apiResponseData.message = 'method not allowed';
     apiResponseData.status = 405;
     apiResponseData.success = false;
-    apiResponseData.from = "projects";
+    apiResponseData.from = 'projects';
     ApiHelper.FaildResponse(apiResponseData);
   }
 };

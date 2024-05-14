@@ -61,6 +61,12 @@ const DashboardBody = (props: any) => {
     } else if (actionType === 'delete') {
       props.setModalKey('CONFIRM');
     }
+    if (actionType === 'create') {
+      props.usersObject.userNameGeo = '';
+      props.usersObject.userNameEng = '';
+      props.usersObject.userDescriptionEng = '';
+      props.usersObject.userDescriptionGeo = '';
+    }
     props.setActionType(actionType);
   };
 

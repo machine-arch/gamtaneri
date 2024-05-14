@@ -10,15 +10,19 @@ import { dataContext } from '../../../context/data.context';
 const AllProjects: FC<any> = (props: any) => {
   const { state, dispatch } = useContext<any>(dataContext);
   const { localeKey } = useContext<any>(localeContext);
+  const [dictionary, setDictionary] = useState(null);
   const [searchVal, setSearchVal] = useState<string>('');
   const from = useRef(10);
   const count = useRef(10);
   const wasFatcched = useRef(false);
   const wasSearch = useRef(false);
+  const [noResults, setNoResults] = useState(false);
+  const localeContextObject: any = useContext(localeContext);
 
   useEffect(() => {
     document.addEventListener('scroll', getMooreProjects);
-  }, []);
+    setDictionary(localeContextObject?.dictionary);
+  }, [localeContextObject]);
 
   const seeProjectDetals = (e: any) => {
     const _this = e.currentTarget;
@@ -37,7 +41,7 @@ const AllProjects: FC<any> = (props: any) => {
     ) {
       wasFatcched.current = true;
       httpRequest(
-        `http://localhost:3000/api/client/projects/getall?from=${from.current}&count=${count.current}`,
+        `/api/client/projects/getall?from=${from.current}&count=${count.current}`,
         'GET'
       )
         .then((res) => {
@@ -62,16 +66,20 @@ const AllProjects: FC<any> = (props: any) => {
 
   const searchProjects = async () => {
     if (searchVal.length < 2) return;
-    httpRequest(
-      `http://localhost:3000/api/client/projects/search?search=${searchVal}`,
-      'GET'
-    )
+    httpRequest(`/api/client/projects/search?search=${searchVal}`, 'GET')
       .then((res) => {
         dispatch({ type: 'SET_PROJECTS_ONLOAD', payload: res?.resource });
         wasSearch.current = true;
         return res;
       })
       .then((res) => {
+        if (res?.resource.length === 0) {
+          setNoResults(true);
+          return;
+        } else {
+          setNoResults(false);
+        }
+
         if (res?.count > from.current) {
           wasFatcched.current = false;
         } else {
@@ -82,10 +90,7 @@ const AllProjects: FC<any> = (props: any) => {
   };
 
   const clearSearch = () => {
-    httpRequest(
-      `http://localhost:3000/api/client/projects/getall?from=${0}&count=${10}`,
-      'GET'
-    )
+    httpRequest(`/api/client/projects/getall?from=${0}&count=${10}`, 'GET')
       .then((res) => {
         dispatch({
           type: 'SET_PROJECTS_ONLOAD',
@@ -95,6 +100,13 @@ const AllProjects: FC<any> = (props: any) => {
         return res;
       })
       .then((res) => {
+        if (res?.resource.length === 0) {
+          setNoResults(true);
+          return;
+        } else {
+          setNoResults(false);
+        }
+
         if (res?.count > from.current) {
           wasFatcched.current = false;
         } else {
@@ -104,6 +116,7 @@ const AllProjects: FC<any> = (props: any) => {
       });
   };
 
+
   return (
     <Fragment>
       <div className={styles.all_projects_filter_conteiner}>
@@ -111,7 +124,7 @@ const AllProjects: FC<any> = (props: any) => {
           type="text"
           name="user_filter"
           className="projects_filter"
-          placeholder="მოძებნე სახელით ან თარიღით..."
+          placeholder={dictionary?.[localeKey]?.['search_with']}
           value={searchVal}
           onChange={controlSearchFild}
           onKeyUp={(event) => {
@@ -142,8 +155,15 @@ const AllProjects: FC<any> = (props: any) => {
           />
         </div>
       </div>
+      {noResults ? (
+        <div className={styles.no_result_conteiner}>
+          <h3 className={styles.no_result_text}>
+            {dictionary[localeKey]['no_results']}
+          </h3>
+        </div>
+      ) : null}
       <div className={styles.all_projects_conteiner}>
-        {state.projects.map((project, index) => {
+        {state.projects.map((project: any, index: any) => {
           return (
             <div className={styles.project_card} key={project.id}>
               <div className={styles.project_card_title}>
@@ -180,7 +200,7 @@ const AllProjects: FC<any> = (props: any) => {
                   itemID={project.id}
                   onClick={seeProjectDetals}
                 >
-                  Read More
+                  {dictionary?.[localeKey]['read_more']}
                 </a>
               </div>
             </div>
